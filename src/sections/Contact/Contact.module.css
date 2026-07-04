@@ -1,0 +1,228 @@
+/* ===========================================================================
+   Contact — the closing "landing" (04-contact-section-spec). Return-to-dark
+   beat after Work's warm light; a living dictionary entry for "kith".
+   Entrance transitions are declared only on the .in state so they animate in
+   on entry and snap back on exit, primed to replay (spec §4.1, §11).
+   =========================================================================== */
+
+.contact {
+  background: var(--dark);
+  color: var(--ink);
+  min-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 120px 40px 48px;
+  position: relative;
+}
+
+/* --------------------------------- Eyebrow ----------------------------- */
+
+.eyebrow {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* --------------------------------- Title ------------------------------- */
+
+.title {
+  font-family: var(--display);
+  font-weight: 800;
+  text-transform: none;
+  font-size: clamp(44px, 7vw, 76px);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  margin-top: 14px;
+  color: var(--ink);
+}
+
+.line {
+  display: block;
+  overflow: hidden;
+}
+
+.line > span {
+  display: inline-block;
+  transform: translateY(115%);
+}
+
+.contact.in .line > span {
+  transform: translateY(0);
+  transition: transform 0.7s var(--ease);
+}
+
+.accent {
+  color: var(--accent);
+}
+
+/* ---------------------------- Dictionary entry ------------------------- */
+
+.entry {
+  margin-top: 34px;
+  max-width: 46ch;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.contact.in .entry {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.6s ease 0.28s,
+    transform 0.6s var(--ease) 0.28s;
+}
+
+.head {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+.w {
+  color: var(--accent);
+}
+
+.ipa {
+  font-style: italic;
+  color: var(--faint);
+}
+
+.def {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: clamp(17px, 2.3vw, 22px);
+  line-height: 1.55;
+  color: var(--ink);
+  margin-top: 9px;
+  /* No reserved min-height — the reflow "bounce" is intentional (spec §4.4). */
+}
+
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  background: var(--accent);
+  margin-left: 4px;
+  vertical-align: -3px;
+  animation: blink 1.05s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.src {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-top: 14px;
+  transition: opacity 0.25s ease;
+  min-height: 1.2em;
+}
+
+.src::before {
+  content: "— ";
+  color: var(--accent);
+}
+
+/* ------------------------------- Icon links ---------------------------- */
+
+.links {
+  display: flex;
+  gap: 14px;
+  margin-top: 44px;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.contact.in .links {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.6s ease 0.42s,
+    transform 0.6s var(--ease) 0.42s;
+}
+
+.links a {
+  width: 46px;
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--muted);
+  transition:
+    color 0.35s var(--ease),
+    border-color 0.35s var(--ease),
+    transform 0.35s var(--ease),
+    background 0.35s var(--ease);
+}
+
+.links a:hover,
+.links a:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  background: rgba(107, 174, 214, 0.05);
+  outline: none;
+}
+
+.links svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+  display: block;
+}
+
+/* --------------------------------- Footer ------------------------------ */
+
+.foot {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+  margin-top: 60px;
+}
+
+/* ------------------------------- Responsive ---------------------------- */
+
+@media (max-width: 520px) {
+  .contact {
+    padding: 100px 22px 40px;
+  }
+}
+
+/* ----------------------------- Reduced motion -------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .line > span {
+    transform: none;
+  }
+  .contact .entry,
+  .contact .links {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .cursor {
+    display: none;
+  }
+  .src {
+    transition: none;
+  }
+}
