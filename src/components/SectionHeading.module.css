@@ -1,0 +1,36 @@
+/* Base = the dark Experience-style header. Sections with a different palette
+   (Work light/Oswald, Competitions italic) pass their own class overrides. */
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 0.5px solid var(--border-sub);
+  padding-bottom: 20px;
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--faint);
+}
+
+.title {
+  font-family: var(--display);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 48px;
+  line-height: 1;
+  margin-top: 10px;
+  color: var(--ink);
+}
+
+.count {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+}

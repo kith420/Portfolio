@@ -1,0 +1,92 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 40px;
+  border-bottom: 0.5px solid var(--border-sub);
+  background: linear-gradient(
+    180deg,
+    rgba(15, 16, 20, 0.9),
+    rgba(15, 16, 20, 0)
+  );
+  backdrop-filter: blur(3px);
+  transition: background 0.4s ease;
+}
+
+/* Tint flip while the nav overlaps the warm Work section. */
+.nav.light {
+  background: linear-gradient(
+    180deg,
+    rgba(240, 238, 234, 0.92),
+    rgba(240, 238, 234, 0)
+  );
+  --wordmark-ink: #111;
+  --nav-link: #556070;
+  --nav-clock: #556070;
+}
+
+.links {
+  display: flex;
+  gap: 26px;
+}
+
+.links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--nav-link, var(--muted));
+  transition: color 0.2s;
+}
+
+.links a:hover {
+  color: var(--accent);
+}
+
+.clock {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--nav-clock, var(--muted));
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.pip {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pip-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes pip-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@media (max-width: 820px) {
+  .nav {
+    padding: 16px 20px;
+  }
+  .links {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pip {
+    animation: none;
+  }
+}
