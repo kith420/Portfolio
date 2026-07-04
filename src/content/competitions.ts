@@ -1,5 +1,14 @@
 import { Competition } from "./types";
 
+/** Section heading + mobile hint copy. */
+export const competitionsHeading = {
+  eyebrow: "// competitions",
+  title: "Competed.",
+  desktopHint: "click a polaroid to flip it",
+  hintFlip: "tap to flip",
+  hintSwipe: "swipe",
+};
+
 /**
  * Desktop scatter positions + tilts + back notes ported from the flow
  * prototype (source of truth for placement/motion). Back body copy is

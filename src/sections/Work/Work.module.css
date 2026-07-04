@@ -1,0 +1,553 @@
+/* ===========================================================================
+   Work — "selected drops". The one warm-light section (03-work-section-spec).
+   Palette is local and load-bearing; do not globalise it.
+   =========================================================================== */
+
+.work {
+  background: var(--work-bg);
+  color: var(--work-ink);
+  font-family: var(--prose);
+  /* Crisp cut from the cork wash above; the seam owns the blend into it. */
+}
+
+.workWrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 64px 32px 96px;
+}
+
+/* --------------------------- Section header ---------------------------- */
+
+.workHead {
+  margin-bottom: 44px;
+}
+
+.workEyebrow {
+  font-family: var(--label);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+
+.workTitle {
+  font-family: var(--display);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 46px;
+  line-height: 1;
+  margin-top: 8px;
+  color: var(--work-ink);
+  /* Reserve height so the blank-then-scramble entry doesn't jump layout. */
+  min-height: 1em;
+}
+
+.ac {
+  color: var(--accent-ink);
+}
+
+/* ------------------------------- Grid ---------------------------------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+/* ---------------------------- Collapsed card --------------------------- */
+
+.pcard {
+  background: var(--work-card);
+  border: 1px solid var(--work-border);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.55s var(--ease),
+    transform 0.55s var(--ease),
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+  will-change: opacity, transform;
+}
+
+.pcard.inView {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pcard:hover {
+  border-color: var(--work-border-hover);
+  background: #fafaf8;
+}
+
+.pcard.active {
+  border-color: var(--accent-ink);
+  background: #f5f3ef;
+}
+
+.pcardImg {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--work-surface);
+  overflow: hidden;
+}
+
+/* --------------------------- Duotone image ----------------------------- */
+
+.imgInner {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.6s var(--ease);
+}
+
+.pcard:hover .imgInner {
+  transform: scale(1.04);
+}
+
+.ph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--label);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9a968f;
+  filter: grayscale(1) contrast(1.08);
+  background: repeating-linear-gradient(
+    135deg,
+    #dcd7cc 0,
+    #dcd7cc 10px,
+    #e2ddd2 10px,
+    #e2ddd2 20px
+  );
+}
+
+.tint {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  mix-blend-mode: color;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ------------------------------- Stamp --------------------------------- */
+
+.cstamp {
+  position: absolute;
+  top: -13px;
+  right: -11px;
+  width: 60px;
+  height: 60px;
+  border: 1.5px dashed var(--accent-ink);
+  border-radius: 50%;
+  background: var(--work-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transform: rotate(-9deg);
+  transition: transform 0.35s var(--ease);
+  z-index: 3;
+}
+
+.pcard:hover .cstamp {
+  transform: rotate(-16deg) scale(1.05);
+}
+
+.pcard.active .cstamp {
+  transform: rotate(-9deg);
+}
+
+.st {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--accent-ink);
+}
+
+.sy {
+  font-family: var(--label);
+  font-weight: 300;
+  font-size: 7px;
+  color: var(--accent-ink);
+}
+
+/* ----------------------------- Card body ------------------------------- */
+
+.pcardBody {
+  padding: 18px 20px 22px;
+}
+
+.pcat {
+  display: inline-block;
+  font-family: var(--label);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--work-mute);
+  border: 1px solid var(--work-border);
+  padding: 2px 7px;
+  margin-bottom: 10px;
+}
+
+.psku {
+  font-family: var(--label);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  margin-bottom: 6px;
+}
+
+.pname {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 20px;
+  text-transform: uppercase;
+  color: var(--work-ink);
+  line-height: 1;
+}
+
+.ptag {
+  font-family: var(--prose);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 10.5px;
+  color: #555;
+  margin-top: 5px;
+}
+
+.pchips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.pchips span {
+  font-family: var(--label);
+  font-size: 9px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #555;
+  border: 1px solid var(--work-border);
+  padding: 2px 6px;
+  background: var(--work-bg);
+}
+
+/* --------------------------- Expansion panel --------------------------- */
+
+.expansion {
+  grid-column: 1 / -1;
+}
+
+.expWrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.44s var(--ease);
+}
+
+.expWrap.open {
+  grid-template-rows: 1fr;
+}
+
+.expInner {
+  overflow: hidden;
+}
+
+.expPanel {
+  display: grid;
+  grid-template-columns: 46% 54%;
+  background: var(--work-card);
+  border: 1px solid var(--work-border);
+  border-top: 2px solid var(--accent-ink);
+  margin-top: 6px;
+}
+
+/* Left column — image stage */
+.expImg {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--work-surface);
+  overflow: hidden;
+  border-right: 1px solid var(--work-border);
+}
+
+.efig {
+  position: absolute;
+  left: 10px;
+  bottom: 8px;
+  font-family: var(--label);
+  font-weight: 300;
+  font-size: 8px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--work-faint);
+  z-index: 2;
+}
+
+.expThumbs {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+
+.thumb {
+  width: 38px;
+  height: 28px;
+  border: 1px solid var(--work-border);
+  background: var(--work-bg);
+  opacity: 0.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    opacity 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.thumb span {
+  font-family: var(--label);
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  color: var(--work-mute);
+}
+
+.thumbActive {
+  opacity: 1;
+  border-color: var(--accent-ink);
+}
+
+/* Right column — content */
+.expBody {
+  padding: 22px 24px 24px;
+}
+
+.expCat {
+  display: inline-block;
+  font-family: var(--label);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--work-mute);
+  border: 1px solid var(--work-border);
+  padding: 2px 7px;
+}
+
+.expSku {
+  font-family: var(--label);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  margin-top: 12px;
+}
+
+.expName {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 28px;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--work-ink);
+  margin-top: 6px;
+}
+
+.expTag {
+  font-family: var(--prose);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 11px;
+  color: #555;
+  margin-top: 6px;
+}
+
+.div {
+  border: none;
+  border-top: 1px solid var(--work-surface);
+  margin: 16px 0;
+}
+
+.expDesc {
+  font-family: var(--prose);
+  font-weight: 300;
+  font-size: 11px;
+  line-height: 1.75;
+  color: #3a3a3a;
+}
+
+.highlights {
+  margin-top: 14px;
+}
+
+.hl {
+  display: flex;
+  gap: 8px;
+  font-family: var(--prose);
+  font-weight: 400;
+  font-size: 10.5px;
+  line-height: 1.55;
+  color: #3a3a3a;
+  padding: 5px 0;
+}
+
+.hl::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-top: 5px;
+  flex: 0 0 auto;
+}
+
+.expChips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.expChip {
+  font-family: var(--label);
+  font-size: 9px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #555;
+  border: 1px solid var(--work-border);
+  padding: 2px 6px;
+  background: var(--work-bg);
+}
+
+.expLinks {
+  display: flex;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.elink {
+  font-family: var(--label);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--work-ink);
+  border-bottom: 1px solid var(--work-ink);
+  padding-bottom: 1px;
+}
+
+.elink.sec {
+  color: var(--work-mute);
+  border-color: #ccc;
+}
+
+/* --------------------------- Panel anim states ------------------------- */
+
+.xs {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.38s var(--ease),
+    transform 0.38s var(--ease);
+}
+
+.xs.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.xc {
+  opacity: 0;
+  transform: translateY(4px) scale(0.94);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
+}
+
+.xc.in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ----------------------------- Responsive ------------------------------ */
+
+@media (max-width: 720px) {
+  .workWrap {
+    padding: 40px 20px 72px;
+  }
+  .workTitle {
+    font-size: 36px;
+  }
+  .grid {
+    gap: 16px;
+  }
+  .expPanel {
+    grid-template-columns: 1fr;
+  }
+  .expImg {
+    border-right: none;
+    border-bottom: 1px solid var(--work-border);
+  }
+  .expBody {
+    padding: 18px 18px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .workWrap {
+    padding: 32px 14px 56px;
+  }
+  .workTitle {
+    font-size: 30px;
+  }
+  .grid {
+    gap: 12px;
+  }
+  .pcardBody {
+    padding: 14px 14px 16px;
+  }
+}
+
+/* No hover affordances on touch; scroll + panel staggers still run. */
+@media (hover: none) {
+  .pcard:hover .imgInner {
+    transform: none;
+  }
+  .pcard:hover .cstamp {
+    transform: rotate(-9deg);
+  }
+  .pcard:hover {
+    background: var(--work-card);
+    border-color: var(--work-border);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pcard {
+    opacity: 1;
+    transform: none;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+  .imgInner,
+  .cstamp {
+    transition: none;
+  }
+  .expWrap {
+    transition: none;
+  }
+  .xs,
+  .xc {
+    transition: none;
+  }
+}

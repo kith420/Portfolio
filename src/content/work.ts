@@ -1,6 +1,17 @@
 import { WorkProject } from "./types";
 
 /**
+ * Section heading. Lead + accent are stored uppercase so the scramble noise
+ * (A–Z0–9) blends seamlessly with the resolved characters (03-work-section-spec
+ * §5, §10 Anim 1). "DROPS." renders in --accent-ink.
+ */
+export const workHeading = {
+  eyebrow: "// 03 — work",
+  titleLead: "SELECTED ",
+  titleAccent: "DROPS.",
+};
+
+/**
  * PLACEHOLDER PROJECTS — real projects go here in priority order (array order =
  * slot order; slot 1 = the one to lead with). Highlights must stay metric-driven
  * (03-work-section-spec.md §11). FIG captions and links are placeholder until
