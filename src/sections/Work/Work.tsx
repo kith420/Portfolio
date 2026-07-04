@@ -80,6 +80,7 @@ function WorkCard({ project, index, active, onToggle, registerRef }: CardProps) 
     <div
       ref={setRefs}
       data-card="1"
+      data-seam-card={index}
       className={`${styles.pcard} ${inView ? styles.inView : ""} ${active ? styles.active : ""}`}
       role="button"
       tabIndex={0}
@@ -418,7 +419,7 @@ export default function Work() {
           </span>
         </SectionHeading>
 
-        <div className={styles.grid}>
+        <div className={styles.grid} data-seam-grid>
           {work.map((project, i) => (
             <Fragment key={project.sku}>
               <WorkCard

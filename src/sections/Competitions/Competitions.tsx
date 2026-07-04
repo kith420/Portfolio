@@ -47,6 +47,7 @@ function Scatter() {
           flipped={flipped.has(i)}
           onClick={() => toggle(i)}
           className={styles.scatter}
+          seamIndex={i}
           style={
             {
               left: comp.pos.left,

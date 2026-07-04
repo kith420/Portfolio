@@ -1,0 +1,39 @@
+/* ===========================================================================
+   Competitions -> Work seam (05-transitions-spec §4). A fixed, non-interactive
+   overlay holding the transient "traveller" polaroids that unpin off the cork
+   board and reorganise into the real Work cards. All motion is scrubbed to
+   scroll via the shared rAF ticker in the sibling component.
+   =========================================================================== */
+
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.traveller {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: default;
+  /* Transform/opacity are written per-frame — no CSS transition (would smear
+     the scrub). Extra lift shadow reads as "peeled off the board". */
+  filter: drop-shadow(2px 10px 26px rgba(0, 0, 0, 0.32));
+  will-change: transform, opacity;
+}
+
+@media (max-width: 820px) {
+  /* Board is the mobile stack below 820px; the seam does not run. */
+  .stage {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage {
+    display: none;
+  }
+}

@@ -16,6 +16,27 @@
   margin: 0 auto;
   padding: 120px 40px 48px;
   position: relative;
+  /* Work -> Contact crisp cut (transitions-spec §3d): the accent is the only
+     colour that crosses every palette change, so a 1px hairline stitches the
+     cut rather than decorating it — no blend. */
+  border-top: 1px solid var(--accent);
+}
+
+/* ~52px warm-to-transparent sliver at the very top edge so the flip back to
+   dark reads as intentional (the last of the paper bleeding in). */
+.contact::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -1000px;
+  right: -1000px;
+  height: 52px;
+  background: linear-gradient(
+    180deg,
+    rgba(240, 238, 234, 0.14),
+    transparent
+  );
+  pointer-events: none;
 }
 
 /* --------------------------------- Eyebrow ----------------------------- */
