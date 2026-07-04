@@ -1,0 +1,39 @@
+---
+description: Core brand system and non-negotiable behaviors for the Kith portfolio
+alwaysApply: true
+---
+
+# Kith portfolio — core rules
+
+Single scrollable one-page portfolio. Five sections, scroll order: Hero → Experience → Competitions → Work → Contact. Each has its own structural metaphor — never reuse one section's card/layout pattern in another.
+
+## Source of truth
+- `/reference/*.html` prototypes are the source of truth for ANIMATION and motion. Do not reinvent easing, timing, or scroll mechanics — port them faithfully.
+- `/reference/*-spec.md` are the source of truth for intent, layout, copy, and colour.
+- Motion conflict → prototype wins. Intent/content conflict → spec wins.
+
+## Stack
+- Next.js App Router + TypeScript. Plain CSS: global tokens (CSS vars) + one CSS Module per section. NO Tailwind. Fonts via `next/font`.
+
+## Design tokens (locked — do not alter)
+- Display: **Barlow Condensed** 700/800, italic for display use.
+- Mono/utility: **IBM Plex Mono** 300/400. Prose (where proportional): **IBM Plex Sans**. Work labels: **Oswald** 400. Work taglines: **DM Sans** italic. Competitions handwriting: **Caveat**.
+- Accent: `#6BAED6` (UNC powder blue). Darker sibling (Work ink): `#1f5d80`.
+- Dark bg `#0f1014` · borders `#1e2535` · warm light/paper `#f0eeea` · cork `#b8845a`.
+- Palette rhythm across sections: dark → dark → cork → paper → dark.
+- Wordmark: "KITH" in a thin border box, with the dot OUTSIDE the box in accent colour.
+
+## Motion tokens
+- Opens/expands: `cubic-bezier(0.16, 1, 0.3, 1)`.
+- Polaroid flip: `cubic-bezier(0.23, 1, 0.32, 1)`. Stack spring: `cubic-bezier(0.34, 1.15, 0.64, 1)`.
+- Text reveals: monospace character scramble, ~700ms, left-to-right sweep (labels/names); slideUp from clip mask (headlines); typewriter (Contact definition only).
+
+## Non-negotiable behaviors
+- Scroll-scrubbed transforms are IMPERATIVE: one shared `requestAnimationFrame` loop writing `transform`/`opacity` via refs. NEVER drive per-frame scroll animation through React state.
+- Scroll reveals re-fire on EVERY entry and reset on exit. Never `unobserve()` after the first trigger; reset opacity/transform/text when elements leave the viewport.
+- Before triggering a CSS transition from a just-set start transform, force reflow with `getBoundingClientRect()` — otherwise the browser batches the writes and skips the start state.
+- Always honour `prefers-reduced-motion`: show final states, skip scrubbed motion, never trap the user in a pinned scroll.
+
+## Taste guardrails
+- Cut anything that reads as generic or AI-generated (filler labels, "Solo · 8 wks" context lines, boilerplate microcopy). If a line could be on any portfolio, remove it.
+- Prefer rendered results over descriptions; keep each section's metaphor structurally distinct.

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seam · unpin into Selected Drops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,800;1,800&family=IBM+Plex+Mono:wght@300;400&family=Caveat:wght@400;500&family=Oswald:wght@300;400&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --cork:#b8845a; --paper-front:#f0ece3; --cap-ink:#2e2820; --cap-date:#7a6e60; --surface:#13161c;
+    --work-bg:#f0eeea; --work-card:#fff; --work-surface:#e8e4da; --work-border:#d8d4ca;
+    --ink2:#111; --ink-mute:#888; --accent:#6BAED6; --accent-ink:#1f5d80;
+  }
+  body{font-family:'IBM Plex Mono',monospace;background:var(--cork);overflow-x:hidden}
+
+  .lead{height:30vh;background:var(--cork);display:flex;align-items:flex-end;justify-content:center;padding-bottom:20px}
+  .lead .eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:rgba(46,40,32,.55)}
+  .boardtail{background:var(--cork);position:relative;height:280px;
+    background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.04) 0 1px,transparent 1px 22px),repeating-linear-gradient(90deg,rgba(0,0,0,.04) 0 1px,transparent 1px 22px);
+    box-shadow:inset 0 0 70px rgba(0,0,0,.22)}
+
+  .poly,.traveller{width:132px;height:168px;background:var(--paper-front);padding:7px 7px 0;border-radius:2px}
+  .poly{position:absolute;box-shadow:0 1px 0 rgba(255,255,255,.1) inset,1px 2px 0 rgba(0,0,0,.07),2px 6px 16px rgba(0,0,0,.3)}
+  .poly .ph,.traveller .ph{height:116px;background:var(--surface);box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.2)}
+  .poly .cap,.traveller .cap{padding:6px 2px 0;text-align:center}
+  .poly .nm,.traveller .nm{font-family:'Caveat';font-weight:500;font-size:14px;color:var(--cap-ink);line-height:1.05}
+  .poly .dt,.traveller .dt{font-family:'Caveat';font-weight:400;font-size:11px;color:var(--cap-date)}
+  .pin,.tpin{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:13px;height:13px;border-radius:50%;z-index:4;box-shadow:0 4px 6px rgba(0,0,0,.35)}
+
+  .bridge{height:34vh;background:linear-gradient(180deg,var(--cork) 0%,#d0a074 30%,#dcc0a0 56%,#e9e0d2 80%,var(--work-bg) 100%)}
+
+  .work{background:var(--work-bg);color:var(--ink2);padding:6px 32px 130px;font-family:'DM Sans',sans-serif}
+  .work-wrap{max-width:812px;margin:0 auto}
+  .work-eyebrow{font-family:'Oswald';font-weight:400;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink)}
+  .work-title{font-family:'Barlow Condensed';font-weight:800;text-transform:uppercase;font-size:44px;line-height:1;margin:8px 0 40px;color:var(--ink2)}
+  .work-title .ac{color:var(--accent-ink)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px}
+  .pcard{background:var(--work-card);border:1px solid var(--work-border);opacity:0;will-change:opacity,transform}
+  .dc-img{position:relative;aspect-ratio:4/3;background:var(--work-surface);overflow:hidden}
+  .dc-img .dcph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Oswald';font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#9a968f;filter:grayscale(1)}
+  .dc-img .tint{position:absolute;inset:0;background:var(--accent);mix-blend-mode:color;opacity:0}
+  .dc-stamp{position:absolute;top:-13px;right:-11px;width:54px;height:54px;border:1.5px dashed var(--accent-ink);border-radius:50%;background:var(--work-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-9deg);z-index:3}
+  .dc-stamp .st{font-family:'Barlow Condensed';font-weight:800;font-size:8px;text-transform:uppercase;color:var(--accent-ink)}
+  .dc-stamp .sy{font-family:'Oswald';font-weight:300;font-size:7px;color:var(--accent-ink)}
+  .dc-body{padding:13px 15px 16px}
+  .dc-cat{display:inline-block;font-family:'Oswald';font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mute);border:1px solid var(--work-border);padding:2px 7px;margin-bottom:8px}
+  .dc-sku{font-family:'Oswald';font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:5px}
+  .dc-name{font-family:'Barlow Condensed';font-weight:800;font-size:19px;text-transform:uppercase;color:var(--ink2);line-height:1}
+  .dc-tag{font-family:'DM Sans';font-weight:300;font-style:italic;font-size:10.5px;color:#555;margin-top:5px}
+
+  .stage{position:fixed;inset:0;pointer-events:none;z-index:40;overflow:hidden}
+  .traveller{position:absolute;left:0;top:0;box-shadow:2px 10px 26px rgba(0,0,0,.3);opacity:0;will-change:transform,opacity}
+
+  .chip{position:fixed;left:20px;bottom:20px;z-index:60;max-width:290px;background:rgba(12,14,18,.82);border:1px solid rgba(107,174,214,.28);border-radius:6px;padding:11px 13px;backdrop-filter:blur(6px)}
+  .chip .k{font-size:8px;text-transform:uppercase;letter-spacing:.16em;color:var(--accent);margin-bottom:4px}
+  .chip .t{font-size:11px;color:#c6cdd8;line-height:1.4}
+  .chip .cols{color:var(--accent)}
+  .chip .bar{height:2px;background:rgba(255,255,255,.12);border-radius:2px;margin-top:8px;overflow:hidden}
+  .chip .bar i{display:block;height:100%;width:0;background:var(--accent)}
+
+  @media(max-width:700px){.work{padding-left:18px;padding-right:18px}.work-title{font-size:32px}}
+  @media(prefers-reduced-motion:reduce){.stage{display:none}.pcard{opacity:1!important}.dc-img .tint{opacity:.5!important}}
+</style>
+</head>
+<body>
+
+<div class="lead"><div class="eyebrow">↑ competitions — scroll down</div></div>
+<div class="boardtail" id="boardtail"></div>
+<div class="bridge"></div>
+
+<div class="work" id="work">
+  <div class="work-wrap">
+    <div class="work-eyebrow">// 03 — work</div>
+    <h2 class="work-title">Selected <span class="ac">drops.</span></h2>
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+
+<div class="stage" id="stage"></div>
+
+<div class="chip"><div class="k">Seam · blend</div><div class="t">The pinned polaroids unpin and reorganize into the real cards — <span class="cols" id="colsLabel">3</span> fill the top row, no duplicate.</div><div class="bar"><i id="bar"></i></div></div>
+
+<script>
+(function(){
+  var rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var boardtail=document.getElementById('boardtail');
+  var grid=document.getElementById('grid');
+  var stage=document.getElementById('stage');
+  var bar=document.getElementById('bar');
+  var colsLabel=document.getElementById('colsLabel');
+
+  var PINS={
+    red:['#b85a5a','#8b3a3a','#6a2a2a'], blue:['#4a6aab','#2a4a8b','#1a3060'],
+    green:['#4a8a3a','#3a6a2a','#2a4a1a'], brown:['#8a6a3a','#6a4a2a','#4a3020']
+  };
+  function pinStyle(c){var p=PINS[c];return 'background:radial-gradient(circle at 35% 30%,'+p[0]+','+p[1]+');border:1px solid '+p[2];}
+
+  // board polaroids (the real pinned ones) — order is the source order
+  var BOARD=[
+    {left:7, top:26, tilt:-5, pin:'red',   nm:'ICPC Asia', dt:'Nov 2024'},
+    {left:30,top:52, tilt:4,  pin:'green', nm:'Meta HC',   dt:'Oct 2024'},
+    {left:54,top:30, tilt:-2, pin:'blue',  nm:'IOI Sel.',  dt:'2023'},
+    {left:77,top:54, tilt:6,  pin:'brown', nm:'NOI',       dt:'2023'}
+  ];
+  var DATA=[
+    {cat:'Graphics',sku:'WRK-01 · PT/CPP/BVH',name:'Path Tracer',tag:'physically-based renderer, from scratch',st:'Shipped',sy:'2024'},
+    {cat:'Tools',sku:'WRK-02 · CV/RUS/WAS',name:'CP Visualizer',tag:'watch algorithms run, step by step',st:'Shipped',sy:'2024'},
+    {cat:'Web',sku:'WRK-03 · TP/NEX/TS',name:'This Portfolio',tag:'five sections, five metaphors',st:'In prog.',sy:'2025'},
+    {cat:'Systems',sku:'WRK-04 · KV/GO/RFT',name:'KV Store',tag:'a small distributed key–value store',st:'Shipped',sy:'2023'}
+  ];
+  var TW=132, TH=168;
+  function clamp(v,a,b){return v<a?a:v>b?b:v;}
+  function lerp(a,b,t){return a+(b-a)*t;}
+  function seg(p,a,b){return clamp((p-a)/(b-a),0,1);}
+  function ease(t){return 1-Math.pow(1-t,2.2);}
+
+  function fullCard(d){
+    return '<div class="dc-img"><div class="dcph">fig. 01</div><div class="tint"></div>'+
+      '<div class="dc-stamp"><span class="st">'+d.st+'</span><span class="sy">'+d.sy+'</span></div></div>'+
+      '<div class="dc-body"><span class="dc-cat">'+d.cat+'</span><div class="dc-sku">'+d.sku+'</div>'+
+      '<div class="dc-name">'+d.name+'</div><div class="dc-tag">'+d.tag+'</div></div>';
+  }
+
+  var cols=3, cards=[], boardpols=[], travellers=[];
+  function colCount(){var w=window.innerWidth;return w<620?1:(w<900?2:3);}
+
+  function build(){
+    cols=colCount(); colsLabel.textContent=cols;
+    // real pinned board polaroids
+    boardtail.innerHTML=''; boardpols=[];
+    BOARD.forEach(function(b){
+      var el=document.createElement('div'); el.className='poly';
+      el.style.left=b.left+'%'; el.style.top=b.top+'px'; el.style.transform='rotate('+b.tilt+'deg)';
+      el.innerHTML='<span class="pin" style="'+pinStyle(b.pin)+'"></span><div class="ph"></div>'+
+        '<div class="cap"><div class="nm">'+b.nm+'</div><div class="dt">'+b.dt+'</div></div>';
+      boardtail.appendChild(el); boardpols.push(el);
+    });
+    // real project cards
+    grid.innerHTML=''; cards=[];
+    var total=Math.min(DATA.length, cols + (cols>=3?1:(cols===2?2:3)));
+    for(var i=0;i<total;i++){var c=document.createElement('div');c.className='pcard';c.innerHTML=fullCard(DATA[i]);grid.appendChild(c);cards.push(c);}
+    // travellers: first N pinned polaroids -> first N cards
+    stage.innerHTML=''; travellers=[];
+    for(var j=0;j<cols;j++){
+      var b=BOARD[j];
+      var tv=document.createElement('div');tv.className='traveller';
+      tv.innerHTML='<span class="tpin" style="'+pinStyle(b.pin)+'"></span><div class="ph"></div>'+
+        '<div class="cap"><div class="nm">'+b.nm+'</div><div class="dt">'+b.dt+'</div></div>';
+      stage.appendChild(tv);
+      travellers.push({el:tv,pin:tv.querySelector('.tpin'),i:j,src:boardpols[j],card:cards[j],tint:cards[j].querySelector('.tint'),tilt:b.tilt});
+    }
+    render();
+  }
+
+  var ticking=false;
+  function render(){
+    ticking=false;
+    var vh=window.innerHeight;
+    var gr=grid.getBoundingClientRect();
+    // starts while the board is still visible (grid a little below the fold), ends when the grid settles
+    var p=clamp((1.12*vh - gr.top)/(0.74*vh),0,1);
+
+    travellers.forEach(function(t){
+      var pi=clamp((p - t.i*0.05)/0.86,0,1);
+      var fall=ease(seg(pi,0,.9));
+      var straighten=ease(seg(pi,.32,1));
+      var sr=t.src.getBoundingClientRect();   // its real spot on the board (live)
+      var cr=t.card.getBoundingClientRect();  // its real card slot (live)
+      var sx=sr.left+sr.width/2, sy=sr.top+sr.height/2;
+      var ex=cr.left+cr.width/2, ey=cr.top+cr.height/2;
+      var cx=lerp(sx,ex,fall), cy=lerp(sy,ey,fall);
+      var rot=lerp(t.tilt,0,straighten), s=lerp(1,.94,fall);
+      t.el.style.transform='translate('+(cx-TW/2).toFixed(1)+'px,'+(cy-TH/2).toFixed(1)+'px) rotate('+rot.toFixed(2)+'deg) scale('+s.toFixed(3)+')';
+      // pushpin pops off as it releases
+      var lift=seg(pi,0,.2);
+      t.pin.style.transform='translateX(-50%) translateY('+(-lift*15).toFixed(1)+'px)';
+      t.pin.style.opacity=(1-lift).toFixed(3);
+      // handoff: the board polaroid fades exactly as its traveller takes over
+      t.src.style.opacity=(1-seg(pi,0,.1)).toFixed(3);
+      t.el.style.opacity=(seg(pi,0,.05)*(1-seg(pi,.72,.95))).toFixed(3);
+      var dc=seg(pi,.72,1);
+      t.card.style.opacity=dc.toFixed(3);
+      t.tint.style.opacity=(dc*0.5).toFixed(3);
+    });
+    // any cards past the top row settle in just after
+    for(var k=cols;k<cards.length;k++){
+      var a=seg(p,.6,1);
+      cards[k].style.opacity=a.toFixed(3);
+      cards[k].style.transform='translateY('+lerp(16,0,a).toFixed(1)+'px)';
+      cards[k].querySelector('.tint').style.opacity=(a*0.5).toFixed(3);
+    }
+    bar.style.width=(p*100).toFixed(1)+'%';
+  }
+  function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(render);}}
+  var rt;function onResize(){clearTimeout(rt);rt=setTimeout(build,140);}
+
+  build();
+  if(!rm){window.addEventListener('scroll',onScroll,{passive:true});window.addEventListener('resize',onResize);}
+  else {cards.forEach(function(c){c.style.opacity=1;c.querySelector('.tint').style.opacity=.5;});}
+})();
+</script>
+</body>
+</html>
