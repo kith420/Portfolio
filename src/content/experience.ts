@@ -1,5 +1,12 @@
 import { ExperienceRole } from "./types";
 
+/** Section heading copy (title is placeholder — spec §3.1). */
+export const experienceHeading = {
+  eyebrow: "// 02 — experience",
+  titleLead: "Where I've ",
+  titleAccent: "shipped.",
+};
+
 /**
  * PLACEHOLDER COPY — roles, tech stacks, dates, modal overview/build text and
  * the "thinking note" lines are all illustrative (02-experience-section-spec.md
