@@ -113,9 +113,58 @@ export default function Hero() {
       </div>
       </div>
 
-      <div className={styles.scrollHint} aria-hidden>
-        <div className={styles.hintLabel}>{hero.scrollHint}</div>
-        <div className={styles.bar} />
+      <div className={styles.scrollHint}>
+        <div className={styles.hintLabel} aria-hidden>
+          {hero.scrollHint}
+        </div>
+        <a
+          href="#exp"
+          className={styles.chevrons}
+          aria-label={hero.scrollHint}
+        >
+          <svg
+            className={styles.chevron}
+            viewBox="0 0 24 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2 2 L12 10 L22 2"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="square"
+              strokeLinejoin="miter"
+            />
+          </svg>
+          <svg
+            className={styles.chevron}
+            viewBox="0 0 24 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2 2 L12 10 L22 2"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="square"
+              strokeLinejoin="miter"
+            />
+          </svg>
+          <svg
+            className={styles.chevron}
+            viewBox="0 0 24 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2 2 L12 10 L22 2"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="square"
+              strokeLinejoin="miter"
+            />
+          </svg>
+        </a>
       </div>
     </section>
   );

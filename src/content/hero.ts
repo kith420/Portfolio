@@ -6,7 +6,7 @@ import { HeroContent } from "./types";
  */
 export const hero: HeroContent = {
   eyebrow: "CS × Design — SUTD Singapore",
-  name: ["Nathan", "Poernama."],
+  name: ["Nathan", "Keith P."],
   tagline: "Ships code. Sweats pixels.",
   bio: [
     { text: "Four internships deep, a competitive-programming habit, and a soft spot for " },
@@ -19,7 +19,7 @@ export const hero: HeroContent = {
     primary: { label: "View work", href: "#work" },
     ghost: { label: "LinkedIn →", href: "https://www.linkedin.com/in/kith14" },
   },
-  scrollHint: "Scroll",
+  scrollHint: "Scroll down for more",
   /**
    * Background filmstrip. Drop files in `public/images/hero/` and list them
    * here — they auto-duplicate for the seamless loop, so order = drift order.

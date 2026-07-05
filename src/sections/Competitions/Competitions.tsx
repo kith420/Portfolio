@@ -377,7 +377,17 @@ export default function Competitions() {
           </div>
           {!isMobile && (
             <div className={styles.desktopHint}>
-              {competitionsHeading.desktopHint}
+              {competitionsHeading.desktopHint
+                .split(/(flip)/i)
+                .map((part, i) =>
+                  part.toLowerCase() === "flip" ? (
+                    <em key={i} className={styles.hintAccent}>
+                      {part}
+                    </em>
+                  ) : (
+                    part
+                  )
+                )}
             </div>
           )}
         </div>

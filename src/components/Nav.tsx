@@ -5,9 +5,9 @@ import Wordmark from "./Wordmark";
 import styles from "./Nav.module.css";
 
 const LINKS = [
-  { href: "#work", label: "Work" },
   { href: "#exp", label: "Experience" },
   { href: "#comp", label: "Competitions" },
+  { href: "#work", label: "Work" },
   { href: "#contact", label: "Contact" },
 ];
 

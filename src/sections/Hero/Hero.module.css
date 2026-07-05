@@ -150,7 +150,7 @@
 .bio {
   font-family: var(--mono);
   font-size: 12px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.85;
   color: var(--muted);
   max-width: 440px;
@@ -285,26 +285,63 @@
 
 .hintLabel {
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: var(--faint);
 }
 
-.bar {
-  width: 2px;
-  height: 46px;
-  background: var(--accent);
-  animation: scrollpulse 2s ease-in-out infinite;
+.chevrons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 6px 12px;
+  transition: transform 0.2s ease;
 }
 
-@keyframes scrollpulse {
-  0%,
-  100% {
-    opacity: 0.2;
+.chevrons:hover {
+  transform: translateY(2px);
+}
+
+.chevrons:hover .chevron {
+  filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 14px var(--accent));
+}
+
+.chevron {
+  width: 22px;
+  height: 11px;
+  opacity: 0;
+  filter: drop-shadow(0 0 4px var(--accent)) drop-shadow(0 0 8px var(--accent));
+  animation: chevronpulse 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Stagger each arrow so the glow cascades downward like a Tron flow. */
+.chevron:nth-child(1) {
+  animation-delay: 0s;
+}
+.chevron:nth-child(2) {
+  animation-delay: 0.18s;
+}
+.chevron:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+@keyframes chevronpulse {
+  0% {
+    opacity: 0.15;
+    transform: translateY(-2px);
   }
-  50% {
-    opacity: 0.7;
+  40% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  80%,
+  100% {
+    opacity: 0.15;
+    transform: translateY(2px);
   }
 }
 
@@ -339,8 +376,9 @@
   .hintLabel {
     display: none;
   }
-  .bar {
-    height: 28px;
+  .chevron {
+    width: 18px;
+    height: 9px;
   }
 }
 
@@ -362,8 +400,9 @@
     opacity: 1;
     animation: none;
   }
-  .bar {
+  .chevron {
     animation: none;
-    opacity: 0.4;
+    opacity: 0.5;
+    transform: none;
   }
 }

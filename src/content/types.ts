@@ -40,15 +40,21 @@ export interface HeroContent {
 
 /* ---------------------------- Experience ------------------------------- */
 
-export type LogoVariant = "simular" | "aggie" | "tcs" | "ntt";
+export type LogoVariant = "simular" | "aggie" | "tcs" | "ntt" | "koko";
 
 export interface ExperienceRole {
   num: string;
   /** Full company name — scrambles in on reveal. */
   company: string;
-  /** Letter-mark badge text, e.g. "SI". */
+  /** Letter-mark badge text, e.g. "SI" — fallback when no `logoSrc`. */
   logo: string;
   logoVariant: LogoVariant;
+  /**
+   * Optional path (under public/) to a real logo image, e.g.
+   * "/images/experience/simular.svg". When set, it replaces the letter-mark in
+   * both the card and modal. Prefer a square SVG (or transparent PNG ≥120px).
+   */
+  logoSrc?: string;
   location: string;
   /** Italic role title — the dominant text in the card. */
   role: string;

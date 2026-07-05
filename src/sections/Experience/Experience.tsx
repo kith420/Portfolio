@@ -15,6 +15,7 @@ const LOGO_CLASS: Record<LogoVariant, string> = {
   aggie: styles.logoAggie,
   tcs: styles.logoTcs,
   ntt: styles.logoNtt,
+  koko: styles.logoKoko,
 };
 
 function Rich({ text }: { text: RichText }) {
@@ -92,8 +93,17 @@ function TreeRow({ role, side, onOpen }: TreeRowProps) {
       >
         <div className={styles.cardHead}>
           <div className={styles.cardNum}>{role.num}</div>
-          <div className={`${styles.cardLogo} ${LOGO_CLASS[role.logoVariant]}`}>
-            {role.logo}
+          <div
+            className={`${styles.cardLogo} ${LOGO_CLASS[role.logoVariant]}${
+              role.logoSrc ? ` ${styles.logoImg}` : ""
+            }`}
+          >
+            {role.logoSrc ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={role.logoSrc} alt={`${role.company} logo`} />
+            ) : (
+              role.logo
+            )}
           </div>
           <span className={styles.cardCo} ref={coRef} />
         </div>

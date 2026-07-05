@@ -63,6 +63,7 @@
 
 .node {
   grid-column: 2;
+  grid-row: 1;
   justify-self: center;
   position: relative;
   width: 10px;
@@ -106,6 +107,7 @@
 /* ---------- Card -------------------------------------------------------- */
 .card {
   max-width: 390px;
+  grid-row: 1;
   border: 1px solid #222b38;
   border-radius: 5px;
   background: #0c0f13;
@@ -196,7 +198,7 @@
   align-items: center;
   gap: 6px;
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--faint);
@@ -226,13 +228,13 @@
 .cardDesc {
   font-family: var(--mono);
   font-size: 11px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
   color: var(--muted);
 }
 
 .cardDesc .hi {
-  color: #6a8090;
+  color: var(--ink2);
 }
 
 .cardFoot {
@@ -251,7 +253,7 @@
 
 .chips span {
   font-family: var(--mono);
-  font-size: 8px;
+  font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--faint);
@@ -264,23 +266,32 @@
   font-family: var(--mono);
   font-size: 10px;
   color: var(--faint);
+  transition: opacity 0.2s ease;
 }
 
-/* Click hint (desktop only, decorative) */
+/* Fade the year out on hover so the click hint can take its place. */
+.card:hover .cardYear {
+  opacity: 0;
+}
+
+/* Click hint (desktop only, decorative) — sits exactly where the year is and
+   cross-fades in on hover, so the two never overlap. */
 .card::after {
   content: "// click to expand";
   position: absolute;
   bottom: 10px;
-  right: 14px;
+  right: 18px;
   font-family: var(--mono);
   font-size: 9px;
-  color: var(--border-sub);
+  color: var(--faint);
   font-style: italic;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
 .card:hover::after {
-  color: var(--faint);
+  opacity: 1;
 }
 
 /* ---------- Logo badge variants ---------------------------------------- */
@@ -303,6 +314,31 @@
   background: #1a1010;
   color: #c87a5a;
   border: 0.5px solid #2e1818;
+}
+.logoKoko {
+  background: #10201e;
+  color: #5cc9b4;
+  border: 0.5px solid #1a3630;
+}
+
+/* Real-logo chip: keeps the variant's monochrome background/tint so the mark
+   reads as part of the component (fill baked to match the variant colour). */
+.logoImg {
+  overflow: hidden;
+}
+
+.cardLogo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+}
+
+.modalLogo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 5px;
 }
 
 /* ---------- Modal ------------------------------------------------------- */
@@ -459,13 +495,13 @@
 .modalPara {
   font-family: var(--mono);
   font-size: 12px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.75;
-  color: #445060;
+  color: var(--muted);
 }
 
 .modalPara .hi {
-  color: #6a8090;
+  color: var(--ink2);
 }
 
 .thinkingNote {
@@ -474,7 +510,7 @@
   padding: 11px 15px;
   font-family: var(--mono);
   font-size: 11px;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--faint);
   font-style: italic;
   line-height: 1.7;

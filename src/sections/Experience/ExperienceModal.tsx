@@ -11,6 +11,7 @@ const LOGO_CLASS: Record<LogoVariant, string> = {
   aggie: styles.logoAggie,
   tcs: styles.logoTcs,
   ntt: styles.logoNtt,
+  koko: styles.logoKoko,
 };
 
 function Rich({ text }: { text: RichText }) {
@@ -132,9 +133,16 @@ export default function ExperienceModal({
           <div className={styles.modalScroll}>
             <div className={styles.modalHeader}>
               <div
-                className={`${styles.modalLogo} ${LOGO_CLASS[role.logoVariant]}`}
+                className={`${styles.modalLogo} ${LOGO_CLASS[role.logoVariant]}${
+                  role.logoSrc ? ` ${styles.logoImg}` : ""
+                }`}
               >
-                {role.logo}
+                {role.logoSrc ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={role.logoSrc} alt={`${role.company} logo`} />
+                ) : (
+                  role.logo
+                )}
               </div>
               <div className={styles.modalTitles}>
                 <div className={styles.modalCompany}>{role.company}</div>

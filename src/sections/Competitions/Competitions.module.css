@@ -146,24 +146,35 @@
 }
 
 .polBack {
+  /* Ruled-paper baseline grid: every text block shares --rule as its
+     line-height, and the rule is drawn at the text baseline (via --rule-ink)
+     so letters sit ON the line instead of floating between lines. */
+  --rule: 22px;
+  --rule-top: 12px; /* first band origin = padding-top */
+  --rule-ink: 16px; /* baseline position within each band */
   background-color: var(--paper-back);
   transform: rotateY(180deg);
-  padding: 18px 16px;
-  /* ruled lines over the tiled paper grain */
+  padding: var(--rule-top) 16px 14px;
   background-image: repeating-linear-gradient(
       0deg,
-      transparent 0 13px,
-      #ccc4b4 13px 13.5px
+      transparent 0 calc(var(--rule-ink) - 1px),
+      #ccc4b4 calc(var(--rule-ink) - 1px) var(--rule-ink),
+      transparent var(--rule-ink) var(--rule)
     ),
     url("/images/competitions/paper.jpg");
   background-size: auto, cover;
+  background-position: 0 var(--rule-top), 0 0;
+  background-repeat: repeat, no-repeat;
 }
 
+/* Accent dash — lifted out of flow so the title below stays on its line. */
 .bar {
+  position: absolute;
+  top: 6px;
+  left: 16px;
   width: 18px;
   height: 2px;
   background: var(--accent);
-  margin-bottom: 8px;
 }
 
 .lbl {
@@ -173,16 +184,31 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: #8a7a6a;
+  line-height: var(--rule);
+  margin: 0;
 }
 
 .res {
   font-family: var(--display);
   font-weight: 800;
   font-style: italic;
-  font-size: 38px;
+  font-size: 20px;
   color: #1a1410;
-  line-height: 1;
-  margin: 2px 0 8px;
+  line-height: var(--rule);
+  margin: 0;
+  /* Lift the bold award a few px off its baseline rule so the heavy letters
+     aren't pressed flush against the line beneath them. */
+  position: relative;
+  top: -4px;
+}
+
+/*
+ * Applied when the result has a long unbreakable token (e.g. "201/537,000+").
+ * Shrunk so the whole token fits on one line inside the card — never break a
+ * number mid-digit, so overflow-wrap is intentionally left at its default.
+ */
+.res.resLong {
+  font-size: 16px;
 }
 
 .note {
@@ -190,7 +216,8 @@
   font-weight: 400;
   font-size: 14px;
   color: #3a3028;
-  line-height: 1.5;
+  line-height: var(--rule);
+  margin: 0;
 }
 
 .stamp {
@@ -257,11 +284,18 @@
 .desktopHint {
   text-align: center;
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 15px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(46, 40, 32, 0.55);
-  padding: 16px 0 46px;
+  letter-spacing: 0.16em;
+  color: rgba(38, 30, 20, 0.85);
+  padding: 10px 0 50px;
+}
+
+.hintAccent {
+  color: var(--accent-ink);
+  font-style: normal;
+  font-weight: 700;
 }
 
 /* ---------- Mobile stack + tear ---------------------------------------- */

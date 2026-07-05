@@ -19,8 +19,9 @@ export const experience: ExperienceRole[] = [
     company: "SIMULAR AI",
     logo: "SI",
     logoVariant: "simular",
+    logoSrc: "/images/experience/simular.svg",
     location: "Singapore",
-    role: "AI Agents",
+    role: "SWE Intern",
     desc: [
       { text: "Worked on " },
       { text: "autonomous computer-use agents", hi: true },
@@ -49,15 +50,16 @@ export const experience: ExperienceRole[] = [
     company: "AGGIEWORKS",
     logo: "AW",
     logoVariant: "aggie",
+    logoSrc: "/images/experience/aggieworks.svg",
     location: "UC Davis, California",
-    role: "Campus Tools",
+    role: "SWE for RoomU",
     desc: [
       { text: "Built " },
       { text: "student-facing web tools", hi: true },
       { text: " shipped to real users on campus — fast feedback, faster iteration." },
     ],
     tech: ["React", "Node.js", "PostgreSQL"],
-    year: "2023",
+    year: "Jan 2026 - Mar 2026",
     modal: {
       meta: "Campus Tools · 2023 · UC Davis, California",
       overview: [
@@ -79,6 +81,7 @@ export const experience: ExperienceRole[] = [
     company: "TCS PACE PORT",
     logo: "TC",
     logoVariant: "tcs",
+    logoSrc: "/images/experience/tcs.svg",
     location: "Singapore",
     role: "Enterprise",
     desc: [
@@ -106,18 +109,19 @@ export const experience: ExperienceRole[] = [
   },
   {
     num: "04",
-    company: "NTT DATA",
+    company: "NTT DATA INC",
     logo: "NT",
     logoVariant: "ntt",
+    logoSrc: "/images/experience/ntt.svg",
     location: "Jakarta, Indonesia",
-    role: "Backend",
+    role: "Frontend Engineer Intern",
     desc: [
       { text: "First taste of " },
       { text: "production backend work", hi: true },
       { text: " — data models, APIs, and the discipline of shipping." },
     ],
     tech: ["Java", "SQL", "REST"],
-    year: "2022",
+    year: "Jun 2024 - Aug 2024",
     modal: {
       meta: "Backend · 2022 · Jakarta, Indonesia",
       overview: [
@@ -131,6 +135,37 @@ export const experience: ExperienceRole[] = [
         { text: "Data models and " },
         { text: "REST APIs", hi: true },
         { text: " on a Java/SQL stack, and the shipping discipline that comes with a real codebase." },
+      ],
+    },
+  },
+  {
+    num: "05",
+    company: "KOKOCODER",
+    logo: "KC",
+    logoVariant: "koko",
+    logoSrc: "/images/experience/kokocoder.svg",
+    location: "Jakarta, Indonesia · Remote",
+    role: "Competitive Programming Coach (C++ & Python)",
+    desc: [
+      { text: "Coached high-schoolers for Indonesia's " },
+      { text: "National Olympiad in Informatics", hi: true },
+      { text: " — 300+ hours of algorithms, data structures, and contest craft." },
+    ],
+    tech: ["C++", "Python", "Algorithms"],
+    year: "2023–25",
+    modal: {
+      meta: "CP Coach · 2023–2025 · Remote",
+      overview: [
+        { text: "Coached high-school students preparing for Indonesia's " },
+        { text: "National Olympiad in Informatics", hi: true },
+        { text: " (NOI) — a national contest with ~20,000 participants a year." },
+      ],
+      thinkingNote:
+        "You don't really understand an algorithm until you've had to teach it to someone at 11pm before a contest.",
+      built: [
+        { text: "300+ hours of lectures and problem-solving sessions, plus custom problem sets and mock contests — the org's students collectively took " },
+        { text: "19 of 30 medals at NOI 2023", hi: true },
+        { text: "." },
       ],
     },
   },

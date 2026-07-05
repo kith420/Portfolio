@@ -145,7 +145,7 @@
 .src {
   font-family: var(--mono);
   font-weight: 400;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--faint);
@@ -214,7 +214,7 @@
 .foot {
   font-family: var(--mono);
   font-weight: 400;
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0.06em;
   color: var(--faint);
   margin-top: 60px;

@@ -36,6 +36,10 @@ export default function Polaroid({
   seamIndex,
 }: PolaroidProps) {
   const pin = PIN_GRADIENT[comp.pin];
+  // Long unbreakable tokens (e.g. "201/537,000+") overflow the card at 38px.
+  const resultHasLongToken = comp.result
+    .split(/\s+/)
+    .some((word) => word.length > 9);
   return (
     <div
       ref={outerRef}
@@ -69,7 +73,11 @@ export default function Polaroid({
         <div className={`${styles.polFace} ${styles.polBack}`}>
           <div className={styles.bar} />
           <div className={styles.lbl}>{comp.fullName}</div>
-          <div className={styles.res}>{comp.result}</div>
+          <div
+            className={`${styles.res} ${resultHasLongToken ? styles.resLong : ""}`}
+          >
+            {comp.result}
+          </div>
           <div className={styles.note}>{comp.note}</div>
           <div className={styles.stamp}>Kith</div>
         </div>

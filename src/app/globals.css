@@ -7,8 +7,8 @@
 
 :root {
   /* --- Type roles (font-family stacks wired to next/font variables) --- */
-  --display: var(--font-display), "Arial Narrow", sans-serif;
-  --mono: var(--font-mono), ui-monospace, Menlo, monospace;
+  --display: var(--font-display), system-ui, sans-serif;
+  --mono: var(--font-mono), "Commit Mono", ui-monospace, Menlo, monospace;
   --sans: var(--font-sans), system-ui, sans-serif;
   --label: var(--font-label), "Arial Narrow", sans-serif;
   --prose: var(--font-prose), system-ui, sans-serif;
@@ -18,9 +18,9 @@
   --dark: #0f1014;
   --ink: #dde3ec;
   --ink2: #8899aa;
-  --muted: #3a4d60;
+  --muted: #7c8b9e;
   --muted2: #8899aa;
-  --faint: #2e3a48;
+  --faint: #6f7d92;
   --border: #1e2535;
   --border-sub: #1a2028;
   --surface: #13161c;

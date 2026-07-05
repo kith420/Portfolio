@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import {
-  Barlow_Condensed,
-  IBM_Plex_Mono,
+  Plus_Jakarta_Sans,
   IBM_Plex_Sans,
   Oswald,
   DM_Sans,
   Caveat,
 } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const display = Barlow_Condensed({
+const display = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["700", "800"],
   style: ["normal", "italic"],
@@ -17,10 +17,15 @@ const display = Barlow_Condensed({
   display: "swap",
 });
 
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  style: ["normal", "italic"],
+const mono = localFont({
+  src: [
+    { path: "./fonts/commit-mono-300-normal.woff2", weight: "300", style: "normal" },
+    { path: "./fonts/commit-mono-300-italic.woff2", weight: "300", style: "italic" },
+    { path: "./fonts/commit-mono-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/commit-mono-400-italic.woff2", weight: "400", style: "italic" },
+    { path: "./fonts/commit-mono-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/commit-mono-500-italic.woff2", weight: "500", style: "italic" },
+  ],
   variable: "--font-mono",
   display: "swap",
 });
