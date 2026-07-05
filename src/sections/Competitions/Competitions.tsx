@@ -366,7 +366,8 @@ export default function Competitions() {
             title: styles.compTitle,
           }}
         >
-          {competitionsHeading.title}
+          {competitionsHeading.titleLead}
+          <span className={styles.ac}>{competitionsHeading.titleAccent}</span>
         </SectionHeading>
       </section>
 

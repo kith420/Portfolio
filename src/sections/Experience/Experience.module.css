@@ -4,7 +4,7 @@
 }
 
 .expWrap {
-  max-width: 960px;
+  max-width: 1368px;
   margin: 0 auto;
   position: relative;
 }
@@ -13,9 +13,13 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  /* Line the header up with the experience cards. The left column is
+     (100% - 48px)/2 wide and each card fills 75% of it (justify-self: end),
+     so a card's inner edge sits (100% - 48px)/8 in from the wrapper. Mirror it
+     on the right so the header spans exactly card-left to card-right. */
+  margin: 0 calc((100% - 48px) / 8) 60px;
   border-bottom: 0.5px solid var(--border-sub);
   padding-bottom: 20px;
-  margin-bottom: 60px;
 }
 
 .ac {
@@ -106,7 +110,10 @@
 
 /* ---------- Card -------------------------------------------------------- */
 .card {
-  max-width: 390px;
+  /* Card owns ~3/4 of its column (space : box ≈ 1 : 3); the remaining quarter
+     is the outer margin. Anchored at the node side below so connectors reach. */
+  width: 75%;
+  max-width: 660px;
   grid-row: 1;
   border: 1px solid #222b38;
   border-radius: 5px;
@@ -118,6 +125,8 @@
   transition: opacity 0.5s ease, transform 0.55s var(--ease), border-color 0.2s;
 }
 
+/* Inner edge hugs the node (connector reaches it); the outer quarter of each
+   column is left as breathing room. Mirrored, so outer margins stay symmetric. */
 .row.left .card {
   grid-column: 1;
   justify-self: end;
@@ -225,11 +234,13 @@
   margin-bottom: 8px;
 }
 
+/* Reading surface moves to Oswald (--label = Oswald) at a comfortable size;
+   mono at full reading size reads AI-generated. Labels below stay mono. */
 .cardDesc {
-  font-family: var(--mono);
-  font-size: 11px;
+  font-family: var(--label);
+  font-size: 15px;
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.55;
   color: var(--muted);
 }
 
@@ -496,10 +507,10 @@
 }
 
 .modalPara {
-  font-family: var(--mono);
-  font-size: 12px;
+  font-family: var(--label);
+  font-size: 15px;
   font-weight: 400;
-  line-height: 1.75;
+  line-height: 1.6;
   color: var(--muted);
 }
 
@@ -555,7 +566,7 @@
     padding: 60px 20px 90px;
   }
   .secHead {
-    margin-bottom: 40px;
+    margin: 0 0 40px;
   }
   .row {
     grid-template-columns: 24px 1fr;
@@ -577,6 +588,7 @@
   .row.right .card {
     grid-column: 2;
     justify-self: stretch;
+    width: auto;
     max-width: none;
     transform: translateX(18px);
   }

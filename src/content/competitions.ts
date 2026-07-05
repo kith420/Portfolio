@@ -3,7 +3,8 @@ import { Competition } from "./types";
 /** Section heading + mobile hint copy. */
 export const competitionsHeading = {
   eyebrow: "// competitions",
-  title: "Competed.",
+  titleLead: "Where I've ",
+  titleAccent: "placed.",
   desktopHint: "click a polaroid to flip it",
   hintFlip: "tap to flip",
   hintSwipe: "swipe",

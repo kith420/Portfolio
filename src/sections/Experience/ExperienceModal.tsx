@@ -197,8 +197,8 @@ function openDesktop(
   rect: DOMRect | null,
   reduced: boolean,
 ) {
-  const targetW = Math.min(680, window.innerWidth - 48);
-  const targetH = Math.min(520, window.innerHeight * 0.86);
+  const targetW = Math.min(840, window.innerWidth - 48);
+  const targetH = Math.min(620, window.innerHeight * 0.86);
   const targetLeft = (window.innerWidth - targetW) / 2;
   const targetTop = (window.innerHeight - targetH) / 2;
 

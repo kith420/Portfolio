@@ -29,6 +29,10 @@
   color: var(--paper-front);
 }
 
+.ac {
+  color: var(--accent);
+}
+
 /* ---------- Full-bleed warm surface (cork -> wash -> paper) -------------- */
 /* The real cork photo lives here so it spans BOTH the board and the wash tail
    as one continuous surface — the tail then just veils it, no hard seam. */

@@ -3,12 +3,12 @@ import { WorkProject } from "./types";
 /**
  * Section heading. Lead + accent are stored uppercase so the scramble noise
  * (A–Z0–9) blends seamlessly with the resolved characters (03-work-section-spec
- * §5, §10 Anim 1). "DROPS." renders in --accent-ink.
+ * §5, §10 Anim 1). "DROPPED." renders in --accent-ink.
  */
 export const workHeading = {
   eyebrow: "// 03 — work",
-  titleLead: "SELECTED ",
-  titleAccent: "DROPS.",
+  titleLead: "WHAT I'VE ",
+  titleAccent: "DROPPED.",
 };
 
 /**
