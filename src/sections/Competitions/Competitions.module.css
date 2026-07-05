@@ -1,12 +1,12 @@
 /* ---------- Dark header (airlock above the cork) ------------------------ */
 .comp {
   background: var(--dark);
-  padding: 70px 40px 0;
+  padding: 92px 40px 0;
 }
 
 .compHead {
   max-width: 960px;
-  margin: 0 auto 34px;
+  margin: 0 auto 46px;
 }
 
 .compEyebrow {
@@ -37,7 +37,7 @@
 .corkZone {
   position: relative;
   background: var(--cork);
-  padding: 24px 40px 0;
+  padding: 44px 40px 0;
   background-image: repeating-linear-gradient(
       0deg,
       rgba(0, 0, 0, 0.04) 0 1px,
@@ -57,7 +57,7 @@
   position: relative;
   max-width: 960px;
   margin: 0 auto;
-  height: 360px;
+  height: 400px;
 }
 
 .washTail {
@@ -246,7 +246,7 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: rgba(46, 40, 32, 0.55);
-  padding: 4px 0 30px;
+  padding: 16px 0 46px;
 }
 
 /* ---------- Mobile stack + tear ---------------------------------------- */
@@ -405,13 +405,13 @@
 
 @media (max-width: 820px) {
   .comp {
-    padding: 60px 20px 0;
+    padding: 76px 20px 0;
   }
   .compTitle {
     font-size: 34px;
   }
   .corkZone {
-    padding: 20px 16px 0;
+    padding: 34px 16px 0;
   }
   .boardInner {
     height: auto;

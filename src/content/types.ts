@@ -24,7 +24,6 @@ export interface HeroContent {
   tagline: string;
   bio: RichText;
   cta: { primary: Link; ghost: Link };
-  stats: Array<{ value: string; label: string }>;
   scrollHint: string;
 }
 

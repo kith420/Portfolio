@@ -34,6 +34,7 @@ export default function Hero() {
       <div className={styles.overlay} aria-hidden />
       <div className={styles.grain} aria-hidden />
 
+      <div className={styles.inner}>
       <div className={styles.content}>
         <div className={styles.eyebrow}>{hero.eyebrow}</div>
         <h1 className={styles.name}>
@@ -73,14 +74,6 @@ export default function Hero() {
       <div className={styles.photo} aria-hidden>
         <span>photo — tbd</span>
       </div>
-
-      <div className={styles.stats}>
-        {hero.stats.map((stat) => (
-          <div key={stat.label} className={styles.stat}>
-            <div className={styles.statValue}>{stat.value}</div>
-            <div className={styles.statLabel}>{stat.label}</div>
-          </div>
-        ))}
       </div>
 
       <div className={styles.scrollHint} aria-hidden>
