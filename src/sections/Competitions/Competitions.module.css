@@ -30,24 +30,31 @@
 }
 
 /* ---------- Full-bleed warm surface (cork -> wash -> paper) -------------- */
+/* The real cork photo lives here so it spans BOTH the board and the wash tail
+   as one continuous surface — the tail then just veils it, no hard seam. */
 .warmflow {
   position: relative;
+  background-color: var(--cork);
+  background-image: url("/images/competitions/cork.jpg");
+  background-size: 300px 300px;
+  background-repeat: repeat;
 }
 
 .corkZone {
   position: relative;
-  background: var(--cork);
   padding: 44px 40px 0;
+  /* Faint grid over the inherited cork keeps the "board" read. */
   background-image: repeating-linear-gradient(
       0deg,
-      rgba(0, 0, 0, 0.04) 0 1px,
+      rgba(0, 0, 0, 0.035) 0 1px,
       transparent 1px 22px
     ),
     repeating-linear-gradient(
       90deg,
-      rgba(0, 0, 0, 0.04) 0 1px,
+      rgba(0, 0, 0, 0.035) 0 1px,
       transparent 1px 22px
     );
+  background-size: 22px 22px, 22px 22px;
   /* accent hairline at the top edge = the Experience->Competitions crisp cut */
   box-shadow: inset 0 2px 0 rgba(107, 174, 214, 0.22),
     inset 0 44px 60px -44px rgba(0, 0, 0, 0.34);
@@ -60,14 +67,16 @@
   height: 400px;
 }
 
+/* Transparent at the top (cork shows straight through from the board) then
+   ramps up in opacity to the Work background — the cork dissolves gradually. */
 .washTail {
-  height: 34vh;
+  height: 40vh;
   background: linear-gradient(
     180deg,
-    var(--cork) 0%,
-    #d0a074 26%,
-    #dcc0a0 52%,
-    #e9e0d2 78%,
+    rgba(184, 132, 90, 0) 0%,
+    rgba(208, 160, 116, 0.32) 24%,
+    rgba(222, 194, 162, 0.66) 52%,
+    rgba(234, 226, 212, 0.9) 78%,
     var(--work-bg) 100%
   );
 }
@@ -102,7 +111,10 @@
 }
 
 .polFront {
-  background: var(--paper-front);
+  background-color: var(--paper-front);
+  background-image: url("/images/competitions/paper.jpg");
+  background-size: cover;
+  background-blend-mode: multiply;
   padding: 8px 8px 0;
 }
 
@@ -134,14 +146,17 @@
 }
 
 .polBack {
-  background: var(--paper-back);
+  background-color: var(--paper-back);
   transform: rotateY(180deg);
   padding: 18px 16px;
+  /* ruled lines over the tiled paper grain */
   background-image: repeating-linear-gradient(
-    0deg,
-    transparent 0 13px,
-    #ccc4b4 13px 13.5px
-  );
+      0deg,
+      transparent 0 13px,
+      #ccc4b4 13px 13.5px
+    ),
+    url("/images/competitions/paper.jpg");
+  background-size: auto, cover;
 }
 
 .bar {
