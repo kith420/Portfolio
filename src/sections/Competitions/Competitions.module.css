@@ -40,6 +40,26 @@
   background-repeat: repeat;
 }
 
+/* Physical top edge of the board: a darker cork lip so the slab reads as a
+   raised object with thickness, not a flat texture swap. Sits above the cork
+   grid but below the seam tape. */
+.warmflow::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 7px;
+  background: linear-gradient(
+    180deg,
+    rgba(44, 26, 12, 0.6) 0%,
+    rgba(74, 46, 24, 0.34) 42%,
+    rgba(120, 84, 50, 0) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
 .corkZone {
   position: relative;
   padding: 44px 40px 0;
@@ -55,9 +75,10 @@
       transparent 1px 22px
     );
   background-size: 22px 22px, 22px 22px;
-  /* accent hairline at the top edge = the Experience->Competitions crisp cut */
-  box-shadow: inset 0 2px 0 rgba(107, 174, 214, 0.22),
-    inset 0 44px 60px -44px rgba(0, 0, 0, 0.34);
+  /* Depth at the top edge: a warm glint on the cork's top face just under the
+     lip, then a soft inner shadow cast down by the dark header "above" it. */
+  box-shadow: inset 0 1px 0 rgba(230, 202, 150, 0.16),
+    inset 0 50px 60px -42px rgba(0, 0, 0, 0.5);
 }
 
 .boardInner {
@@ -78,6 +99,59 @@
     rgba(222, 194, 162, 0.66) 52%,
     rgba(234, 226, 212, 0.9) 78%,
     var(--work-bg) 100%
+  );
+}
+
+/* ---------- Seam tape (stitches the dark header to the cork) ------------- */
+/* One pinned object straddling the dark/cork boundary — same masking-tape
+   vocabulary as the washi tape on the Meta polaroid — carrying the section
+   tag so the two rectangles read as a single scene. Aligned to the left of
+   the 960px content column and tilted like a hand-torn strip. */
+.seam {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(960px, 100% - 32px);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.seamTape {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  transform: translateY(-50%) rotate(-1.6deg);
+  padding: 7px 15px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  white-space: nowrap;
+  color: var(--accent-ink);
+  background: rgba(224, 214, 184, 0.88);
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.16) 0 2px,
+    transparent 2px 5px
+  );
+  box-shadow: 0 2px 9px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  /* Fade the ends so the strip looks torn / translucent like real tape. */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 7px,
+    #000 calc(100% - 7px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 7px,
+    #000 calc(100% - 7px),
+    transparent 100%
   );
 }
 

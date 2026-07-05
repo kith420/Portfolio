@@ -8,10 +8,12 @@ export const experienceHeading = {
 };
 
 /**
- * PLACEHOLDER COPY — roles, tech stacks, dates, modal overview/build text and
- * the "thinking note" lines are all illustrative (02-experience-section-spec.md
- * §8). The thinking-note component/tone is final; its content is not.
- * Array order = display order down the tree.
+ * Facts reconciled against the actual resume: company, role, dates, location,
+ * tech stacks, and the concrete metrics in overview/built are now accurate.
+ * The prose *voice* (desc / overview / built wording and the thinkingNote lines)
+ * is a draft in the section's tone — swap in your own words as needed.
+ * The thinking-note component/tone is final; its content is not (spec §8).
+ * Array order = display order down the tree (matches resume: newest first).
  */
 export const experience: ExperienceRole[] = [
   {
@@ -23,25 +25,25 @@ export const experience: ExperienceRole[] = [
     location: "Singapore",
     role: "SWE Intern",
     desc: [
-      { text: "Worked on " },
-      { text: "autonomous computer-use agents", hi: true },
-      { text: " — reliability, recovery, and the messy middle of long action chains." },
+      { text: "Built an " },
+      { text: "institutional-AI knowledge layer", hi: true },
+      { text: " on Simular's Sai agent platform — company activity across Slack, Gmail, Drive and more, made queryable in plain English." },
     ],
-    tech: ["Python", "TypeScript", "Docker"],
-    year: "2024",
+    tech: ["Python", "FastAPI", "React"],
+    year: "May 2026 – Present",
     modal: {
-      meta: "AI Agents · 2024 · Singapore",
+      meta: "AI Agents · 2026 · Singapore",
       overview: [
-        { text: "Built and hardened parts of an " },
-        { text: "autonomous agent", hi: true },
-        { text: " that drives real desktop software — the interesting problems all live in recovery and long-horizon reliability." },
+        { text: "Built a company-wide " },
+        { text: "knowledge layer", hi: true },
+        { text: " on top of Simular's Sai agent platform — a FastAPI service and a three-skill suite ingesting structured activity across Slack, Gmail, Calendar, Drive, and GitHub so 38 employees can query the whole org in natural language." },
       ],
       thinkingNote:
-        "What does a good 'undo' look like when an agent has already taken 40 steps?",
+        "A search box that can't tell 'no results' from 'the backend broke' quietly teaches people to stop trusting it.",
       built: [
-        { text: "Instrumentation and replay tooling for agent runs, plus guardrails that let a run " },
-        { text: "fail softly and recover", hi: true },
-        { text: " rather than wedge." },
+        { text: "The knowledge layer end to end — a Python/FastAPI service on Cloud Run (Firestore, GCS, dual-token auth) — plus a Cmd+K cross-workspace search palette and a long-context LLM chat prototype where " },
+        { text: "prompt caching cut input tokens ~60%", hi: true },
+        { text: "." },
       ],
     },
   },
@@ -52,27 +54,27 @@ export const experience: ExperienceRole[] = [
     logoVariant: "aggie",
     logoSrc: "/images/experience/aggieworks.svg",
     location: "UC Davis, California",
-    role: "SWE for RoomU",
+    role: "Software Engineer",
     desc: [
-      { text: "Built " },
-      { text: "student-facing web tools", hi: true },
-      { text: " shipped to real users on campus — fast feedback, faster iteration." },
+      { text: "Shipped features to " },
+      { text: "RoomU", hi: true },
+      { text: ", a React Native housing + roommate app used by 190+ students on campus — fast feedback, faster iteration." },
     ],
-    tech: ["React", "Node.js", "PostgreSQL"],
+    tech: ["React Native", "Hono", "Drizzle"],
     year: "Jan 2026 - Mar 2026",
     modal: {
-      meta: "Campus Tools · 2023 · UC Davis, California",
+      meta: "Campus App · 2026 · UC Davis, California",
       overview: [
-        { text: "Shipped features on a product used by " },
-        { text: "students every day", hi: true },
-        { text: ", where the person filing the bug report was often three rows behind me in lecture." },
+        { text: "Shipped features on " },
+        { text: "RoomU", hi: true },
+        { text: ", a housing and roommate-discovery app used by 190+ students day to day, where the person filing the bug report was often three rows behind me in lecture." },
       ],
       thinkingNote:
         "You learn fast when the person filing the bug report sits three rows behind you in lecture.",
       built: [
-        { text: "Full-stack features end to end — React front ends against a " },
-        { text: "Node + Postgres", hi: true },
-        { text: " backend, with the reliability real users demand." },
+        { text: "An applied-filters bar and confirmation dialog in React Native (NativeWind + Reanimated), plus RoomU's " },
+        { text: "app-versioning system end to end", hi: true },
+        { text: " — a Hono/Drizzle backend, a TanStack Query hook, and an animated update modal to keep every client on the same version." },
       ],
     },
   },
@@ -83,27 +85,27 @@ export const experience: ExperienceRole[] = [
     logoVariant: "tcs",
     logoSrc: "/images/experience/tcs.svg",
     location: "Singapore",
-    role: "Enterprise",
+    role: "SWE Intern",
     desc: [
-      { text: "Prototyped inside an innovation lab — " },
-      { text: "enterprise-scale services", hi: true },
-      { text: " and the constraints that shape them." },
+      { text: "Cut a " },
+      { text: "Misty II robot's", hi: true },
+      { text: " response time from 7s to 3s and gave it a personality — inside TCS's Pace Port innovation lab." },
     ],
-    tech: ["Java", "Spring", "AWS"],
-    year: "2023",
+    tech: ["PyTorch", "OpenCV", "React"],
+    year: "Sep 2025 - Dec 2025",
     modal: {
-      meta: "Enterprise · 2023 · Singapore",
+      meta: "Innovation Lab · 2025 · Singapore",
       overview: [
-        { text: "Prototyped inside a corporate innovation lab, where the hard part was less the code and more the " },
-        { text: "constraints of scale", hi: true },
-        { text: " and integration." },
+        { text: "Prototyped inside TCS's Pace Port innovation lab — most memorably a " },
+        { text: "Misty II robot", hi: true },
+        { text: " whose response time I cut from 7s to 3s, with a custom AI personality framework (face tracking, idle behaviors) demoed to Toyota and UBS." },
       ],
       thinkingNote:
-        "A prototype that ignores the org chart never ships.",
+        "A robot that takes seven seconds to react doesn't read as slow — it reads as broken. Three seconds and it feels alive.",
       built: [
-        { text: "Service prototypes on a " },
-        { text: "Java / Spring", hi: true },
-        { text: " stack deployed to AWS, tuned for enterprise integration paths." },
+        { text: "A Misty II personality framework in " },
+        { text: "PyTorch / OpenCV / YOLO", hi: true },
+        { text: ", plus a full-stack booking system for 50+ staff in six weeks (React/Node/Postgres, 30+ endpoints, double-booking prevention) and a LangChain RAG chatbot grounded in internal docs." },
       ],
     },
   },
@@ -116,25 +118,25 @@ export const experience: ExperienceRole[] = [
     location: "Jakarta, Indonesia",
     role: "Frontend Engineer Intern",
     desc: [
-      { text: "First taste of " },
-      { text: "production backend work", hi: true },
-      { text: " — data models, APIs, and the discipline of shipping." },
+      { text: "Shipped " },
+      { text: "React / Next.js UI", hi: true },
+      { text: " for REGLA — NTT's flagship IFRS compliance platform, serving banks like MUFG and Bank Mandiri." },
     ],
-    tech: ["Java", "SQL", "REST"],
+    tech: ["React", "Next.js", "TypeScript"],
     year: "Jun 2024 - Aug 2024",
     modal: {
-      meta: "Backend · 2022 · Jakarta, Indonesia",
+      meta: "Frontend · 2024 · Jakarta, Indonesia",
       overview: [
-        { text: "My first taste of " },
-        { text: "production backend work", hi: true },
-        { text: " — where a schema decision follows you around for months." },
+        { text: "Shipped production " },
+        { text: "React / Next.js UI", hi: true },
+        { text: " for REGLA, NTT's flagship IFRS 7/9/15/16 compliance platform — the regulatory-reporting software that banks like MUFG, JTrust, and Bank Mandiri file against." },
       ],
       thinkingNote:
-        "The first time a migration scares you is the first time you actually understand the data.",
+        "A wrong number on an IFRS report isn't a bug — it's an audit finding.",
       built: [
-        { text: "Data models and " },
-        { text: "REST APIs", hi: true },
-        { text: " on a Java/SQL stack, and the shipping discipline that comes with a real codebase." },
+        { text: "Front-end work on REGLA's " },
+        { text: "regulatory-reporting flows", hi: true },
+        { text: " — the React/Next.js compliance screens behind IFRS 7/9/15/16 filings for enterprise banking clients." },
       ],
     },
   },
@@ -149,7 +151,7 @@ export const experience: ExperienceRole[] = [
     desc: [
       { text: "Coached high-schoolers for Indonesia's " },
       { text: "National Olympiad in Informatics", hi: true },
-      { text: " — 300+ hours of algorithms, data structures, and contest craft." },
+      { text: " — 180+ hours of algorithms, data structures, and contest craft." },
     ],
     tech: ["C++", "Python", "Algorithms"],
     year: "2023–25",
@@ -163,7 +165,7 @@ export const experience: ExperienceRole[] = [
       thinkingNote:
         "You don't really understand an algorithm until you've had to teach it to someone at 11pm before a contest.",
       built: [
-        { text: "300+ hours of lectures and problem-solving sessions, plus custom problem sets and mock contests — the org's students collectively took " },
+        { text: "180+ hours of lectures and problem-solving sessions, plus custom problem sets and mock contests — the org's students collectively took " },
         { text: "19 of 30 medals at NOI 2023", hi: true },
         { text: "." },
       ],

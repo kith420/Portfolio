@@ -5,7 +5,7 @@ import { HeroContent } from "./types";
  * review; rewrite in Nathan's own voice before launch.
  */
 export const hero: HeroContent = {
-  eyebrow: "CS × Design — SUTD Singapore",
+  eyebrow: "Computer Science & Design — SUTD Singapore Class of  2027",
   name: ["Nathan", "Keith P."],
   tagline: "Ships code. Sweats pixels.",
   bio: [

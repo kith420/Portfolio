@@ -359,7 +359,7 @@ export default function Competitions() {
     <>
       <section id="comp" className={styles.comp}>
         <SectionHeading
-          eyebrow={competitionsHeading.eyebrow}
+          eyebrow={null}
           classes={{
             root: styles.compHead,
             eyebrow: styles.compEyebrow,
@@ -371,6 +371,9 @@ export default function Competitions() {
       </section>
 
       <div className={styles.warmflow} id="warmflow">
+        <div className={styles.seam}>
+          <span className={styles.seamTape}>{competitionsHeading.eyebrow}</span>
+        </div>
         <div className={styles.corkZone}>
           <div className={styles.boardInner} id="corkboard">
             {isMobile ? <MobileStack /> : <Scatter />}
