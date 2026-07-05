@@ -115,6 +115,27 @@ export interface WorkProject {
   links: Link[];
 }
 
+/* ------------------------------- Skills -------------------------------- */
+
+export interface Skill {
+  /** Caption shown under the tile. */
+  name: string;
+  /** Key into the icon map in Skills.tsx. Omit to render a text monogram. */
+  icon?: string;
+  /** Short text shown in place of an icon (e.g. "RAG") when no clean logo exists. */
+  mono?: string;
+  /** Brand hex used ONLY for the hover colour-flash; the rest state stays accent. */
+  color?: string;
+  /** Official site for the skill; when set, the tile links out (new tab). */
+  href?: string;
+}
+
+export interface SkillTier {
+  /** Category label, e.g. "AI / ML". */
+  label: string;
+  skills: Skill[];
+}
+
 /* ------------------------------ Contact -------------------------------- */
 
 export interface ContactDefinition {

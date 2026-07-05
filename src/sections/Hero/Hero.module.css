@@ -87,7 +87,7 @@
   align-items: center;
   gap: 10px;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: var(--accent);
@@ -149,7 +149,7 @@
 
 .bio {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: var(--fs-sm);
   font-weight: 400;
   line-height: 1.85;
   color: var(--muted);
@@ -185,7 +185,7 @@
 
 .btnPrimary {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -202,7 +202,7 @@
 
 .btnGhost {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--muted);
@@ -262,7 +262,7 @@
   align-items: center;
   justify-content: center;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: var(--fs-xs);
   color: var(--faint);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -280,12 +280,25 @@
   align-items: center;
   gap: 10px;
   opacity: 0;
-  animation: fadeUp 0.5s ease 1s forwards;
+  /* Own keyframes: the shared fadeUp ends on translateY(0), which would wipe
+     out the translateX(-50%) centering and shove the hint ~40px right. */
+  animation: fadeUpHint 0.5s ease 1s forwards;
+}
+
+@keyframes fadeUpHint {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }
 
 .hintLabel {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: var(--fs-xs);
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: var(--faint);

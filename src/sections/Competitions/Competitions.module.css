@@ -11,8 +11,8 @@
 
 .compEyebrow {
   font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 300;
+  font-size: var(--fs-xs);
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   color: var(--accent);
@@ -89,19 +89,24 @@
   position: relative;
   max-width: 960px;
   margin: 0 auto;
-  height: 400px;
+  /* Polaroids top out ~272px (max top 62 + 210 height); this leaves a small
+     margin below them and raises the hint instead of a tall empty gap. */
+  height: 300px;
 }
 
 /* Transparent at the top (cork shows straight through from the board) then
    ramps up in opacity to the Work background — the cork dissolves gradually. */
 .washTail {
-  height: 40vh;
+  height: 34vh;
+  /* Hold the cork transparent longer up top so the dissolve eases in rather
+     than ramping the moment the tail starts, then accelerate toward Work. */
   background: linear-gradient(
     180deg,
     rgba(184, 132, 90, 0) 0%,
-    rgba(208, 160, 116, 0.32) 24%,
-    rgba(222, 194, 162, 0.66) 52%,
-    rgba(234, 226, 212, 0.9) 78%,
+    rgba(184, 132, 90, 0) 20%,
+    rgba(208, 160, 116, 0.28) 42%,
+    rgba(222, 194, 162, 0.62) 66%,
+    rgba(234, 226, 212, 0.9) 86%,
     var(--work-bg) 100%
   );
 }
@@ -128,7 +133,7 @@
   transform: translateY(-50%) rotate(-1.6deg);
   padding: 7px 15px;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.16em;
@@ -257,8 +262,8 @@
 
 .lbl {
   font-family: var(--mono);
-  font-size: 9px;
-  font-weight: 300;
+  font-size: var(--fs-xs);
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: #8a7a6a;
@@ -303,7 +308,7 @@
   bottom: 12px;
   right: 12px;
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: var(--fs-xs);
   text-transform: uppercase;
   letter-spacing: 0.22em;
   color: rgba(107, 174, 214, 0.4);
@@ -362,12 +367,12 @@
 .desktopHint {
   text-align: center;
   font-family: var(--mono);
-  font-size: 15px;
+  font-size: var(--fs-md);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.16em;
   color: rgba(38, 30, 20, 0.85);
-  padding: 10px 0 50px;
+  padding: 6px 0 28px;
 }
 
 .hintAccent {
@@ -494,8 +499,8 @@
   border-radius: 20px;
   padding: 5px 10px;
   font-family: var(--mono);
-  font-size: 9px;
-  font-weight: 300;
+  font-size: var(--fs-xs);
+  font-weight: 400;
   color: #f0eeea;
 }
 
@@ -512,14 +517,14 @@
   margin: 6px auto 0;
   padding: 6px 4px 30px;
   font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 300;
+  font-size: var(--fs-xs);
+  font-weight: 400;
   color: #4a5060;
 }
 
 .counter b {
   color: #f0eeea;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 /* ---------- Responsive toggle ------------------------------------------ */

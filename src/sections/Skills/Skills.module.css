@@ -1,0 +1,288 @@
+/* ===========================================================================
+   Skills — "what I build with". A pyramid of the stack that narrows to an
+   AI/ML apex; the centred spine continues the Experience motif. This is the
+   return-to-dark beat after Work's warm light (the flip Contact used to own,
+   now inherited here since Skills sits between Work and Contact).
+   =========================================================================== */
+
+.skills {
+  background: var(--dark);
+  color: var(--ink);
+  padding: 40px 40px 52px;
+}
+
+/* Single warm melt: Work's cream dissolves straight down into the dark section
+   over the first ~150px, so the seam is a smooth fade rather than a cut. The
+   bottom is plain --dark, so Skills -> Contact stays seamless. Content sits
+   below the band so text keeps full contrast. */
+.skills::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 168px;
+  /* Top stop is Work's EXACT colour at full opacity, so the seam is invisible
+     (an 88% cream over dark reads greyer than Work and shows a line). It then
+     fades to transparent, revealing the dark section beneath. */
+  background: linear-gradient(
+    180deg,
+    var(--work-bg) 0%,
+    var(--work-bg) 5%,
+    rgba(240, 238, 234, 0.55) 26%,
+    rgba(240, 238, 234, 0.2) 50%,
+    rgba(240, 238, 234, 0.05) 76%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.wrap {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+  padding-top: 116px;
+}
+
+/* ---------- Heading (dark palette, italic display like Competitions) ---- */
+.secHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 0.5px solid var(--border-sub);
+  padding-bottom: 20px;
+  margin-bottom: 58px;
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+}
+
+.title {
+  font-family: var(--display);
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: 48px;
+  line-height: 1;
+  margin-top: 10px;
+  color: var(--ink);
+}
+
+.count {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+}
+
+.ac {
+  color: var(--accent);
+}
+
+/* ---------- Pyramid + spine -------------------------------------------- */
+.pyramid {
+  position: relative;
+  padding-top: 6px;
+}
+
+/* Dashed accent spine down the centre, drawn (scaleY 0 -> 1) on reveal — the
+   same device as the Experience tree. Sits behind the (opaque) tiles, so it
+   only shows through the gaps between tiers. */
+.spine {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 34px;
+  width: 2px;
+  transform: translateX(-1px) scaleY(0);
+  transform-origin: top;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--accent) 0,
+    var(--accent) 4px,
+    transparent 4px,
+    transparent 10px
+  );
+  opacity: 0.4;
+  transition: transform 1s var(--ease);
+}
+
+.lit .spine {
+  transform: translateX(-1px) scaleY(1);
+}
+
+.tier {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.tier:last-child {
+  margin-bottom: 0;
+}
+
+/* Category label pinned to the left rail, vertically centred on the tile row. */
+.tierLabel {
+  position: absolute;
+  left: 0;
+  top: 38px;
+  transform: translateY(-50%);
+  width: 112px;
+  text-align: right;
+  padding-right: 8px;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 1.35;
+  color: var(--ink2);
+}
+
+.tiles {
+  display: flex;
+  gap: 14px;
+}
+
+.tileWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 76px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+
+.lit .tileWrap {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tile {
+  position: relative;
+  z-index: 1;
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--accent);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.22s var(--ease), border-color 0.22s var(--ease),
+    box-shadow 0.22s var(--ease), color 0.22s var(--ease);
+}
+
+.icon {
+  width: 34px;
+  height: 34px;
+}
+
+.mono {
+  font-family: var(--mono);
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+/* Colour-flash to the real brand tint on hover; monochrome accent at rest. */
+.tile:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  color: var(--brand, var(--accent));
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4),
+    0 0 0 1px color-mix(in srgb, var(--brand, var(--accent)) 40%, transparent);
+}
+
+.cap {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-align: center;
+  line-height: 1.3;
+  color: var(--ink2);
+}
+
+/* ---------- Mobile: the pyramid unfolds into stacked category cards ----- */
+@media (max-width: 820px) {
+  .skills {
+    padding: 34px 20px 72px;
+  }
+  .skills::before {
+    height: 100px;
+  }
+  .wrap {
+    padding-top: 104px;
+  }
+  .secHead {
+    margin-bottom: 40px;
+  }
+  .title {
+    font-size: 34px;
+  }
+  .spine {
+    display: none;
+  }
+
+  .tier {
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 16px;
+    border: 1px solid var(--border-sub);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.015);
+    padding: 16px 14px 20px;
+  }
+
+  .tierLabel {
+    position: static;
+    transform: none;
+    width: auto;
+    text-align: center;
+    padding: 0 0 16px;
+    font-size: var(--fs-sm);
+    letter-spacing: 0.16em;
+    color: var(--accent);
+  }
+
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px 8px;
+    justify-items: center;
+  }
+
+  .tileWrap {
+    width: 100%;
+  }
+}
+
+/* ---------- Reduced motion --------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .spine {
+    transform: translateX(-1px) scaleY(1);
+    transition: none;
+  }
+  .tileWrap {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .tile {
+    transition: none;
+  }
+}

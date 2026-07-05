@@ -14,13 +14,19 @@
   --prose: var(--font-prose), system-ui, sans-serif;
   --hand: var(--font-hand), "Comic Sans MS", cursive;
 
+  /* --- Mono/utility type scale — 13px readability floor --- */
+  --fs-xs: 13px;   /* eyebrows, chips, nav, captions, meta (was 8–11px) */
+  --fs-sm: 14px;   /* lead-in / bio mono (was 12–13px) */
+  --fs-md: 15px;   /* body mono, values (was 15px) */
+  --fs-lg: 18px;   /* prominent mono lead (was 17px) */
+
   /* --- Dark base palette (Hero, Experience, Contact) --- */
   --dark: #0f1014;
   --ink: #dde3ec;
   --ink2: #8899aa;
-  --muted: #7c8b9e;
+  --muted: #94a1b4;
   --muted2: #8899aa;
-  --faint: #6f7d92;
+  --faint: #8a97ab;
   --border: #1e2535;
   --border-sub: #1a2028;
   --surface: #13161c;

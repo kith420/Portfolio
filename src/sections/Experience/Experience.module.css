@@ -120,9 +120,14 @@
   background: #0c0f13;
   overflow: hidden;
   position: relative;
-  cursor: pointer;
   opacity: 0;
-  transition: opacity 0.5s ease, transform 0.55s var(--ease), border-color 0.2s;
+  transition: opacity 0.5s ease, transform 0.55s var(--ease),
+    border-color 0.35s var(--ease);
+}
+
+/* The card nearest the viewport centre is "open" (scroll-driven). */
+.card.open {
+  border-color: rgba(107, 174, 214, 0.4);
 }
 
 /* Inner edge hugs the node (connector reaches it); the outer quarter of each
@@ -144,20 +149,16 @@
   transform: translateX(0);
 }
 
-.card:hover {
-  border-color: rgba(107, 174, 214, 0.4);
-}
-
-.card:hover .cardHead {
-  background: #13161c;
-}
-
 .cardHead {
   display: flex;
   align-items: stretch;
   border-bottom: 1px solid var(--border);
   min-height: 48px;
-  transition: background 0.2s;
+  transition: background 0.3s var(--ease);
+}
+
+.card.open .cardHead {
+  background: #13161c;
 }
 
 .cardNum {
@@ -166,7 +167,7 @@
   align-items: center;
   justify-content: center;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 500;
   color: #556070;
   background: var(--surface);
@@ -191,15 +192,38 @@
   align-items: center;
   padding: 0 16px;
   font-family: var(--mono);
-  font-size: 15px;
+  font-size: var(--fs-md);
   font-weight: 500;
   color: var(--muted2);
   letter-spacing: 0.02em;
   min-height: 1em;
 }
 
+/* Collapsible middle: animate the grid track from 0fr -> 1fr for a smooth
+   auto-height open/close, driven by the .open class. */
+.collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.55s var(--ease);
+}
+
+.card.open .collapse {
+  grid-template-rows: 1fr;
+}
+
+.collapseInner {
+  overflow: hidden;
+  min-height: 0;
+}
+
 .cardBody {
   padding: 16px 18px;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+}
+
+.card.open .cardBody {
+  opacity: 1;
 }
 
 .cardLoc {
@@ -207,7 +231,7 @@
   align-items: center;
   gap: 6px;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: var(--fs-xs);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--faint);
@@ -252,9 +276,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid transparent;
   background: #0a0d11;
   padding: 10px 18px;
+  transition: border-color 0.3s var(--ease);
+}
+
+/* Only draw the divider above the foot once the body is expanded — collapsed,
+   the head's own border does the separating (avoids a doubled line). */
+.card.open .cardFoot {
+  border-top-color: var(--border);
 }
 
 .chips {
@@ -264,7 +295,7 @@
 
 .chips span {
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: var(--fs-xs);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--faint);
@@ -275,34 +306,8 @@
 
 .cardYear {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: var(--fs-xs);
   color: var(--faint);
-  transition: opacity 0.2s ease;
-}
-
-/* Fade the year out on hover so the click hint can take its place. */
-.card:hover .cardYear {
-  opacity: 0;
-}
-
-/* Click hint (desktop only, decorative) — sits exactly where the year is and
-   cross-fades in on hover, so the two never overlap. */
-.card::after {
-  content: "// click to expand";
-  position: absolute;
-  bottom: 10px;
-  right: 18px;
-  font-family: var(--mono);
-  font-size: 9px;
-  color: var(--faint);
-  font-style: italic;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.card:hover::after {
-  opacity: 1;
 }
 
 /* ---------- Logo badge variants ---------------------------------------- */
@@ -347,183 +352,13 @@
   object-fit: contain;
 }
 
-.modalLogo img {
-  height: 22px;
-  width: auto;
-  object-fit: contain;
-}
-
-/* ---------- Modal ------------------------------------------------------- */
-.backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 90;
-  background: rgba(8, 10, 14, 0);
-  transition: background 0.4s ease;
-  pointer-events: none;
-}
-
-.backdrop.open {
-  background: rgba(8, 10, 14, 0.92);
-  pointer-events: auto;
-}
-
-.modal {
-  position: fixed;
-  z-index: 91;
-  background: #0c0f13;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  overflow: hidden;
-  opacity: 0;
-  pointer-events: none;
-  display: flex;
-  flex-direction: column;
-}
-
-.modal.open {
-  pointer-events: auto;
-}
-
-.modalScroll {
-  overflow-y: auto;
-  height: 100%;
-}
-
-.modalHeader {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 18px;
-  background: #13161c;
-  border-bottom: 1px solid var(--border);
-}
-
-.modalLogo {
-  width: auto;
-  min-width: 34px;
-  height: 34px;
-  padding: 0 7px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: 12px;
-  flex: 0 0 auto;
-}
-
-.modalTitles {
-  flex: 1;
-  min-width: 0;
-}
-
-.modalCompany {
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: 22px;
-  text-transform: uppercase;
-  color: var(--ink);
-  line-height: 1;
-}
-
-.modalMeta {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 4px;
-}
-
-.closeBtn {
-  flex: 0 0 auto;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  color: var(--muted);
-  transition: color 0.2s, border-color 0.2s;
-}
-
-.closeBtn:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-}
-
-.modalContent {
-  padding: 18px;
-}
-
-.modalHeroImg {
-  aspect-ratio: 16 / 7;
-  background: var(--surface);
-  border: 0.5px solid var(--border);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--faint);
-}
-
-.modalThumbs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.modalThumb {
-  aspect-ratio: 4 / 3;
-  background: var(--surface);
-  border: 0.5px solid var(--border);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--mono);
-  font-size: 8px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--faint);
-}
-
-.modalLabel {
-  font-family: var(--mono);
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--accent);
-  margin: 22px 0 8px;
-}
-
-.modalPara {
-  font-family: var(--label);
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 1.6;
-  color: var(--muted);
-}
-
-.modalPara .hi {
-  color: var(--ink2);
-}
-
+/* ---------- Thinking-note (reused inside the expanded card body) -------- */
 .thinkingNote {
   background: #0a0d11;
   border-left: 2px solid var(--accent);
   padding: 11px 15px;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   font-weight: 400;
   color: var(--faint);
   font-style: italic;
@@ -536,28 +371,6 @@
   content: "\21B3 ";
   color: var(--accent);
   font-style: normal;
-}
-
-.modalChips {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-top: 22px;
-}
-
-.modalChips span {
-  font-family: var(--mono);
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--muted);
-  border: 0.5px solid var(--border);
-  padding: 3px 8px;
-  border-radius: 2px;
-}
-
-.dragHandle {
-  display: none;
 }
 
 /* ---------- Mobile ------------------------------------------------------ */
@@ -595,34 +408,6 @@
   .row.active .card {
     transform: translateX(0);
   }
-  .card::after {
-    display: none;
-  }
-
-  /* Modal becomes a bottom sheet. */
-  .modal.sheet {
-    left: 0 !important;
-    right: 0 !important;
-    top: auto !important;
-    bottom: 0;
-    width: 100% !important;
-    height: 0;
-    border-radius: 16px 16px 0 0;
-    opacity: 1;
-    transition: height 0.5s var(--ease);
-  }
-  .modal.sheet.open {
-    height: 88%;
-  }
-  .dragHandle {
-    display: block;
-    width: 36px;
-    height: 3px;
-    background: var(--faint);
-    border-radius: 2px;
-    margin: 12px auto 0;
-    flex: 0 0 auto;
-  }
 }
 
 /* ---------- Reduced motion ---------------------------------------------- */
@@ -639,8 +424,20 @@
   .row.right .card {
     transform: none;
   }
-  .modal,
-  .backdrop {
+  /* No scroll accordion — every card sits open with its body shown. */
+  .collapse {
+    grid-template-rows: 1fr;
     transition: none;
+  }
+  .cardBody {
+    opacity: 1;
+    transition: none;
+  }
+  .card.open .cardHead,
+  .cardHead {
+    background: #13161c;
+  }
+  .cardFoot {
+    border-top-color: var(--border);
   }
 }

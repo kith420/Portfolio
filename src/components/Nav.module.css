@@ -37,7 +37,7 @@
 
 .links a {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--nav-link, var(--muted));
@@ -50,7 +50,7 @@
 
 .clock {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.06em;
   color: var(--nav-clock, var(--muted));
   display: flex;

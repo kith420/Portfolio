@@ -7,6 +7,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { subscribe } from "@/lib/raf";
 import { clamp, lerp, seg, fallEase } from "@/lib/easing";
 import Polaroid from "../Competitions/Polaroid";
+import polStyles from "../Competitions/Competitions.module.css";
 import styles from "./CompetitionsToWork.module.css";
 
 /* Desktop board polaroid dimensions — travellers match so the hand-off is 1:1
@@ -67,6 +68,16 @@ export default function CompetitionsToWork() {
         c.style.transition = SEAM_CARD_TRANSITION;
         c.style.transform = "none";
       });
+
+      // Travellers mirror the board's flip state instantly (no .55s spin) so a
+      // card that was flipped to its back flies down showing the back.
+      outerRefs.current.forEach((tv) => {
+        if (!tv) return;
+        const inner = tv.getElementsByClassName(
+          polStyles.polInner,
+        )[0] as HTMLElement | undefined;
+        if (inner) inner.style.transition = "none";
+      });
     };
 
     const frame = () => {
@@ -86,6 +97,12 @@ export default function CompetitionsToWork() {
           tv.style.opacity = "0";
           continue;
         }
+
+        // Carry the board card's live flip state onto its traveller.
+        tv.classList.toggle(
+          polStyles.flipped,
+          src.classList.contains(polStyles.flipped),
+        );
 
         // Per-traveller local progress with a gentle left-to-right stagger.
         const pi = clamp((p - i * 0.05) / 0.86, 0, 1);

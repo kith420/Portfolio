@@ -8,35 +8,17 @@
 .contact {
   background: var(--dark);
   color: var(--ink);
-  min-height: 82vh;
+  min-height: 72vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   max-width: 720px;
   margin: 0 auto;
-  padding: 120px 40px 48px;
+  padding: 72px 40px 48px;
   position: relative;
-  /* Work -> Contact crisp cut (transitions-spec §3d): the accent is the only
-     colour that crosses every palette change, so a 1px hairline stitches the
-     cut rather than decorating it — no blend. */
-  border-top: 1px solid var(--accent);
-}
-
-/* ~52px warm-to-transparent sliver at the very top edge so the flip back to
-   dark reads as intentional (the last of the paper bleeding in). */
-.contact::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -1000px;
-  right: -1000px;
-  height: 52px;
-  background: linear-gradient(
-    180deg,
-    rgba(240, 238, 234, 0.14),
-    transparent
-  );
-  pointer-events: none;
+  /* Skills (dark) now precedes Contact, so there's no warm->dark flip to stitch
+     here — the return-to-dark cut and its paper sliver moved up to Skills. Both
+     sections are dark, so they flow continuously (no accent hairline needed). */
 }
 
 /* --------------------------------- Eyebrow ----------------------------- */
@@ -44,7 +26,7 @@
 .eyebrow {
   font-family: var(--mono);
   font-weight: 400;
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
@@ -102,7 +84,7 @@
 .head {
   font-family: var(--mono);
   font-weight: 400;
-  font-size: 13px;
+  font-size: var(--fs-sm);
   letter-spacing: 0.02em;
   color: var(--muted);
 }
@@ -145,7 +127,7 @@
 .src {
   font-family: var(--mono);
   font-weight: 400;
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--faint);
@@ -214,7 +196,7 @@
 .foot {
   font-family: var(--mono);
   font-weight: 400;
-  font-size: 10px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.06em;
   color: var(--faint);
   margin-top: 60px;
