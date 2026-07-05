@@ -20,4 +20,13 @@ export const hero: HeroContent = {
     ghost: { label: "LinkedIn →", href: "https://www.linkedin.com/in/kith14" },
   },
   scrollHint: "Scroll",
+  /**
+   * Background filmstrip. Drop files in `public/images/hero/` and list them
+   * here — they auto-duplicate for the seamless loop, so order = drift order.
+   * Leave empty to keep the procedural dark-gradient fallback.
+   *
+   *   { type: "image", src: "/images/hero/atc.jpg", alt: "" },
+   *   { type: "video", src: "/images/hero/reel.mp4", poster: "/images/hero/reel.jpg" },
+   */
+  carousel: [],
 };

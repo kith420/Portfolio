@@ -16,6 +16,15 @@ export interface Link {
 
 /* ------------------------------- Hero ---------------------------------- */
 
+/**
+ * One tile in the drifting background carousel. `src` is a path under
+ * `public/` (e.g. "/hero/1.jpg"). Videos autoplay muted+looping; give them a
+ * `poster` so there's something to show before the file loads.
+ */
+export type HeroMedia =
+  | { type: "image"; src: string; alt?: string }
+  | { type: "video"; src: string; poster?: string };
+
 export interface HeroContent {
   eyebrow: string;
   /** Headline lines, e.g. ["Nathan", "Poernama."]. */
@@ -25,6 +34,8 @@ export interface HeroContent {
   bio: RichText;
   cta: { primary: Link; ghost: Link };
   scrollHint: string;
+  /** Background filmstrip. Empty = fall back to procedural gradient tiles. */
+  carousel: HeroMedia[];
 }
 
 /* ---------------------------- Experience ------------------------------- */

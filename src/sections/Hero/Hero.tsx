@@ -1,10 +1,11 @@
+import Image from "next/image";
 import { hero } from "@/content/hero";
+import type { HeroMedia } from "@/content/types";
 import styles from "./Hero.module.css";
 
 /**
- * Placeholder carousel tiles — procedurally-shaded gradients standing in for
- * real photo/video poster frames (01-hero-section-spec.md §3.2). Duplicated
- * back-to-back so the CSS drift loops seamlessly.
+ * Fallback carousel tiles — procedurally-shaded gradients used when no real
+ * media is listed in `hero.carousel` (01-hero-section-spec.md §3.2).
  */
 const SHADES = [
   "#171a22",
@@ -17,18 +18,54 @@ const SHADES = [
   "#13161f",
 ];
 
+function MediaTile({ item }: { item: HeroMedia }) {
+  if (item.type === "video") {
+    return (
+      <div className={styles.tile}>
+        <video
+          className={styles.media}
+          src={item.src}
+          poster={item.poster}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+        />
+      </div>
+    );
+  }
+  return (
+    <div className={styles.tile}>
+      <Image
+        className={styles.media}
+        src={item.src}
+        alt={item.alt ?? ""}
+        fill
+        sizes="320px"
+      />
+    </div>
+  );
+}
+
 export default function Hero() {
+  const { carousel } = hero;
+  // Duplicate the list so the -50% drift loops seamlessly (see .module.css).
+  const media = carousel.length ? [...carousel, ...carousel] : null;
+
   return (
     <section id="hero" className={styles.hero}>
       <div className={styles.carousel} aria-hidden>
         <div className={styles.track}>
-          {[...SHADES, ...SHADES].map((shade, i) => (
-            <div
-              key={i}
-              className={styles.tile}
-              style={{ background: `linear-gradient(160deg, ${shade}, #0d0f14)` }}
-            />
-          ))}
+          {media
+            ? media.map((item, i) => <MediaTile key={i} item={item} />)
+            : [...SHADES, ...SHADES].map((shade, i) => (
+                <div
+                  key={i}
+                  className={styles.tile}
+                  style={{ background: `linear-gradient(160deg, ${shade}, #0d0f14)` }}
+                />
+              ))}
         </div>
       </div>
       <div className={styles.overlay} aria-hidden />
