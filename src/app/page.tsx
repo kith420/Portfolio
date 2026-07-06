@@ -10,8 +10,11 @@ import CompetitionsToWork from "@/sections/Seam/CompetitionsToWork";
 export default function Page() {
   return (
     <>
+      <a href="#content" className="skip-link">
+        Skip to content
+      </a>
       <Nav />
-      <main>
+      <main id="content">
         <Hero />
         <Experience />
         <Competitions />

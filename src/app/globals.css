@@ -67,6 +67,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Keep anchored section headings clear of the fixed nav. */
+  scroll-padding-top: 80px;
 }
 
 body {
@@ -98,6 +100,31 @@ button {
 img,
 svg {
   display: block;
+}
+
+/* Skip link — hidden until focused, then pinned top-left above the nav. */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transform: translateY(-160%);
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* Visually-hidden but available to assistive tech */

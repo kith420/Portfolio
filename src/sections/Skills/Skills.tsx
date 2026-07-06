@@ -94,7 +94,6 @@ export default function Skills() {
         </SectionHeading>
 
         <div ref={ref} className={`${styles.pyramid} ${lit ? styles.lit : ""}`}>
-          <div className={styles.spine} aria-hidden />
           {skillTiers.map((tier) => (
             <div key={tier.label} className={styles.tier}>
               <div className={styles.tierLabel}>{tier.label}</div>

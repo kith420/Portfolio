@@ -371,7 +371,7 @@ export default function Competitions() {
         </SectionHeading>
       </section>
 
-      <div className={styles.warmflow} id="warmflow">
+      <div className={styles.warmflow} id="warmflow" data-nav-tint="light">
         <div className={styles.seam}>
           <span className={styles.seamTape}>{competitionsHeading.eyebrow}</span>
         </div>

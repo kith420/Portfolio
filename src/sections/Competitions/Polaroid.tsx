@@ -40,6 +40,9 @@ export default function Polaroid({
   const resultHasLongToken = comp.result
     .split(/\s+/)
     .some((word) => word.length > 9);
+  // The two olympiad titles (NOI/IOI) are long enough to wrap to 4-5 lines on
+  // the 164px card — shrink just those so they fit in fewer lines.
+  const labelIsLong = comp.fullName.length > 30;
   return (
     <div
       ref={outerRef}
@@ -72,7 +75,9 @@ export default function Polaroid({
         </div>
         <div className={`${styles.polFace} ${styles.polBack}`}>
           <div className={styles.bar} />
-          <div className={styles.lbl}>{comp.fullName}</div>
+          <div className={`${styles.lbl} ${labelIsLong ? styles.lblLong : ""}`}>
+            {comp.fullName}
+          </div>
           <div
             className={`${styles.res} ${resultHasLongToken ? styles.resLong : ""}`}
           >

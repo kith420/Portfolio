@@ -271,6 +271,13 @@
   margin: 0;
 }
 
+/* NOI/IOI titles are long — drop the size so they wrap in fewer lines while
+   still sitting on the ruled baseline (line-height stays --rule). */
+.lblLong {
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+
 .res {
   font-family: var(--display);
   font-weight: 800;

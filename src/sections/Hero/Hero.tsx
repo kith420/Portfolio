@@ -108,8 +108,15 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className={styles.photo} aria-hidden>
-        <span>photo — tbd</span>
+      <div className={styles.photo}>
+        <Image
+          className={styles.photoImg}
+          src="/images/hero/portrait.png"
+          alt="Nathan Keith P."
+          fill
+          sizes="300px"
+          priority
+        />
       </div>
       </div>
 

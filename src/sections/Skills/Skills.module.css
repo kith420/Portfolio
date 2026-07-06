@@ -1,8 +1,8 @@
 /* ===========================================================================
    Skills — "what I build with". A pyramid of the stack that narrows to an
-   AI/ML apex; the centred spine continues the Experience motif. This is the
-   return-to-dark beat after Work's warm light (the flip Contact used to own,
-   now inherited here since Skills sits between Work and Contact).
+   AI/ML apex. This is the return-to-dark beat after Work's warm light (the
+   flip Contact used to own, now inherited here since Skills sits between Work
+   and Contact).
    =========================================================================== */
 
 .skills {
@@ -86,36 +86,10 @@
   color: var(--accent);
 }
 
-/* ---------- Pyramid + spine -------------------------------------------- */
+/* ---------- Pyramid ---------------------------------------------------- */
 .pyramid {
   position: relative;
   padding-top: 6px;
-}
-
-/* Dashed accent spine down the centre, drawn (scaleY 0 -> 1) on reveal — the
-   same device as the Experience tree. Sits behind the (opaque) tiles, so it
-   only shows through the gaps between tiers. */
-.spine {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 34px;
-  width: 2px;
-  transform: translateX(-1px) scaleY(0);
-  transform-origin: top;
-  background: repeating-linear-gradient(
-    to bottom,
-    var(--accent) 0,
-    var(--accent) 4px,
-    transparent 4px,
-    transparent 10px
-  );
-  opacity: 0.4;
-  transition: transform 1s var(--ease);
-}
-
-.lit .spine {
-  transform: translateX(-1px) scaleY(1);
 }
 
 .tier {
@@ -234,9 +208,6 @@
   .title {
     font-size: 34px;
   }
-  .spine {
-    display: none;
-  }
 
   .tier {
     flex-direction: column;
@@ -273,10 +244,6 @@
 
 /* ---------- Reduced motion --------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .spine {
-    transform: translateX(-1px) scaleY(1);
-    transition: none;
-  }
   .tileWrap {
     opacity: 1;
     transform: none;

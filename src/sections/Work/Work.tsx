@@ -402,7 +402,7 @@ export default function Work() {
   }, [active, onClosed]);
 
   return (
-    <section id="work" className={styles.work}>
+    <section id="work" className={styles.work} data-nav-tint="light">
       <div className={styles.workWrap}>
         <SectionHeading
           eyebrow={workHeading.eyebrow}
