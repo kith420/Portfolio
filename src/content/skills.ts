@@ -53,6 +53,7 @@ export const skillTiers: SkillTier[] = [
     label: "Backend",
     skills: [
       { name: "Node / Express", icon: "SiNodedotjs", color: "#5FA04E", href: "https://nodejs.org" },
+      { name: "FastAPI", icon: "SiFastapi", color: "#009688", href: "https://fastapi.tiangolo.com" },
       { name: "PostgreSQL", icon: "SiPostgresql", color: "#4169E1", href: "https://www.postgresql.org" },
       { name: "Firebase", icon: "SiFirebase", color: "#FFCA28", href: "https://firebase.google.com" },
       { name: "MySQL", icon: "SiMysql", color: "#4479A1", href: "https://www.mysql.com" },
@@ -70,8 +71,9 @@ export const skillTiers: SkillTier[] = [
       { name: "Git", icon: "SiGit", color: "#F05032", href: "https://git-scm.com" },
       { name: "GitHub Actions", icon: "SiGithubactions", color: "#2088FF", href: "https://github.com/features/actions" },
       { name: "Linux", icon: "SiLinux", color: "#FCC624", href: "https://www.kernel.org" },
+      { name: "Vite", icon: "SiVite", color: "#646CFF", href: "https://vitejs.dev" },
       { name: "Vitest", icon: "SiVitest", color: "#6E9F18", href: "https://vitest.dev" },
-      { name: "Testing Library", icon: "SiTestinglibrary", color: "#E33332", href: "https://testing-library.com" },
+      { name: "Playwright", mono: "PW", href: "https://playwright.dev" },
     ],
   },
 ];

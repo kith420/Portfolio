@@ -15,6 +15,7 @@ import {
   SiCplusplus,
   SiHtml5,
   SiNodedotjs,
+  SiFastapi,
   SiPostgresql,
   SiFirebase,
   SiMysql,
@@ -26,8 +27,8 @@ import {
   SiGit,
   SiGithubactions,
   SiLinux,
+  SiVite,
   SiVitest,
-  SiTestinglibrary,
 } from "react-icons/si";
 import { FaJava, FaDatabase, FaAws } from "react-icons/fa";
 import SectionHeading from "@/components/SectionHeading";
@@ -49,6 +50,7 @@ const ICONS: Record<string, IconType> = {
   SiCplusplus,
   SiHtml5,
   SiNodedotjs,
+  SiFastapi,
   SiPostgresql,
   SiFirebase,
   SiMysql,
@@ -60,8 +62,8 @@ const ICONS: Record<string, IconType> = {
   SiGit,
   SiGithubactions,
   SiLinux,
+  SiVite,
   SiVitest,
-  SiTestinglibrary,
   FaJava,
   FaDatabase,
   FaAws,
