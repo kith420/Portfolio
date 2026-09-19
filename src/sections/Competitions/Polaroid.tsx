@@ -1,4 +1,4 @@
-import { CSSProperties, Ref } from "react";
+import { CSSProperties, KeyboardEvent, Ref } from "react";
 import { Competition, PinColor } from "@/content/types";
 import styles from "./Competitions.module.css";
 
@@ -50,6 +50,22 @@ export default function Polaroid({
       className={`${styles.polaroid} ${flipped ? styles.flipped : ""} ${className}`}
       style={style}
       onClick={onClick}
+      {...(onClick
+        ? {
+            role: "button" as const,
+            tabIndex: 0,
+            "aria-pressed": flipped,
+            "aria-label": `${comp.fullName} — ${
+              flipped ? "showing note, activate for photo" : "activate for note"
+            }`,
+            onKeyDown: (e: KeyboardEvent<HTMLDivElement>) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onClick();
+              }
+            },
+          }
+        : {})}
     >
       {showPin &&
         (comp.tape ? (

@@ -97,7 +97,8 @@
 /* Transparent at the top (cork shows straight through from the board) then
    ramps up in opacity to the Work background — the cork dissolves gradually. */
 .washTail {
-  height: 34vh;
+  height: auto;
+    padding-block: 18px 26px;
   /* Hold the cork transparent longer up top so the dissolve eases in rather
      than ramping the moment the tail starts, then accelerate toward Work. */
   background: linear-gradient(
@@ -585,4 +586,10 @@
   .stackCard {
     transition: none;
   }
+}
+
+/* Keyboard affordance for the flippable polaroids. */
+.polaroid:focus-visible {
+  outline: 2px solid var(--accent, #c0392b);
+  outline-offset: 3px;
 }

@@ -344,7 +344,6 @@ function MobileStack() {
         <span className={styles.counter}>
           <b>{current + 1}</b> / {N}
         </span>
-        <span>{competitionsHeading.hintFlip} ✦</span>
       </div>
     </div>
   );

@@ -145,3 +145,8 @@ svg {
     scroll-behavior: auto;
   }
 }
+
+/* Anchor targets must clear the sticky nav. */
+section[id] {
+  scroll-margin-top: calc(var(--nav-h, 62px) + 1.5rem);
+}
