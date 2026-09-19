@@ -95,7 +95,7 @@ function WorkCard({ project, index, active, onToggle, registerRef }: CardProps) 
       }}
     >
       <div className={styles.pcardImg}>
-        <Figure label="fig. 01" />
+        <Figure label={`fig. ${String(index + 1).padStart(2, "0")}`} />
         <Stamp status={project.status} year={project.year} />
       </div>
       <div className={styles.pcardBody}>
@@ -251,13 +251,14 @@ function ExpansionPanel({ project, closing, onClosed }: PanelProps) {
         <div ref={innerRef} className={styles.expInner}>
           <div className={styles.expPanel}>
             <div className={styles.expImg} data-anim="expImg">
-              <Figure label={`fig. 0${figIdx + 1}`} />
+              <Figure label={`fig. ${String(figIdx + 1).padStart(2, "0")}`} />
               <Stamp status={project.status} year={project.year} />
               <div className={styles.efig}>
                 FIG. 0{figIdx + 1} — {project.figures[figIdx].caption}
               </div>
               <div className={styles.expThumbs}>
-                {project.figures.map((fig, fi) => (
+                {project.figures.length > 1 &&
+                  project.figures.map((fig, fi) => (
                   <button
                     key={fig.caption}
                     type="button"
@@ -306,7 +307,7 @@ function ExpansionPanel({ project, closing, onClosed }: PanelProps) {
                 ))}
               </div>
               <div className={styles.expLinks} data-anim="expLinks">
-                {project.links.map((l) => (
+                {(project.links ?? []).filter((l) => l.href && l.href !== "#").map((l) => (
                   <a
                     key={l.label}
                     href={l.href}

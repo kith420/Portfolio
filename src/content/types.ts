@@ -112,7 +112,7 @@ export interface WorkProject {
   /** Exactly three metric-driven highlights. */
   hi: [string, string, string];
   figures: [WorkFigure, WorkFigure, WorkFigure];
-  links: Link[];
+  links?: Link[];
 }
 
 /* ------------------------------- Skills -------------------------------- */

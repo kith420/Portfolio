@@ -37,10 +37,6 @@ export const work: WorkProject[] = [
       { caption: "BVH traversal heatmap" },
       { caption: "convergence over samples" },
     ],
-    links: [
-      { label: "View repo", href: "#" },
-      { label: "Write-up", href: "#", secondary: true },
-    ],
   },
   {
     name: "CP Visualizer",
@@ -60,10 +56,6 @@ export const work: WorkProject[] = [
       { caption: "graph traversal view" },
       { caption: "DP table stepping" },
       { caption: "timeline scrubber" },
-    ],
-    links: [
-      { label: "Live demo", href: "#" },
-      { label: "Source", href: "#", secondary: true },
     ],
   },
   {
@@ -85,10 +77,6 @@ export const work: WorkProject[] = [
       { caption: "the unpin seam mid-fall" },
       { caption: "type + token system" },
     ],
-    links: [
-      { label: "GitHub", href: "#" },
-      { label: "Notes", href: "#", secondary: true },
-    ],
   },
   {
     name: "KV Store",
@@ -108,10 +96,6 @@ export const work: WorkProject[] = [
       { caption: "cluster topology" },
       { caption: "raft log replication" },
       { caption: "failover latency trace" },
-    ],
-    links: [
-      { label: "View repo", href: "#" },
-      { label: "Design doc", href: "#", secondary: true },
     ],
   },
 ];
