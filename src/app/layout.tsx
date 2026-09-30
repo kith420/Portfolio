@@ -1,17 +1,10 @@
 import type { Metadata } from "next";
-import {
-  Plus_Jakarta_Sans,
-  IBM_Plex_Sans,
-  Oswald,
-  DM_Sans,
-  Caveat,
-} from "next/font/google";
+import { Archivo, Archivo_Narrow, Caveat } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 
-const display = Plus_Jakarta_Sans({
+const display = Archivo({
   subsets: ["latin"],
-  weight: ["700", "800"],
   style: ["normal", "italic"],
   variable: "--font-display",
   display: "swap",
@@ -30,25 +23,9 @@ const mono = localFont({
   display: "swap",
 });
 
-const sans = IBM_Plex_Sans({
+const label = Archivo_Narrow({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  variable: "--font-sans",
-  display: "swap",
-});
-
-const oswald = Oswald({
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
   variable: "--font-label",
-  display: "swap",
-});
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400"],
-  style: ["normal", "italic"],
-  variable: "--font-prose",
   display: "swap",
 });
 
@@ -73,7 +50,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${mono.variable} ${sans.variable} ${oswald.variable} ${dmSans.variable} ${caveat.variable}`}
+      className={`${display.variable} ${mono.variable} ${label.variable} ${caveat.variable}`}
     >
       <body>{children}</body>
     </html>

@@ -9,9 +9,9 @@
   /* --- Type roles (font-family stacks wired to next/font variables) --- */
   --display: var(--font-display), system-ui, sans-serif;
   --mono: var(--font-mono), "Commit Mono", ui-monospace, Menlo, monospace;
-  --sans: var(--font-sans), system-ui, sans-serif;
+  --sans: var(--font-display), system-ui, sans-serif;
   --label: var(--font-label), "Arial Narrow", sans-serif;
-  --prose: var(--font-prose), system-ui, sans-serif;
+  --prose: var(--font-display), system-ui, sans-serif;
   --hand: var(--font-hand), "Comic Sans MS", cursive;
 
   /* --- Mono/utility type scale — 13px readability floor --- */

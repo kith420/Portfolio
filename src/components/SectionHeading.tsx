@@ -2,11 +2,11 @@ import { ReactNode } from "react";
 import styles from "./SectionHeading.module.css";
 
 interface SectionHeadingProps {
-  /** e.g. "// 02 — experience" */
-  eyebrow: ReactNode;
-  /** Title inner content — sections wrap their accent word in their own span. */
+  /** Optional small label above the title. */
+  eyebrow?: ReactNode;
+  /** Title content. */
   children: ReactNode;
-  /** Optional right-aligned count, e.g. "04 roles". */
+  /** Optional right-aligned note beside the title. */
   count?: ReactNode;
   titleId?: string;
   /**
@@ -32,7 +32,9 @@ export default function SectionHeading({
   return (
     <div className={classes?.root ?? styles.head}>
       <div>
-        <div className={classes?.eyebrow ?? styles.eyebrow}>{eyebrow}</div>
+        {eyebrow != null && (
+          <div className={classes?.eyebrow ?? styles.eyebrow}>{eyebrow}</div>
+        )}
         <h2 id={titleId} className={classes?.title ?? styles.title}>
           {children}
         </h2>
