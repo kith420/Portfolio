@@ -3,20 +3,32 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import SectionHeading from "@/components/SectionHeading";
 import { work, workHeading } from "@/content/work";
-import { WorkProject } from "@/content/types";
+import { WorkFigure, WorkProject } from "@/content/types";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
-import { useScramble } from "@/hooks/useScramble";
 import styles from "./Work.module.css";
 
-const SKU_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-/* Duotone image placeholder — real screenshots swap in later (spec §14). */
-function Figure({ label }: { label: string }) {
+/* A project image, or the duotone placeholder when a figure has no src yet. */
+function Figure({ figure }: { figure?: WorkFigure }) {
   return (
-    <div className={styles.imgInner}>
-      <div className={styles.ph}>{label}</div>
-      <div className={styles.tint} />
+    <div
+      className={styles.imgInner}
+      style={figure?.bg ? { background: figure.bg } : undefined}
+    >
+      {figure?.src ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          className={styles.figImg}
+          src={figure.src}
+          alt={figure.caption}
+          loading="lazy"
+          style={{
+            objectFit: figure.fit ?? "cover",
+            objectPosition: figure.position,
+          }}
+        />
+      ) : (
+        <div className={styles.tint} />
+      )}
     </div>
   );
 }
@@ -41,46 +53,18 @@ interface CardProps {
 }
 
 function WorkCard({ project, index, active, onToggle, registerRef }: CardProps) {
-  // Anim 2 — scroll stagger. `inView` is React-driven (folded into className
-  // below) so parent re-renders don't clobber it. Only the per-row column delay
-  // is imperative — it's an inline style React never manages, so it persists.
-  const { ref, active: inView } = useRevealOnScroll<HTMLDivElement>({
-    threshold: 0.08,
-    onEnter: (el) => {
-      const grid = el.parentElement;
-      if (!grid) return;
-      const top = el.offsetTop;
-      let col = 0;
-      for (const sib of Array.from(grid.children)) {
-        if (sib === el) break;
-        if (
-          sib instanceof HTMLElement &&
-          sib.dataset.card === "1" &&
-          Math.abs(sib.offsetTop - top) < 6
-        ) {
-          col++;
-        }
-      }
-      el.style.transitionDelay = `${col * 70}ms`;
-    },
-    onExit: (el) => {
-      el.style.transitionDelay = "0ms";
-    },
-  });
-
-  const setRefs = useCallback(
-    (el: HTMLDivElement | null) => {
-      ref.current = el;
-      registerRef(index, el);
-    },
-    [ref, registerRef, index],
+  const setRef = useCallback(
+    (el: HTMLDivElement | null) => registerRef(index, el),
+    [registerRef, index],
   );
 
   return (
     <div
-      ref={setRefs}
+      ref={setRef}
       data-card="1"
-      className={`${styles.pcard} ${inView ? styles.inView : ""} ${active ? styles.active : ""}`}
+      // Column in the three-up layout; the CSS staggers columns on scroll.
+      data-col={index % 3}
+      className={`${styles.pcard} ${active ? styles.active : ""}`}
       role="button"
       tabIndex={0}
       aria-expanded={active}
@@ -94,12 +78,10 @@ function WorkCard({ project, index, active, onToggle, registerRef }: CardProps) 
       }}
     >
       <div className={styles.pcardImg}>
-        <Figure label={`fig. ${String(index + 1).padStart(2, "0")}`} />
+        <Figure figure={project.figures[0]} />
         <Stamp status={project.status} year={project.year} />
       </div>
       <div className={styles.pcardBody}>
-        <span className={styles.pcat}>{project.cat}</span>
-        <div className={styles.psku}>{project.sku}</div>
         <div className={styles.pname}>{project.name}</div>
         <div className={styles.ptag}>{project.tag}</div>
         <div className={styles.pchips}>
@@ -123,8 +105,6 @@ interface PanelProps {
 // Anim 6 — body content stagger (ms delays from panel open, spec §10).
 const STAGGER: Array<[string, number]> = [
   ["expImg", 50],
-  ["expCat", 80],
-  ["expSku", 120],
   ["expName", 165],
   ["expTag", 205],
   ["div", 235],
@@ -135,10 +115,8 @@ const STAGGER: Array<[string, number]> = [
 
 function ExpansionPanel({ project, closing, onClosed }: PanelProps) {
   const reduced = useReducedMotion();
-  const scramble = useScramble(reduced);
   const wrapRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
-  const skuRef = useRef<HTMLDivElement>(null);
   const [figIdx, setFigIdx] = useState(0);
   const timers = useRef<number[]>([]);
 
@@ -158,7 +136,6 @@ function ExpansionPanel({ project, closing, onClosed }: PanelProps) {
       inner
         .querySelectorAll<HTMLElement>(`.${styles.xc}`)
         .forEach((c) => c.classList.add(styles.in));
-      if (skuRef.current) skuRef.current.textContent = project.sku;
       return;
     }
 
@@ -175,17 +152,6 @@ function ExpansionPanel({ project, closing, onClosed }: PanelProps) {
             window.setTimeout(() => els[i]?.classList.add(styles.in), delay),
           );
         });
-        // Anim 4b — SKU scramble, same beat as the .exp-sku reveal.
-        timers.current.push(
-          window.setTimeout(() => {
-            if (skuRef.current)
-              scramble(skuRef.current, project.sku, {
-                duration: 380,
-                chars: SKU_CHARS,
-                preserve: " ·/",
-              });
-          }, 120),
-        );
         // Anim 7 — chip stagger, the final beat.
         inner
           .querySelectorAll<HTMLElement>("[data-chip]")
@@ -250,10 +216,10 @@ function ExpansionPanel({ project, closing, onClosed }: PanelProps) {
         <div ref={innerRef} className={styles.expInner}>
           <div className={styles.expPanel}>
             <div className={styles.expImg} data-anim="expImg">
-              <Figure label={`fig. ${String(figIdx + 1).padStart(2, "0")}`} />
+              <Figure figure={project.figures[figIdx]} />
               <Stamp status={project.status} year={project.year} />
               <div className={styles.efig}>
-                FIG. 0{figIdx + 1} — {project.figures[figIdx].caption}
+                {project.figures[figIdx].caption}
               </div>
               <div className={styles.expThumbs}>
                 {project.figures.length > 1 &&
@@ -271,16 +237,6 @@ function ExpansionPanel({ project, closing, onClosed }: PanelProps) {
               </div>
             </div>
             <div className={styles.expBody}>
-              <span className={styles.expCat} data-anim="expCat">
-                {project.cat}
-              </span>
-              <div
-                className={styles.expSku}
-                data-anim="expSku"
-                ref={skuRef}
-              >
-                {project.sku}
-              </div>
               <div className={styles.expName} data-anim="expName">
                 {project.name}
               </div>
@@ -311,6 +267,8 @@ function ExpansionPanel({ project, closing, onClosed }: PanelProps) {
                     key={l.label}
                     href={l.href}
                     className={`${styles.elink} ${l.secondary ? styles.sec : ""}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     {l.label}
                   </a>
@@ -327,34 +285,14 @@ function ExpansionPanel({ project, closing, onClosed }: PanelProps) {
 /* ------------------------------ Section -------------------------------- */
 
 export default function Work() {
-  const reduced = useReducedMotion();
-  const scramble = useScramble(reduced);
   const cardEls = useRef<(HTMLDivElement | null)[]>([]);
 
   const [active, setActive] = useState<number | null>(null);
   const [insertAfter, setInsertAfter] = useState<number | null>(null);
   const [closing, setClosing] = useState(false);
-
-  const leadRef = useRef<HTMLSpanElement>(null);
-  const accentRef = useRef<HTMLSpanElement>(null);
-
-  // Anim 1 — heading scramble at 60% visibility.
-  const { ref: titleRef } = useRevealOnScroll<HTMLSpanElement>({
-    threshold: 0.6,
-    onEnter: () => {
-      scramble(leadRef.current, workHeading.titleLead, { duration: 580 });
-      window.setTimeout(
-        () => scramble(accentRef.current, workHeading.titleAccent, { duration: 500 }),
-        80,
-      );
-    },
-  });
-
-  useEffect(() => {
-    if (leadRef.current) leadRef.current.textContent = workHeading.titleLead;
-    if (accentRef.current)
-      accentRef.current.textContent = workHeading.titleAccent;
-  }, []);
+  // Briefly true after a panel closes, so the columns ease back into their
+  // scroll stagger instead of snapping (see Work.module.css).
+  const [releasing, setReleasing] = useState(false);
 
   const registerRef = useCallback((i: number, el: HTMLDivElement | null) => {
     cardEls.current[i] = el;
@@ -391,7 +329,14 @@ export default function Work() {
     setActive(null);
     setInsertAfter(null);
     setClosing(false);
+    setReleasing(true);
   }, []);
+
+  useEffect(() => {
+    if (!releasing) return;
+    const t = window.setTimeout(() => setReleasing(false), 500);
+    return () => window.clearTimeout(t);
+  }, [releasing]);
 
   // Column count changes with viewport — close the panel on resize (spec §9).
   useEffect(() => {
@@ -405,23 +350,19 @@ export default function Work() {
     <section id="work" className={styles.work} data-nav-tint="light">
       <div className={styles.workWrap}>
         <SectionHeading
-          eyebrow={workHeading.eyebrow}
           titleId="work-title"
-          classes={{
-            root: styles.workHead,
-            eyebrow: styles.workEyebrow,
-            title: styles.workTitle,
-          }}
+          classes={{ root: styles.workHead, title: styles.workTitle }}
         >
-          <span ref={titleRef}>
-            <span ref={leadRef} />
-            <span ref={accentRef} className={styles.ac} />
-          </span>
+          {workHeading.title}
         </SectionHeading>
 
-        <div className={styles.grid}>
+        <div
+          className={`${styles.grid} ${active !== null ? styles.settled : ""} ${
+            releasing ? styles.releasing : ""
+          }`}
+        >
           {work.map((project, i) => (
-            <Fragment key={project.sku}>
+            <Fragment key={project.name}>
               <WorkCard
                 project={project}
                 index={i}

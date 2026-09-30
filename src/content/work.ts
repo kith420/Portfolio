@@ -1,101 +1,203 @@
 import { WorkProject } from "./types";
 
-/**
- * Section heading. Lead + accent are stored uppercase so the scramble noise
- * (A–Z0–9) blends seamlessly with the resolved characters (03-work-section-spec
- * §5, §10 Anim 1). "DROPPED." renders in --accent-ink.
- */
 export const workHeading = {
-  eyebrow: "// 03 — work",
-  titleLead: "WHAT I'VE ",
-  titleAccent: "DROPPED.",
+  title: "What I've dropped.",
 };
 
 /**
- * PLACEHOLDER PROJECTS — real projects go here in priority order (array order =
- * slot order; slot 1 = the one to lead with). Highlights must stay metric-driven
- * (03-work-section-spec.md §11). FIG captions and links are placeholder until
- * real screenshots/URLs exist.
+ * Projects in priority order (array order = slot order; slot 1 leads).
+ * Facts come from the résumé and each project's README. Images live in
+ * public/images/work/; a figure without `src` shows the tinted placeholder.
  */
 export const work: WorkProject[] = [
   {
-    name: "Path Tracer",
-    cat: "Graphics",
-    sku: "WRK-01 · PT/CPP/BVH",
-    tag: "A physically-based renderer, built from scratch",
-    tags: ["C++", "BVH", "OpenGL"],
+    name: "Cut the Crap",
+    tag: "Rewrites the corporate bloat on any page, or piles more on",
+    tags: ["JavaScript", "Extension APIs", "LLM APIs"],
     status: "Shipped",
-    year: "2024",
-    desc: "An unbiased path tracer written from the ground up in C++. The hard part was making it fast enough to iterate on without a render farm.",
+    year: "2026",
+    desc: "A browser extension with one switch per site. Decrapify turns a 200-word LinkedIn humblebrag into \"I got a new job.\" Crapify does the reverse. We built it at the Dumb Duber Dumber Hackathon, placed 3rd, then shipped it to both browser stores.",
     hi: [
-      "40× speedup over naive ray casting via a tuned BVH",
-      "Importance-sampled BRDFs for cleaner convergence",
-      "Multithreaded tile scheduler saturates all cores",
+      "3rd place at the Dumb Duber Dumber Hackathon",
+      "Content-hashed cache, so repeated text never reaches the paid model twice",
+      "Viewport-first queue: blocks you scroll to jump ahead of off-screen ones",
     ],
     figures: [
-      { caption: "final render, cornell box" },
-      { caption: "BVH traversal heatmap" },
-      { caption: "convergence over samples" },
+      {
+        caption: "a Reddit post, before and after",
+        src: "/images/work/cut-the-crap-before-after.jpg",
+        position: "50% 0%",
+      },
+      {
+        caption: "the per-site mode switch and lifetime stats",
+        src: "/images/work/cut-the-crap-popup.jpg",
+        position: "50% 0%",
+      },
+      {
+        caption: "promo banner",
+        src: "/images/work/cut-the-crap-banner.jpg",
+        fit: "contain",
+        bg: "#c9e3ee",
+      },
+    ],
+    links: [
+      {
+        label: "Chrome Web Store",
+        href: "https://chromewebstore.google.com/detail/cut-the-crap/hfaognddjjlmadcmnbdenkfpcgaifffl",
+      },
+      {
+        label: "Firefox Add-ons",
+        href: "https://addons.mozilla.org/en-US/firefox/addon/cut-the-crap/",
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/Sup3rFire/dum-duber-dumber-hackathon",
+        secondary: true,
+      },
     ],
   },
   {
-    name: "CP Visualizer",
-    cat: "Tools",
-    sku: "WRK-02 · CV/RUS/WAS",
-    tag: "Watch algorithms run, step by step",
-    tags: ["Rust", "WASM", "Canvas"],
+    name: "SMRT Digital Twin",
+    tag: "A live 3D train that points at the part that needs fixing",
+    tags: ["React", "Three.js", "FastAPI"],
     status: "Shipped",
-    year: "2024",
-    desc: "An interactive visualizer for competitive-programming algorithms. Compiling the stepper to WASM was what made real-time scrubbing feel instant.",
+    year: "2026",
+    desc: "Built by a team of 4 at the LTA NebulaX Hackathon. Drop a maintenance file onto the train and the fault shows up as a bubble on the exact component, with a plain explanation of what the model found. I built the full-stack integration layer and the 3D twin itself.",
     hi: [
-      "Renders graph + DP state transitions in real time",
-      "Compiles to WASM for near-native stepping speed",
-      "Scrub any algorithm forward and backward frame-by-frame",
+      "4 subsystem ML models surfaced on the train: physics-based, Rainflow fatigue, ensembles",
+      "Upload a case file and the camera flies to the top-ranked car of an 8-car consist",
+      "Live on Firebase Hosting, with the backend on Cloud Run",
     ],
     figures: [
-      { caption: "graph traversal view" },
-      { caption: "DP table stepping" },
-      { caption: "timeline scrubber" },
+      {
+        caption: "findings pinned to car 4",
+        src: "/images/work/smrt-twin-train.jpg",
+        position: "50% 55%",
+      },
+      {
+        caption: "close-up of a flagged part",
+        src: "/images/work/smrt-twin-closeup.jpg",
+      },
+      {
+        caption: "asking the Conductor",
+        src: "/images/work/smrt-twin-conductor.jpg",
+      },
+    ],
+    links: [
+      { label: "Live demo", href: "https://smrt-digital-twin-2026.web.app/" },
+      {
+        label: "GitHub",
+        href: "https://github.com/KidSmithy/nebulax_p3",
+        secondary: true,
+      },
     ],
   },
   {
-    name: "This Portfolio",
-    cat: "Web",
-    sku: "WRK-03 · TP/NEX/TS",
-    tag: "The site you're scrolling through right now",
-    tags: ["Next", "TS", "CSS"],
-    status: "In prog.",
+    name: "RoomU",
+    tag: "Roommate-finding app for 40,000+ UC Davis students",
+    tags: ["React Native", "Hono", "Drizzle"],
+    status: "Shipped",
+    year: "2026",
+    desc: "Built with AggieWorks, UC Davis's student-run product studio, during my exchange. I shipped UI features in React Native and built the app's versioning system end to end.",
+    hi: [
+      "Reusable Applied Filters Bar and confirmation dialogs (NativeWind, Reanimated)",
+      "Full-stack semver versioning system on Hono and Drizzle",
+      "In the hands of 190+ students",
+    ],
+    figures: [
+      {
+        caption: "profile, matches and chat",
+        src: "/images/work/roomu-screens.jpg",
+        fit: "contain",
+        bg: "#eceaf7",
+      },
+      {
+        caption: "the lifestyle quiz",
+        src: "/images/work/roomu-quiz.jpg",
+        fit: "contain",
+        bg: "#eceaf7",
+      },
+      {
+        caption: "a roommate profile",
+        src: "/images/work/roomu-profile.jpg",
+        fit: "contain",
+        bg: "#eceaf7",
+      },
+    ],
+    links: [{ label: "Visit RoomU", href: "https://roomu.aggieworks.org/" }],
+  },
+  {
+    name: "Tappin' Queen",
+    tag: "A Simon-style memory game in pure digital logic",
+    tags: ["FPGA", "Lucid HDL", "Alchitry Au"],
+    status: "Shipped",
     year: "2025",
-    desc: "A one-page portfolio where each section carries its own structural metaphor. The interesting work is in the scroll seams between them.",
+    desc: "A memory game on an Alchitry Au FPGA, with no microcontroller and no soft CPU. Everything from the adder up is hand-written in Lucid HDL. Built for SUTD's Computation Structures course.",
     hi: [
-      "Five sections, five distinct structural metaphors",
-      "Scroll transitions designed seam by seam",
-      "One shared rAF ticker drives every scrubbed transform",
+      "32-bit ALU from logic gates: adder, multiplier, shifter, comparator",
+      "41-state control unit driving the datapath and register files",
+      "One 16-bit random draw per round, sliced into an 8-color sequence",
     ],
     figures: [
-      { caption: "section flow, dark mode" },
-      { caption: "the unpin seam mid-fall" },
-      { caption: "type + token system" },
+      {
+        caption: "the arcade cabinet, CAD render",
+        src: "/images/work/tappin-queen-cabinet.jpg",
+        fit: "contain",
+        bg: "#000",
+      },
+      {
+        caption: "the built prototype",
+        src: "/images/work/tappin-queen-prototype.jpg",
+      },
+      {
+        caption: "41-state control unit",
+        src: "/images/work/tappin-queen-fsm.jpg",
+        fit: "contain",
+        bg: "#fff",
+      },
+    ],
+    links: [{ label: "GitHub", href: "https://github.com/kith420/50.002-1D" }],
+  },
+  {
+    name: "Ascenda Hotel Booking",
+    tag: "Hotel search, map, and checkout for a loyalty platform",
+    tags: ["React", "Node.js", "MySQL"],
+    status: "Shipped",
+    year: "2025",
+    desc: "A full-stack hotel booking system built on Ascenda's hotel data, with destination search, live pricing and Stripe checkout. My part was the interactive map and the account side of the backend.",
+    hi: [
+      "Map clustering that groups nearby hotels and splits apart as you zoom",
+      "Node.js/Express + MySQL backend with cascading deletes and role-based auth",
+      "78% test coverage with Vitest and React Testing Library",
+    ],
+    figures: [{ caption: "screenshot coming" }],
+    links: [
+      {
+        label: "Frontend",
+        href: "https://github.com/how2fps/esc-booking-frontend",
+      },
+      {
+        label: "Backend",
+        href: "https://github.com/how2fps/esc-booking-backend",
+        secondary: true,
+      },
     ],
   },
   {
-    name: "KV Store",
-    cat: "Systems",
-    sku: "WRK-04 · KV/GO/RFT",
-    tag: "A small distributed key–value store",
-    tags: ["Go", "Raft", "gRPC"],
-    status: "Shipped",
+    name: "TROC #33",
+    tag: "Problems, tests, and editorials for an open programming contest",
+    tags: ["C++", "TCFrame", "Problemsetting"],
+    status: "Held",
     year: "2023",
-    desc: "A replicated key–value store built to actually understand consensus. Getting log compaction right under Raft was the part that taught the most.",
+    desc: "I was lead author of TOKI Regular Open Contest #33. I wrote the problems, their solutions and test suites, and the editorials people read after the contest ended.",
     hi: [
-      "Linearizable reads across a 3-node Raft cluster",
-      "Snapshotting + log compaction keep memory bounded",
-      "Survives leader loss with sub-second failover",
+      "300+ participants from around the world",
+      "Test data generated and checked with TCFrame",
+      "Editorials written alongside the problems",
     ],
-    figures: [
-      { caption: "cluster topology" },
-      { caption: "raft log replication" },
-      { caption: "failover latency trace" },
+    figures: [{ caption: "screenshot coming" }],
+    links: [
+      { label: "Contest page", href: "https://tlx.toki.id/contests/troc-33" },
     ],
   },
 ];
