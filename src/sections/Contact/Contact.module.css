@@ -16,20 +16,10 @@
   margin: 0 auto;
   padding: 72px 40px 48px;
   position: relative;
+  view-timeline: --contact block;
   /* Skills (dark) now precedes Contact, so there's no warm->dark flip to stitch
      here — the return-to-dark cut and its paper sliver moved up to Skills. Both
      sections are dark, so they flow continuously (no accent hairline needed). */
-}
-
-/* --------------------------------- Eyebrow ----------------------------- */
-
-.eyebrow {
-  font-family: var(--mono);
-  font-weight: 400;
-  font-size: var(--fs-xs);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent);
 }
 
 /* --------------------------------- Title ------------------------------- */
@@ -58,10 +48,6 @@
 .contact.in .line > span {
   transform: translateY(0);
   transition: transform 0.7s var(--ease);
-}
-
-.accent {
-  color: var(--accent);
 }
 
 /* ---------------------------- Dictionary entry ------------------------- */
@@ -227,5 +213,30 @@
   }
   .src {
     transition: none;
+  }
+}
+
+/* ---------- Scroll: the closing title settles into place ---------------- */
+/* The last big moment: "What's next." grows to full size as Contact arrives,
+   finishing just before the page bottoms out. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .title {
+      transform-origin: left bottom;
+      animation: titleSettle linear both;
+      animation-timeline: --contact;
+      animation-range: entry 0% entry 80%;
+    }
+  }
+}
+
+@keyframes titleSettle {
+  from {
+    scale: 0.84;
+    opacity: 0.35;
+  }
+  to {
+    scale: 1;
+    opacity: 1;
   }
 }

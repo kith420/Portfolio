@@ -6,8 +6,7 @@ import { ContactContent } from "./types";
  * unicode escapes: U+2019 ', U+201C/D " ", U+2014 —, U+00B7 ·.
  */
 export const contact: ContactContent = {
-  eyebrow: "// contact",
-  title: { lead: "What's ", accent: "next." },
+  title: "What's next.",
   headword: "kith",
   ipa: "/k\u026A\u03B8/",
   definitions: [
@@ -46,7 +45,7 @@ export const contact: ContactContent = {
           "M4.5 7.5A1.5 1.5 0 0 1 6 9v10.5A1.5 1.5 0 0 1 4.5 21h-3A1.5 1.5 0 0 1 0 19.5V9a1.5 1.5 0 0 1 1.5-1.5h3zm9-4.5A1.5 1.5 0 0 1 15 4.5v15a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 19.5v-15A1.5 1.5 0 0 1 10.5 3h3zm9 7.5A1.5 1.5 0 0 1 24 12v7.5a1.5 1.5 0 0 1-1.5 1.5h-3a1.5 1.5 0 0 1-1.5-1.5V12a1.5 1.5 0 0 1 1.5-1.5h3z",
       },
   ],
-  footer: "© 2026 Nathan Keith Poernama",
+  footer: "Nathan Keith Poernama",
   srLine:
     "kith: a nickname, from the middle name Keith. Nathan Keith Poernama.",
 };

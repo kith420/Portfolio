@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 import { contact } from "@/content/contact";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
@@ -8,8 +8,24 @@ import styles from "./Contact.module.css";
 
 const DEFS = contact.definitions;
 
+const noSubscribe = () => () => {};
+
+/**
+ * The visitor's current year. The page is pre-rendered at build time, so the
+ * server snapshot is null (nothing baked in to go stale) and the browser fills
+ * in the real year right after hydration.
+ */
+function useCurrentYear(): number | null {
+  return useSyncExternalStore(
+    noSubscribe,
+    () => new Date().getFullYear(),
+    () => null,
+  );
+}
+
 export default function Contact() {
   const reduced = useReducedMotion();
+  const year = useCurrentYear();
   const defRef = useRef<HTMLSpanElement>(null);
   const srcRef = useRef<HTMLParagraphElement>(null);
   const running = useRef(false);
@@ -106,13 +122,9 @@ export default function Contact() {
       className={`${styles.contact} ${active ? styles.in : ""}`}
       aria-label="Contact"
     >
-      <div className={styles.eyebrow}>{contact.eyebrow}</div>
       <h2 className={styles.title}>
         <span className={styles.line}>
-          <span>
-            {contact.title.lead}
-            <span className={styles.accent}>{contact.title.accent}</span>
-          </span>
+          <span>{contact.title}</span>
         </span>
       </h2>
 
@@ -151,7 +163,10 @@ export default function Contact() {
         })}
       </div>
 
-      <div className={styles.foot}>{contact.footer}</div>
+      <div className={styles.foot}>
+        © {year ? `${year} ` : ""}
+        {contact.footer}
+      </div>
     </section>
   );
 }
