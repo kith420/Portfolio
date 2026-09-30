@@ -1,5 +1,7 @@
 /* ---------- Dark header (airlock above the cork) ------------------------ */
 .comp {
+  /* Above Experience so the board slides over it (see Experience tail). */
+  z-index: 2;
   background: var(--dark);
   padding: 92px 40px 0;
 }
@@ -9,28 +11,14 @@
   margin: 0 auto 46px;
 }
 
-.compEyebrow {
-  font-family: var(--mono);
-  font-size: var(--fs-xs);
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: var(--accent);
-}
-
 .compTitle {
   font-family: var(--display);
   font-weight: 800;
-  font-style: italic;
-  text-transform: uppercase;
   font-size: 48px;
   line-height: 1;
   margin-top: 10px;
   color: var(--paper-front);
-}
-
-.ac {
-  color: var(--accent);
+  letter-spacing: -0.015em;
 }
 
 /* ---------- Full-bleed warm surface (cork -> wash -> paper) -------------- */
@@ -38,6 +26,7 @@
    as one continuous surface — the tail then just veils it, no hard seam. */
 .warmflow {
   position: relative;
+  z-index: 2;
   background-color: var(--cork);
   background-image: url("/images/competitions/cork.jpg");
   background-size: 300px 300px;
@@ -66,6 +55,7 @@
 
 .corkZone {
   position: relative;
+  view-timeline: --cork block;
   padding: 44px 40px 0;
   /* Faint grid over the inherited cork keeps the "board" read. */
   background-image: repeating-linear-gradient(
@@ -203,10 +193,28 @@
 }
 
 .polPhoto {
+  position: relative;
+  overflow: hidden;
   height: 150px;
   background: var(--surface);
+}
+
+.polPhoto img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The inset edge sits on top of the photo, so a print still reads as set
+   into the polaroid frame. */
+.polPhoto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   box-shadow: inset 0 0 0 1.5px rgba(0, 0, 0, 0.2),
     inset 2px 2px 5px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
 }
 
 .polCap {
@@ -272,17 +280,9 @@
   margin: 0;
 }
 
-/* NOI/IOI titles are long — drop the size so they wrap in fewer lines while
-   still sitting on the ruled baseline (line-height stays --rule). */
-.lblLong {
-  font-size: 9px;
-  letter-spacing: 0.04em;
-}
-
 .res {
   font-family: var(--display);
   font-weight: 800;
-  font-style: italic;
   font-size: 20px;
   color: #1a1410;
   line-height: var(--rule);
@@ -309,20 +309,6 @@
   color: #3a3028;
   line-height: var(--rule);
   margin: 0;
-}
-
-.stamp {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  font-family: var(--mono);
-  font-size: var(--fs-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  color: rgba(107, 174, 214, 0.4);
-  border: 1.5px solid rgba(107, 174, 214, 0.25);
-  padding: 3px 6px;
-  transform: rotate(-8deg);
 }
 
 /* Pin + washi tape */
@@ -483,13 +469,10 @@
 
 /* Hint pills (fade out after first interaction) */
 .hints {
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
+  justify-content: center;
   gap: 8px;
-  z-index: 6;
+  margin-top: 12px;
   transition: opacity 0.3s ease;
 }
 
@@ -563,19 +546,22 @@
   .mobileOnly {
     display: block;
   }
+  /* The stack shows one polaroid at a time, so it can be larger than the
+     desktop scatter: bigger photos, and room for the back's label, result
+     and note without spilling past the card. */
   .polaroid {
-    width: 152px;
-    height: 196px;
+    width: 200px;
+    height: 256px;
   }
   .stack {
-    width: 152px;
-    height: 196px;
+    width: 200px;
+    height: 256px;
   }
   .polPhoto {
-    height: 138px;
+    height: 184px;
   }
   .stub {
-    height: 196px;
+    height: 256px;
   }
 }
 
@@ -592,4 +578,29 @@
 .polaroid:focus-visible {
   outline: 2px solid var(--accent, #c0392b);
   outline-offset: 3px;
+}
+
+/* ---------- Scroll: polaroids settle onto the board --------------------- */
+/* As the board rises into view each polaroid eases down its last few pixels
+   and rotation, like it was pinned a little loosely. Individual `translate` /
+   `rotate` compose with the tilt + hover `transform`, so nothing conflicts. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scatter {
+      animation: polSettle linear both;
+      animation-timeline: --cork;
+      animation-range: entry 0% cover 40%;
+    }
+  }
+}
+
+@keyframes polSettle {
+  from {
+    translate: 0 calc(26px + var(--i, 0) * 9px);
+    rotate: calc((var(--i, 0) - 2) * 2.5deg);
+  }
+  to {
+    translate: 0 0;
+    rotate: 0deg;
+  }
 }

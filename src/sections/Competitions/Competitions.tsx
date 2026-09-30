@@ -28,6 +28,9 @@ function useIsMobile(): boolean {
 
 /* ------------------------------ Desktop -------------------------------- */
 
+/** Width the scatter positions in content/competitions.ts are authored for. */
+const BOARD_W = 960;
+
 function Scatter() {
   const [flipped, setFlipped] = useState<Set<number>>(new Set());
   const toggle = (i: number) =>
@@ -49,10 +52,14 @@ function Scatter() {
           className={styles.scatter}
           style={
             {
-              left: comp.pos.left,
+              // Positions are authored on the 960px board; as a percentage
+              // they stay put at full width and close up on narrower boards
+              // instead of hanging off the right edge.
+              left: `${(comp.pos.left / BOARD_W) * 100}%`,
               top: comp.pos.top,
               zIndex: comp.pos.z,
               "--tilt": `${comp.tilt}deg`,
+              "--i": i,
             } as CSSProperties
           }
         />
@@ -244,14 +251,6 @@ function MobileStack() {
 
   return (
     <div className={styles.mobileOnly}>
-      <div className={`${styles.hints} ${hintsHidden ? styles.hidden : ""}`}>
-        <span className={styles.hintPill}>
-          <i>✦</i> {competitionsHeading.hintFlip}
-        </span>
-        <span className={styles.hintPill}>
-          <i>↔</i> {competitionsHeading.hintSwipe}
-        </span>
-      </div>
 
       <div
         className={styles.stack}
@@ -339,6 +338,16 @@ function MobileStack() {
         </button>
       </div>
 
+      {/* Below the controls, so the hints never cover the front polaroid. */}
+      <div className={`${styles.hints} ${hintsHidden ? styles.hidden : ""}`}>
+        <span className={styles.hintPill}>
+          <i>✦</i> {competitionsHeading.hintFlip}
+        </span>
+        <span className={styles.hintPill}>
+          <i>↔</i> {competitionsHeading.hintSwipe}
+        </span>
+      </div>
+
       <div className={styles.boardFooter}>
         <span className={styles.counter}>
           <b>{current + 1}</b> / {N}
@@ -357,21 +366,15 @@ export default function Competitions() {
     <>
       <section id="comp" className={styles.comp}>
         <SectionHeading
-          eyebrow={null}
-          classes={{
-            root: styles.compHead,
-            eyebrow: styles.compEyebrow,
-            title: styles.compTitle,
-          }}
+          classes={{ root: styles.compHead, title: styles.compTitle }}
         >
-          {competitionsHeading.titleLead}
-          <span className={styles.ac}>{competitionsHeading.titleAccent}</span>
+          {competitionsHeading.title}
         </SectionHeading>
       </section>
 
       <div className={styles.warmflow} id="warmflow" data-nav-tint="light">
         <div className={styles.seam}>
-          <span className={styles.seamTape}>{competitionsHeading.eyebrow}</span>
+          <span className={styles.seamTape}>{competitionsHeading.tape}</span>
         </div>
         <div className={styles.corkZone}>
           <div className={styles.boardInner} id="corkboard">
