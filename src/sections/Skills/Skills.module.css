@@ -1,8 +1,6 @@
 /* ===========================================================================
    Skills — "what I build with". A pyramid of the stack that narrows to an
-   AI/ML apex. This is the return-to-dark beat after Work's warm light (the
-   flip Contact used to own, now inherited here since Skills sits between Work
-   and Contact).
+   AI/ML apex. This is the return-to-dark beat after Work's warm light.
    =========================================================================== */
 
 .skills {
@@ -11,37 +9,39 @@
   padding: 40px 40px 52px;
 }
 
-/* Single warm melt: Work's cream dissolves straight down into the dark section
-   over the first ~150px, so the seam is a smooth fade rather than a cut. The
-   bottom is plain --dark, so Skills -> Contact stays seamless. Content sits
-   below the band so text keeps full contrast. */
+/* Melt from Work's cream into the dark. The stops follow an ease-in-out
+   curve (smootherstep, mixed in OKLCH) instead of a straight line: the colour
+   starts changing imperceptibly and settles gently into --dark, so neither
+   edge shows the crease a linear gradient leaves. Content sits below it. */
 .skills::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 168px;
-  /* Top stop is Work's EXACT colour at full opacity, so the seam is invisible
-     (an 88% cream over dark reads greyer than Work and shows a line). It then
-     fades to transparent, revealing the dark section beneath. */
+  height: 200px;
   background: linear-gradient(
     180deg,
     var(--work-bg) 0%,
-    var(--work-bg) 5%,
-    rgba(240, 238, 234, 0.55) 26%,
-    rgba(240, 238, 234, 0.2) 50%,
-    rgba(240, 238, 234, 0.05) 76%,
-    transparent 100%
+    color-mix(in oklch, var(--dark) 0.9%, var(--work-bg)) 10%,
+    color-mix(in oklch, var(--dark) 5.8%, var(--work-bg)) 20%,
+    color-mix(in oklch, var(--dark) 16.3%, var(--work-bg)) 30%,
+    color-mix(in oklch, var(--dark) 31.7%, var(--work-bg)) 40%,
+    color-mix(in oklch, var(--dark) 50.0%, var(--work-bg)) 50%,
+    color-mix(in oklch, var(--dark) 68.3%, var(--work-bg)) 60%,
+    color-mix(in oklch, var(--dark) 83.7%, var(--work-bg)) 70%,
+    color-mix(in oklch, var(--dark) 94.2%, var(--work-bg)) 80%,
+    color-mix(in oklch, var(--dark) 99.1%, var(--work-bg)) 90%,
+    var(--dark) 100%
   );
   pointer-events: none;
 }
 
 .wrap {
   position: relative;
-  max-width: 960px;
+  max-width: 1040px;
   margin: 0 auto;
-  padding-top: 116px;
+  padding-top: 164px;
 }
 
 /* ---------- Heading (dark palette, italic display like Competitions) ---- */
@@ -54,36 +54,14 @@
   margin-bottom: 58px;
 }
 
-.eyebrow {
-  font-family: var(--mono);
-  font-size: var(--fs-xs);
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: var(--accent);
-}
-
 .title {
   font-family: var(--display);
   font-weight: 800;
-  font-style: italic;
-  text-transform: uppercase;
   font-size: 48px;
   line-height: 1;
   margin-top: 10px;
   color: var(--ink);
-}
-
-.count {
-  font-family: var(--mono);
-  font-size: var(--fs-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--faint);
-}
-
-.ac {
-  color: var(--accent);
+  letter-spacing: -0.015em;
 }
 
 /* ---------- Pyramid ---------------------------------------------------- */
@@ -93,9 +71,10 @@
 }
 
 .tier {
-  position: relative;
-  display: flex;
-  justify-content: center;
+  view-timeline: --tier block;
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  column-gap: 12px;
   margin-bottom: 30px;
 }
 
@@ -103,15 +82,16 @@
   margin-bottom: 0;
 }
 
-/* Category label pinned to the left rail, vertically centred on the tile row. */
+/* Category label sits in its own rail, vertically centred on the tile row
+   (tiles are 76px tall). Because it has a column rather than floating over the
+   row, a wide tier can never run underneath it. */
 .tierLabel {
-  position: absolute;
-  left: 0;
-  top: 38px;
-  transform: translateY(-50%);
-  width: 112px;
+  align-self: start;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   text-align: right;
-  padding-right: 8px;
   font-family: var(--mono);
   font-size: var(--fs-xs);
   font-weight: 400;
@@ -121,9 +101,13 @@
   color: var(--ink2);
 }
 
+/* Tiles centre in the space beside the rail and wrap instead of overflowing. */
 .tiles {
   display: flex;
-  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 22px 8px;
 }
 
 .tileWrap {
@@ -131,7 +115,9 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  width: 76px;
+  /* Wider than the 76px tile so long single-word captions ("Meilisearch")
+     don't run into their neighbours. */
+  width: 88px;
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
@@ -197,10 +183,10 @@
     padding: 34px 20px 72px;
   }
   .skills::before {
-    height: 100px;
+    height: 140px;
   }
   .wrap {
-    padding-top: 104px;
+    padding-top: 116px;
   }
   .secHead {
     margin-bottom: 40px;
@@ -210,8 +196,7 @@
   }
 
   .tier {
-    flex-direction: column;
-    align-items: stretch;
+    grid-template-columns: minmax(0, 1fr);
     margin-bottom: 16px;
     border: 1px solid var(--border-sub);
     border-radius: 14px;
@@ -220,9 +205,8 @@
   }
 
   .tierLabel {
-    position: static;
-    transform: none;
-    width: auto;
+    height: auto;
+    justify-content: center;
     text-align: center;
     padding: 0 0 16px;
     font-size: var(--fs-sm);
@@ -251,5 +235,37 @@
   }
   .tile {
     transition: none;
+  }
+}
+
+/* ---------- Scroll: each row rises in with the scroll ------------------- */
+/* Replaces the one-shot reveal where the browser supports it: each tier eases
+   up and in as it enters, tied to scroll position, so nothing pops in and
+   scrolling back up reverses it. Browsers without support keep the reveal. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .tileWrap,
+    .lit .tileWrap {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .tierLabel,
+    .tiles {
+      animation: tierRise linear both;
+      animation-timeline: --tier;
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}
+
+@keyframes tierRise {
+  from {
+    opacity: 0.15;
+    translate: 0 32px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
   }
 }

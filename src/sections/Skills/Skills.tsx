@@ -3,34 +3,31 @@
 import type { CSSProperties } from "react";
 import type { IconType } from "react-icons";
 import {
-  SiPytorch,
-  SiLangchain,
-  SiOpencv,
-  SiReact,
-  SiNextdotjs,
-  SiTailwindcss,
-  SiExpo,
-  SiPython,
-  SiTypescript,
+  SiClaude,
   SiCplusplus,
-  SiHtml5,
-  SiNodedotjs,
-  SiFastapi,
-  SiPostgresql,
-  SiFirebase,
-  SiMysql,
-  SiBun,
-  SiDrizzle,
-  SiHono,
+  SiCursor,
   SiDocker,
-  SiGooglecloud,
+  SiFastapi,
+  SiFirebase,
   SiGit,
   SiGithubactions,
+  SiGooglecloud,
+  SiLangchain,
   SiLinux,
-  SiVite,
+  SiMeilisearch,
+  SiMysql,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiOpencv,
+  SiPostgresql,
+  SiPython,
+  SiPytorch,
+  SiReact,
+  SiThreedotjs,
+  SiTypescript,
   SiVitest,
 } from "react-icons/si";
-import { FaJava, FaDatabase, FaAws } from "react-icons/fa";
+import { FaAws, FaDatabase, FaJava } from "react-icons/fa";
 import SectionHeading from "@/components/SectionHeading";
 import { skillsHeading, skillTiers } from "@/content/skills";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
@@ -38,42 +35,38 @@ import styles from "./Skills.module.css";
 
 /** Data references icons by string key; this map keeps content JSX-free. */
 const ICONS: Record<string, IconType> = {
-  SiPytorch,
-  SiLangchain,
-  SiOpencv,
-  SiReact,
-  SiNextdotjs,
-  SiTailwindcss,
-  SiExpo,
-  SiPython,
-  SiTypescript,
+  SiClaude,
   SiCplusplus,
-  SiHtml5,
-  SiNodedotjs,
-  SiFastapi,
-  SiPostgresql,
-  SiFirebase,
-  SiMysql,
-  SiBun,
-  SiDrizzle,
-  SiHono,
+  SiCursor,
   SiDocker,
-  SiGooglecloud,
+  SiFastapi,
+  SiFirebase,
   SiGit,
   SiGithubactions,
+  SiGooglecloud,
+  SiLangchain,
   SiLinux,
-  SiVite,
+  SiMeilisearch,
+  SiMysql,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiOpencv,
+  SiPostgresql,
+  SiPython,
+  SiPytorch,
+  SiReact,
+  SiThreedotjs,
+  SiTypescript,
   SiVitest,
-  FaJava,
-  FaDatabase,
   FaAws,
+  FaDatabase,
+  FaJava,
 };
 
 export default function Skills() {
   const { ref, active: lit } = useRevealOnScroll<HTMLDivElement>({
     threshold: 0.12,
   });
-  const total = skillTiers.reduce((n, t) => n + t.skills.length, 0);
 
   // Running index across all tiers so the reveal cascades top-left -> base.
   let step = 0;
@@ -81,18 +74,8 @@ export default function Skills() {
   return (
     <section id="skills" className={styles.skills}>
       <div className={styles.wrap}>
-        <SectionHeading
-          eyebrow={skillsHeading.eyebrow}
-          count={`${total} tools`}
-          classes={{
-            root: styles.secHead,
-            eyebrow: styles.eyebrow,
-            title: styles.title,
-            count: styles.count,
-          }}
-        >
-          {skillsHeading.titleLead}
-          <span className={styles.ac}>{skillsHeading.titleAccent}</span>
+        <SectionHeading classes={{ root: styles.secHead, title: styles.title }}>
+          {skillsHeading.title}
         </SectionHeading>
 
         <div ref={ref} className={`${styles.pyramid} ${lit ? styles.lit : ""}`}>
