@@ -1,6 +1,13 @@
 .exp {
+  /* Stacks above the hero and slides over it like a sheet: rounded top
+     corners plus a hairline top edge make the overlap visible against the
+     equally dark hero. Named view timeline drives the tail. */
+  z-index: 1;
   background: var(--dark);
+  border-top: 1px solid var(--border);
+  border-radius: 28px 28px 0 0;
   padding: 70px 40px 110px;
+  view-timeline: --exp block;
 }
 
 .expWrap {
@@ -14,16 +21,12 @@
   justify-content: space-between;
   align-items: flex-end;
   /* Line the header up with the experience cards. The left column is
-     (100% - 48px)/2 wide and each card fills 75% of it (justify-self: end),
-     so a card's inner edge sits (100% - 48px)/8 in from the wrapper. Mirror it
+     (100% - 48px)/2 wide and each card fills 90% of it (justify-self: end),
+     so a card's outer edge sits (100% - 48px)/20 in from the wrapper. Mirror it
      on the right so the header spans exactly card-left to card-right. */
-  margin: 0 calc((100% - 48px) / 8) 60px;
+  margin: 0 calc((100% - 48px) / 20) 60px;
   border-bottom: 0.5px solid var(--border-sub);
   padding-bottom: 20px;
-}
-
-.ac {
-  color: var(--accent);
 }
 
 /* ---------- Tree + spine ------------------------------------------------ */
@@ -32,8 +35,8 @@
   padding-top: 6px;
 }
 
-/* The spine continues the hero scroll-hint line: centered, accent-toned,
-   draws down (scaleY 0 -> 1) when the tree enters. */
+/* Centered, accent-toned spine; draws down (scaleY 0 -> 1) when the tree
+   enters. */
 .spine {
   position: absolute;
   left: 50%;
@@ -89,18 +92,22 @@
   content: "";
   position: absolute;
   top: 50%;
-  width: 24px;
+  /* Exactly spans the gap from the node's edge to the card's edge: the middle
+     grid track is 48px and the node 10px, leaving 19px each side. */
+  width: 19px;
   height: 1px;
   background: var(--border-sub);
   transition: background 0.4s;
 }
 
+/* Offsets include the node's 1.5px border: absolute children are placed from
+   the padding edge, so a bare 100% would leave a hairline gap at the card. */
 .row.left .node::before {
-  right: 100%;
+  right: calc(100% + 1.5px);
 }
 
 .row.right .node::after {
-  left: 100%;
+  left: calc(100% + 1.5px);
 }
 
 .row.active.left .node::before,
@@ -110,14 +117,15 @@
 
 /* ---------- Card -------------------------------------------------------- */
 .card {
-  /* Card owns ~3/4 of its column (space : box ≈ 1 : 3); the remaining quarter
-     is the outer margin. Anchored at the node side below so connectors reach. */
-  width: 75%;
-  max-width: 660px;
+  /* Card owns ~9/10 of its column; the remaining sliver is the outer margin.
+     Anchored at the node side below so connectors reach. Slightly lighter than
+     the page so it sits on top of it rather than reading as a cut-out. */
+  width: 90%;
+  max-width: 620px;
   grid-row: 1;
-  border: 1px solid #222b38;
-  border-radius: 5px;
-  background: #0c0f13;
+  border: 1px solid #2a3240;
+  border-radius: 6px;
+  background: #151920;
   overflow: hidden;
   position: relative;
   opacity: 0;
@@ -127,10 +135,10 @@
 
 /* The card nearest the viewport centre is "open" (scroll-driven). */
 .card.open {
-  border-color: rgba(107, 174, 214, 0.4);
+  border-color: rgba(107, 174, 214, 0.45);
 }
 
-/* Inner edge hugs the node (connector reaches it); the outer quarter of each
+/* Inner edge hugs the node (connector reaches it); the outer sliver of each
    column is left as breathing room. Mirrored, so outer margins stay symmetric. */
 .row.left .card {
   grid-column: 1;
@@ -153,12 +161,12 @@
   display: flex;
   align-items: stretch;
   border-bottom: 1px solid var(--border);
-  min-height: 48px;
+  min-height: 52px;
   transition: background 0.3s var(--ease);
 }
 
 .card.open .cardHead {
-  background: #13161c;
+  background: #1b202a;
 }
 
 .cardNum {
@@ -226,6 +234,17 @@
   opacity: 1;
 }
 
+/* Where + when on one line, like the résumé: location left, dates right.
+   On a narrow card the dates wrap under the location. */
+.cardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px 16px;
+  margin-bottom: 8px;
+}
+
 .cardLoc {
   display: flex;
   align-items: center;
@@ -235,61 +254,114 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--faint);
-  margin-bottom: 8px;
 }
 
+/* Map-pin glyph, masked so it takes the accent colour. */
 .cardLoc::before {
   content: "";
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
+  flex: none;
+  width: 11px;
+  height: 11px;
   background: var(--accent);
-  opacity: 0.5;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z'/%3E%3C/svg%3E") center / contain no-repeat;
 }
+
 
 .cardRole {
   font-family: var(--display);
   font-weight: 700;
-  font-style: italic;
-  text-transform: uppercase;
   font-size: 21px;
-  color: var(--accent);
+  color: var(--ink);
   line-height: 1.05;
   margin-bottom: 8px;
 }
 
-/* Reading surface moves to Oswald (--label = Oswald) at a comfortable size;
-   mono at full reading size reads AI-generated. Labels below stay mono. */
 .cardDesc {
   font-family: var(--label);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 1.55;
+  line-height: 1.5;
   color: var(--muted);
 }
 
 .cardDesc .hi {
-  color: var(--ink2);
+  color: var(--ink);
+}
+
+/* Inline links (e.g. a product name): brighter text with an accent underline,
+   so they read as clickable without shouting. */
+.cardDesc .link {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.cardDesc .link:hover {
+  color: var(--accent);
+}
+
+.photoCollapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.7s var(--ease), opacity 0.5s ease 0.1s;
+}
+
+.photoCollapse.photoOpen {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.cardPhoto {
+  margin-top: 14px;
+  aspect-ratio: 16 / 9;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #0f1218;
+}
+
+.cardPhoto img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photoEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--faint);
 }
 
 .cardFoot {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   border-top: 1px solid transparent;
-  background: #0a0d11;
+  background: #12161d;
   padding: 10px 18px;
   transition: border-color 0.3s var(--ease);
 }
 
-/* Only draw the divider above the foot once the body is expanded — collapsed,
-   the head's own border does the separating (avoids a doubled line). */
+/* Divider above the foot, only once the body is expanded. */
 .card.open .cardFoot {
   border-top-color: var(--border);
 }
 
 .chips {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
 }
 
@@ -298,17 +370,22 @@
   font-size: var(--fs-xs);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--faint);
-  border: 0.5px solid var(--border);
-  padding: 2px 5px;
-  border-radius: 2px;
+  color: var(--muted);
+  /* A full 1px border in a lighter tone plus a faint fill, so each chip reads
+     as a distinct tag against the card footer. */
+  border: 1px solid #2c3544;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 2px 6px;
+  border-radius: 3px;
 }
 
 .cardYear {
   font-family: var(--mono);
   font-size: var(--fs-xs);
+  white-space: nowrap;
   color: var(--faint);
 }
+
 
 /* ---------- Logo badge variants ---------------------------------------- */
 .logoSimular {
@@ -346,31 +423,10 @@
 /* Fixed height + auto width = every mark renders at the same optical height,
    regardless of the logo's aspect ratio (wide marks just get wider). */
 .cardLogo img {
-  height: 26px;
+  height: 28px;
   width: auto;
   max-width: calc(100% - 8px);
   object-fit: contain;
-}
-
-/* ---------- Thinking-note (reused inside the expanded card body) -------- */
-.thinkingNote {
-  background: #0a0d11;
-  border-left: 2px solid var(--accent);
-  padding: 11px 15px;
-  font-family: var(--mono);
-  font-size: var(--fs-xs);
-  font-weight: 400;
-  color: var(--faint);
-  font-style: italic;
-  line-height: 1.7;
-  border-radius: 0 3px 3px 0;
-  margin-top: 12px;
-}
-
-.thinkingNote::before {
-  content: "\21B3 ";
-  color: var(--accent);
-  font-style: normal;
 }
 
 /* ---------- Mobile ------------------------------------------------------ */
@@ -433,11 +489,37 @@
     opacity: 1;
     transition: none;
   }
+  .photoCollapse {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transition: none;
+  }
   .card.open .cardHead,
   .cardHead {
-    background: #13161c;
+    background: #1b202a;
   }
   .cardFoot {
     border-top-color: var(--border);
+  }
+}
+
+/* ---------- Scroll: recede as Competitions slides over ------------------ */
+/* Only the section's exit is scroll-linked: once its bottom edge reaches the
+   bottom of the screen, the content lags slightly and dims as the next
+   section covers it. The cards and their open/close behaviour are untouched. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .expWrap {
+      animation: expRecede linear both;
+      animation-timeline: --exp;
+      animation-range: exit 0% exit 100%;
+    }
+  }
+}
+
+@keyframes expRecede {
+  to {
+    translate: 0 10vh;
+    opacity: 0.35;
   }
 }

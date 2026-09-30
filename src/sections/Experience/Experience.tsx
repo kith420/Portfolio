@@ -21,7 +21,17 @@ function Rich({ text }: { text: RichText }) {
   return (
     <>
       {text.map((seg, i) =>
-        seg.hi ? (
+        seg.href ? (
+          <a
+            key={i}
+            className={styles.link}
+            href={seg.href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {seg.text}
+          </a>
+        ) : seg.hi ? (
           <span key={i} className={styles.hi}>
             {seg.text}
           </span>
@@ -33,15 +43,20 @@ function Rich({ text }: { text: RichText }) {
   );
 }
 
+/** Fraction of a photo's height that must fit on screen before it opens. */
+const PHOTO_REVEAL = 0.3;
+
 interface TreeRowProps {
   role: ExperienceRole;
   side: "left" | "right";
   index: number;
-  /** Scroll-driven: true when this is the card nearest the viewport centre. */
+  /** Scroll-driven: true once the card has risen past the trigger line. */
   open: boolean;
+  /** Scroll-driven: true once enough of the photo's height fits on screen. */
+  photoOpen: boolean;
 }
 
-function TreeRow({ role, side, index, open }: TreeRowProps) {
+function TreeRow({ role, side, index, open, photoOpen }: TreeRowProps) {
   const reduced = useReducedMotion();
   const scramble = useScramble(reduced);
   const coRef = useRef<HTMLSpanElement>(null);
@@ -99,12 +114,36 @@ function TreeRow({ role, side, index, open }: TreeRowProps) {
         <div className={styles.collapse}>
           <div className={styles.collapseInner}>
             <div className={styles.cardBody}>
-              <div className={styles.cardLoc}>{role.location}</div>
+              <div className={styles.cardMeta}>
+                <div className={styles.cardLoc}>{role.location}</div>
+                <div className={styles.cardYear}>{role.year}</div>
+              </div>
               <div className={styles.cardRole}>{role.role}</div>
               <p className={styles.cardDesc}>
                 <Rich text={role.desc} />
               </p>
-              <div className={styles.thinkingNote}>{role.modal.thinkingNote}</div>
+              {/* Second-stage collapse: the photo opens on its own, later
+                  trigger once the card's text is already on screen. */}
+              <div
+                className={`${styles.photoCollapse} ${photoOpen ? styles.photoOpen : ""}`}
+                data-exp-photo
+              >
+                <div className={styles.collapseInner}>
+                  <figure className={styles.cardPhoto}>
+                    {role.photo ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={role.photo.src}
+                        alt={role.photo.alt}
+                        loading="lazy"
+                        style={{ objectPosition: role.photo.position }}
+                      />
+                    ) : (
+                      <span className={styles.photoEmpty}>Team photo</span>
+                    )}
+                  </figure>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -115,7 +154,6 @@ function TreeRow({ role, side, index, open }: TreeRowProps) {
               <span key={t}>{t}</span>
             ))}
           </div>
-          <div className={styles.cardYear}>{role.year}</div>
         </div>
       </article>
       <div className={styles.node} />
@@ -131,6 +169,8 @@ export default function Experience() {
   // Highest card index scrolled through so far: every card up to and including
   // this one is open (sui.io-style cumulative reveal), cards below stay closed.
   const [openThrough, setOpenThrough] = useState(-1);
+  // Same idea for the photos, which open on a later trigger than the card.
+  const [photoThrough, setPhotoThrough] = useState(-1);
 
   // A single rAF-throttled scroll handler finds the last card whose centre has
   // risen past the viewport centre line. State only changes when that index
@@ -138,6 +178,7 @@ export default function Experience() {
   useEffect(() => {
     if (reduced) {
       setOpenThrough(-1);
+      setPhotoThrough(-1);
       return;
     }
     let raf = 0;
@@ -151,17 +192,33 @@ export default function Experience() {
       // Trigger low on the screen (card entering from the bottom) so each card
       // finishes expanding before it reaches the reading zone — the growth then
       // happens in the periphery instead of shifting content under the cursor.
-      const trigger = window.innerHeight * 0.88;
+      const vh = window.innerHeight;
+      const trigger = vh * 0.88;
       let through = -1;
+      let photos = -1;
       rows.forEach((el) => {
+        const idx = Number(el.dataset.expRow);
         const r = el.getBoundingClientRect();
         // Use the card's TOP so a card counts as reached the moment it rises
         // past the trigger line, well before its centre arrives.
-        if (r.top <= trigger) {
-          through = Math.max(through, Number(el.dataset.expRow));
+        if (r.top <= trigger) through = Math.max(through, idx);
+
+        // Where the photo will sit once its card is fully open. offsetTop is
+        // measured inside the card and ignores the collapses' animated
+        // heights, so this doesn't jump while the card is still expanding.
+        const card = el.querySelector<HTMLElement>("article");
+        const photo = el.querySelector<HTMLElement>("[data-exp-photo]");
+        if (!card || !photo) return;
+        const photoTop = card.getBoundingClientRect().top + photo.offsetTop;
+        const photoHeight = (photo.offsetWidth * 9) / 16;
+        if (vh - photoTop >= photoHeight * PHOTO_REVEAL) {
+          photos = Math.max(photos, idx);
         }
       });
       setOpenThrough((prev) => (prev === through ? prev : through));
+      // A photo never opens ahead of its own card.
+      const photoIdx = Math.min(photos, through);
+      setPhotoThrough((prev) => (prev === photoIdx ? prev : photoIdx));
     };
 
     const onScroll = () => {
@@ -180,18 +237,11 @@ export default function Experience() {
     };
   }, [reduced, treeRef]);
 
-  const count = `${String(experience.length).padStart(2, "0")} roles`;
-
   return (
     <section id="exp" className={styles.exp}>
       <div className={styles.expWrap}>
-        <SectionHeading
-          eyebrow={experienceHeading.eyebrow}
-          count={count}
-          classes={{ root: styles.secHead }}
-        >
-          {experienceHeading.titleLead}
-          <span className={styles.ac}>{experienceHeading.titleAccent}</span>
+        <SectionHeading classes={{ root: styles.secHead }}>
+          {experienceHeading.title}
         </SectionHeading>
 
         <div
@@ -206,6 +256,7 @@ export default function Experience() {
               side={i % 2 === 0 ? "left" : "right"}
               index={i}
               open={reduced || i <= openThrough}
+              photoOpen={reduced || i <= photoThrough}
             />
           ))}
         </div>
