@@ -39,7 +39,6 @@
   );
   --wordmark-ink: #111;
   --nav-link: #556070;
-  --nav-clock: #556070;
   --nav-active: var(--accent-ink);
 }
 
@@ -99,41 +98,11 @@
   }
 }
 
-/* --- Right cluster: clock + burger --- */
+/* --- Right cluster: burger --- */
 .right {
   display: flex;
   align-items: center;
   gap: 18px;
-}
-
-.clock {
-  font-family: var(--mono);
-  font-size: var(--fs-xs);
-  letter-spacing: 0.06em;
-  color: var(--nav-clock, var(--muted));
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-variant-numeric: tabular-nums;
-}
-
-.pip {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
-  flex: none;
-  animation: pip-pulse 2.5s ease-in-out infinite;
-}
-
-@keyframes pip-pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.3;
-  }
 }
 
 /* --- Hamburger (hidden on desktop) --- */
@@ -212,17 +181,6 @@
   color: var(--accent) !important;
 }
 
-.panelClock {
-  font-family: var(--mono);
-  font-size: var(--fs-xs);
-  letter-spacing: 0.06em;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-variant-numeric: tabular-nums;
-}
-
 /* --- Focus ring for keyboard users --- */
 .nav a:focus-visible,
 .burger:focus-visible,
@@ -243,9 +201,6 @@
   .links {
     display: none;
   }
-  .clock {
-    display: none;
-  }
   .burger {
     display: flex;
   }
@@ -255,9 +210,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pip {
-    animation: none;
-  }
   .links .activeLink::after {
     animation: none;
   }

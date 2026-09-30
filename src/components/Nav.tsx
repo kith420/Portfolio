@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { DURATION, SETTLE, scrollToSection } from "@/lib/scrollToSection";
 import Wordmark from "./Wordmark";
 import styles from "./Nav.module.css";
 
@@ -25,8 +26,7 @@ const SECTION_IDS = ["hero", ...LINKS.map((l) => l.id)];
  *   - `light`: whether a warm/paper region (tagged `data-nav-tint="light"`)
  *     overlaps the nav, flipping the tint dark-on-light
  *   - `scrolled`: past the hero, so the bar can solidify + cast a shadow
- * A live Singapore clock fills the right slot, and a hamburger reveals the
- * links on narrow screens.
+ * A hamburger reveals the links on narrow screens.
  */
 export default function Nav() {
   const navRef = useRef<HTMLElement>(null);
@@ -36,28 +36,6 @@ export default function Nav() {
   const [light, setLight] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [clock, setClock] = useState("--:--:--");
-
-  // Live SGT clock.
-  useEffect(() => {
-    const fmt = () => {
-      try {
-        const t = new Intl.DateTimeFormat("en-GB", {
-          timeZone: "Asia/Singapore",
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-          hour12: false,
-        }).format(new Date());
-        setClock(`${t} SGT`);
-      } catch {
-        setClock("SGT");
-      }
-    };
-    fmt();
-    const id = window.setInterval(fmt, 1000);
-    return () => window.clearInterval(id);
-  }, []);
 
   // Scroll-spy: active link + tint + solidify, all from one coalesced handler.
   useEffect(() => {
@@ -142,9 +120,30 @@ export default function Nav() {
     };
   }, [open]);
 
+  // Every in-page "#section" link on the site (nav, hero CTA, wordmark) scrolls
+  // in JS rather than as a native anchor jump, so the scroll can retarget while
+  // the sections above it change height (see scrollToSection). The skip link
+  // keeps its native behaviour because it has to move keyboard focus.
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const link = (e.target as Element | null)?.closest<HTMLAnchorElement>(
+        'a[href^="#"]:not(.skip-link)',
+      );
+      const id = link?.getAttribute("href")?.slice(1);
+      if (!id || !document.getElementById(id)) return;
+      e.preventDefault();
+      history.pushState(null, "", `#${id}`);
+      scrollToSection(id);
+    };
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
+
   const onNavClick = (id: string) => {
     selectRef.current = id;
-    lockRef.current = Date.now() + 900;
+    lockRef.current = Date.now() + DURATION + SETTLE;
     setActive(id);
     setOpen(false);
   };
@@ -161,7 +160,7 @@ export default function Nav() {
   return (
     <>
       <nav ref={navRef} className={navClass}>
-        <a href="#hero" aria-label="Kith — home" onClick={() => setOpen(false)}>
+        <a href="#hero" aria-label="Nathan Poernama — home" onClick={() => setOpen(false)}>
           <Wordmark />
         </a>
 
@@ -181,10 +180,6 @@ export default function Nav() {
         </ul>
 
         <div className={styles.right}>
-          <div className={styles.clock}>
-            <span className={styles.pip} />
-            <span>{clock}</span>
-          </div>
           <button
             type="button"
             className={styles.burger}
@@ -219,10 +214,6 @@ export default function Nav() {
             </li>
           ))}
         </ul>
-        <div className={styles.panelClock}>
-          <span className={styles.pip} />
-          <span>{clock}</span>
-        </div>
       </div>
     </>
   );
