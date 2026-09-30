@@ -5,7 +5,7 @@ import { HeroContent } from "./types";
  * review; rewrite in Nathan's own voice before launch.
  */
 export const hero: HeroContent = {
-  eyebrow: "Computer Science & Design — SUTD Singapore Class of  2027",
+  eyebrow: "Computer Science & Design — SUTD’27",
   name: ["Nathan", "Keith P."],
   tagline: "Ships code. Sweats pixels.",
   bio: [
@@ -19,7 +19,6 @@ export const hero: HeroContent = {
     primary: { label: "View work", href: "#work" },
     ghost: { label: "LinkedIn →", href: "https://www.linkedin.com/in/kith14" },
   },
-  scrollHint: "Scroll down for more",
   /**
    * Background filmstrip. Drop files in `public/images/hero/` and list them
    * here — they auto-duplicate for the seamless loop, so order = drift order.

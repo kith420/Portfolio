@@ -1,4 +1,6 @@
 .hero {
+  /* Own stacking context, so Experience (z-index 1) can slide over it. */
+  z-index: 0;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -107,7 +109,6 @@
 .name {
   font-family: var(--display);
   font-weight: 800;
-  text-transform: uppercase;
   font-size: clamp(64px, 9vw, 104px);
   line-height: 0.9;
   letter-spacing: -0.01em;
@@ -137,11 +138,9 @@
 
 .tagline {
   font-family: var(--display);
-  font-weight: 700;
-  font-style: italic;
-  text-transform: uppercase;
-  font-size: clamp(30px, 4.5vw, 48px);
-  color: var(--accent);
+  font-weight: 500;
+  font-size: clamp(24px, 3vw, 32px);
+  color: var(--muted);
   margin-top: 20px;
   opacity: 0;
   animation: fadeUp 0.6s ease 0.34s forwards;
@@ -160,7 +159,7 @@
 }
 
 .hi {
-  color: var(--accent);
+  color: var(--ink);
 }
 
 @keyframes fadeUp {
@@ -277,96 +276,6 @@
   text-transform: uppercase;
 }
 
-/* ---------- Scroll hint (centered — becomes the Experience spine) ------- */
-.scrollHint {
-  position: absolute;
-  bottom: 36px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  opacity: 0;
-  /* Own keyframes: the shared fadeUp ends on translateY(0), which would wipe
-     out the translateX(-50%) centering and shove the hint ~40px right. */
-  animation: fadeUpHint 0.5s ease 1s forwards;
-}
-
-@keyframes fadeUpHint {
-  from {
-    opacity: 0;
-    transform: translate(-50%, 10px);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-}
-
-.hintLabel {
-  font-family: var(--mono);
-  font-size: var(--fs-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--faint);
-}
-
-.chevrons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  color: var(--accent);
-  cursor: pointer;
-  padding: 6px 12px;
-  transition: transform 0.2s ease;
-}
-
-.chevrons:hover {
-  transform: translateY(2px);
-}
-
-.chevrons:hover .chevron {
-  filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 14px var(--accent));
-}
-
-.chevron {
-  width: 22px;
-  height: 11px;
-  opacity: 0;
-  filter: drop-shadow(0 0 4px var(--accent)) drop-shadow(0 0 8px var(--accent));
-  animation: chevronpulse 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Stagger each arrow so the glow cascades downward like a Tron flow. */
-.chevron:nth-child(1) {
-  animation-delay: 0s;
-}
-.chevron:nth-child(2) {
-  animation-delay: 0.18s;
-}
-.chevron:nth-child(3) {
-  animation-delay: 0.36s;
-}
-
-@keyframes chevronpulse {
-  0% {
-    opacity: 0.15;
-    transform: translateY(-2px);
-  }
-  40% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  80%,
-  100% {
-    opacity: 0.15;
-    transform: translateY(2px);
-  }
-}
-
 /* ---------- Mobile ------------------------------------------------------ */
 @media (max-width: 820px) {
   .hero {
@@ -376,8 +285,13 @@
     grid-template-columns: 1fr;
     max-width: 520px;
   }
+  /* Small portrait above the name instead of hiding it. */
   .photo {
-    display: none;
+    order: -1;
+    justify-self: start;
+    width: 112px;
+    height: 136px;
+    margin-bottom: 28px;
   }
   .tile {
     width: 160px;
@@ -395,13 +309,6 @@
   .grain {
     opacity: 0.03;
   }
-  .hintLabel {
-    display: none;
-  }
-  .chevron {
-    width: 18px;
-    height: 9px;
-  }
 }
 
 /* ---------- Reduced motion ---------------------------------------------- */
@@ -417,14 +324,47 @@
   .tagline,
   .bio,
   .cta,
-  .photo,
-  .scrollHint {
+  .photo {
     opacity: 1;
     animation: none;
   }
-  .chevron {
-    animation: none;
-    opacity: 0.5;
-    transform: none;
+}
+
+/* ---------- Scroll: the hero recedes as Experience slides over it -------- */
+/* Scroll-linked (not triggered): the content moves down almost as fast as the
+   page scrolls up, so it holds nearly still, shrinking and fading, while
+   Experience slides over it like a sheet. The portrait gets a small parallax
+   inside its frame. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .inner {
+      animation: heroRecede linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+    .photoImg {
+      animation: portraitDrift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+  }
+}
+
+@keyframes heroRecede {
+  to {
+    translate: 0 70vh;
+    scale: 0.9;
+    opacity: 0;
+  }
+}
+
+@keyframes portraitDrift {
+  from {
+    scale: 1.08;
+    translate: 0 14px;
+  }
+  to {
+    scale: 1.08;
+    translate: 0 -14px;
   }
 }
