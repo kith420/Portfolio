@@ -5,7 +5,6 @@ import Competitions from "@/sections/Competitions/Competitions";
 import Work from "@/sections/Work/Work";
 import Skills from "@/sections/Skills/Skills";
 import Contact from "@/sections/Contact/Contact";
-import CompetitionsToWork from "@/sections/Seam/CompetitionsToWork";
 
 export default function Page() {
   return (
@@ -22,8 +21,6 @@ export default function Page() {
         <Skills />
         <Contact />
       </main>
-      {/* Scroll-scrubbed overlay stitching the cork board into the Work grid. */}
-      <CompetitionsToWork />
     </>
   );
 }

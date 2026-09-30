@@ -14,7 +14,7 @@ export const competitionsHeading = {
  * Desktop scatter positions + tilts + back notes ported from the flow
  * prototype (source of truth for placement/motion). Back body copy is
  * placeholder (competitions-section-spec.md §11, §14).
- * Array order = source order (also drives the seam's unpin order).
+ * Array order = source order.
  */
 export const competitions: Competition[] = [
   {

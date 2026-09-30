@@ -19,6 +19,3 @@ export const lerp = (a: number, b: number, t: number): number => a + (b - a) * t
 /** Normalised sub-progress: maps p in [a,b] -> [0,1], clamped. */
 export const seg = (p: number, a: number, b: number): number =>
   clamp((p - a) / (b - a), 0, 1);
-
-/** The seam's fall ease: 1 - (1 - t)^2.2 (fast start, soft landing). */
-export const fallEase = (t: number): number => 1 - Math.pow(1 - t, 2.2);

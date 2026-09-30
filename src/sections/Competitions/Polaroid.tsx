@@ -16,12 +16,6 @@ interface PolaroidProps {
   className?: string;
   style?: CSSProperties;
   outerRef?: Ref<HTMLDivElement>;
-  /** Hide the pin/tape (used by seam travellers). */
-  showPin?: boolean;
-  /** Ref to the pin element — the seam lifts/fades it as the polaroid detaches. */
-  pinRef?: Ref<HTMLSpanElement>;
-  /** When set, tags the outer element so the seam can find its live position. */
-  seamIndex?: number;
 }
 
 export default function Polaroid({
@@ -31,9 +25,6 @@ export default function Polaroid({
   className = "",
   style,
   outerRef,
-  showPin = true,
-  pinRef,
-  seamIndex,
 }: PolaroidProps) {
   const pin = PIN_GRADIENT[comp.pin];
   // Long unbreakable tokens (e.g. "201/537,000+") overflow the card at 38px.
@@ -46,7 +37,6 @@ export default function Polaroid({
   return (
     <div
       ref={outerRef}
-      data-seam-pol={seamIndex}
       className={`${styles.polaroid} ${flipped ? styles.flipped : ""} ${className}`}
       style={style}
       onClick={onClick}
@@ -67,20 +57,18 @@ export default function Polaroid({
           }
         : {})}
     >
-      {showPin &&
-        (comp.tape ? (
-          <span className={styles.tape} aria-hidden />
-        ) : (
-          <span
-            ref={pinRef}
-            className={styles.pin}
-            aria-hidden
-            style={{
-              background: `radial-gradient(circle at 35% 30%, ${pin.grad})`,
-              border: `1px solid ${pin.border}`,
-            }}
-          />
-        ))}
+      {comp.tape ? (
+        <span className={styles.tape} aria-hidden />
+      ) : (
+        <span
+          className={styles.pin}
+          aria-hidden
+          style={{
+            background: `radial-gradient(circle at 35% 30%, ${pin.grad})`,
+            border: `1px solid ${pin.border}`,
+          }}
+        />
+      )}
       <div className={styles.polInner}>
         <div className={`${styles.polFace} ${styles.polFront}`}>
           <div className={styles.polPhoto} />
