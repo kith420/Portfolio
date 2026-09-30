@@ -5,7 +5,8 @@
  */
 
 /** A run of prose with optional highlighted (accent-coloured) spans. */
-export type RichText = Array<{ text: string; hi?: boolean }>;
+/** Inline text runs; `hi` emphasises a run, `href` makes it an external link. */
+export type RichText = Array<{ text: string; hi?: boolean; href?: string }>;
 
 export interface Link {
   label: string;
@@ -29,11 +30,10 @@ export interface HeroContent {
   eyebrow: string;
   /** Headline lines, e.g. ["Nathan", "Poernama."]. */
   name: string[];
-  /** Italic accent tagline (flagged placeholder). */
+  /** Tagline under the name (flagged placeholder). */
   tagline: string;
   bio: RichText;
   cta: { primary: Link; ghost: Link };
-  scrollHint: string;
   /** Background filmstrip. Empty = fall back to procedural gradient tiles. */
   carousel: HeroMedia[];
 }
@@ -56,16 +56,22 @@ export interface ExperienceRole {
    */
   logoSrc?: string;
   location: string;
-  /** Italic role title — the dominant text in the card. */
   role: string;
+  /** One-line summary shown when the card is open. */
   desc: RichText;
+  /**
+   * Optional team / workplace photo under the summary, e.g.
+   * { src: "/images/experience/simular-team.jpg", alt: "The Simular team" }.
+   * Landscape works best (shown at 16:9, cropped to fill). `position` is an
+   * optional CSS object-position, e.g. "50% 60%", to steer the crop.
+   */
+  photo?: { src: string; alt: string; position?: string };
   tech: string[];
   year: string;
   /** Modal detail content. */
   modal: {
     meta: string;
     overview: RichText;
-    thinkingNote: string;
     built: RichText;
   };
 }
@@ -77,8 +83,10 @@ export type PinColor = "red" | "blue" | "green" | "brown";
 export interface Competition {
   /** Front caption name (short). */
   name: string;
-  /** Back label (full competition name). */
+  /** Full competition name (used for the accessible label). */
   fullName: string;
+  /** Short one-line label printed at the top of the back of the polaroid. */
+  label: string;
   /** Front caption second line, "date · location". */
   caption: string;
   result: string;
@@ -90,20 +98,32 @@ export interface Competition {
   tilt: number;
   /** Desktop scatter position (px within the 960px board). */
   pos: { left: number; top: number; z: number };
+  /**
+   * Optional photo on the polaroid's front, e.g.
+   * { src: "/images/competitions/icpc-manila.jpg", alt: "..." }. Shown
+   * roughly square, cropped to fill; `position` (CSS object-position, e.g.
+   * "50% 80%") steers the crop.
+   */
+  photo?: { src: string; alt: string; position?: string };
 }
 
 /* ------------------------------- Work ---------------------------------- */
 
 export interface WorkFigure {
-  /** FIG caption, e.g. "interface, dark mode". */
+  /** Caption under the image in the opened panel, e.g. "interface, dark mode". */
   caption: string;
+  /** Image path under public/. Omit to show the tinted placeholder. */
+  src?: string;
+  /** "cover" (default) crops to fill; "contain" shows the whole image. */
+  fit?: "cover" | "contain";
+  /** Background behind a "contain" image, to match its edges. */
+  bg?: string;
+  /** CSS object-position, to steer a "cover" crop. */
+  position?: string;
 }
 
 export interface WorkProject {
   name: string;
-  cat: string;
-  /** SKU code, "WRK-0N · INITIALS/TAG1/TAG2" (see 03-work-section-spec.md §6). */
-  sku: string;
   tag: string;
   tags: string[];
   status: string;
@@ -111,7 +131,8 @@ export interface WorkProject {
   desc: string;
   /** Exactly three metric-driven highlights. */
   hi: [string, string, string];
-  figures: [WorkFigure, WorkFigure, WorkFigure];
+  /** First figure is the card image; thumbnails appear when there are several. */
+  figures: WorkFigure[];
   links?: Link[];
 }
 
@@ -144,13 +165,12 @@ export interface ContactDefinition {
 }
 
 export interface ContactContent {
-  eyebrow: string;
-  /** Title inner, with the accent word split out. */
-  title: { lead: string; accent: string };
+  title: string;
   headword: string;
   ipa: string;
   definitions: ContactDefinition[];
   links: Array<{ label: string; href: string; ariaLabel: string; svgPath: string }>;
+  /** Footer name; the "© <current year>" prefix is added at render. */
   footer: string;
   srLine: string;
 }
