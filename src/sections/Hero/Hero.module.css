@@ -84,26 +84,15 @@
   max-width: 520px;
 }
 
+/* A greeting that reads into the name, not a section label: sentence case,
+   no tracking, no leading rule. */
 .eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   font-family: var(--mono);
-  font-size: var(--fs-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
+  font-size: var(--fs-lg);
   color: var(--accent);
-  margin-bottom: 28px;
+  margin-bottom: 18px;
   opacity: 0;
   animation: fadeUp 0.5s ease 0.1s forwards;
-}
-
-.eyebrow::before {
-  content: "";
-  width: 24px;
-  height: 1px;
-  background: var(--accent);
-  opacity: 0.6;
 }
 
 .name {
@@ -160,6 +149,20 @@
 
 .hi {
   color: var(--ink);
+}
+
+/* Highlighted phrases that jump to the section backing them up. */
+.link {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color 0.2s;
+}
+
+.link:hover {
+  color: var(--accent);
 }
 
 @keyframes fadeUp {
@@ -221,7 +224,8 @@
   z-index: 3;
   width: 100%;
   max-width: 300px;
-  height: 360px;
+  /* Fixed ratio, so the cover crop is the same at every width. */
+  aspect-ratio: 5 / 6;
   justify-self: end;
   border-radius: 6px;
   overflow: hidden;
@@ -290,7 +294,6 @@
     order: -1;
     justify-self: start;
     width: 112px;
-    height: 136px;
     margin-bottom: 28px;
   }
   .tile {

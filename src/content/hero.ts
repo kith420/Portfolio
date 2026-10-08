@@ -1,22 +1,20 @@
 import { HeroContent } from "./types";
 
-/**
- * PLACEHOLDER COPY — tagline and bio were flagged as AI-sounding in design
- * review; rewrite in Nathan's own voice before launch.
- */
 export const hero: HeroContent = {
-  eyebrow: "Computer Science & Design — SUTD’27",
-  name: ["Nathan", "Keith P."],
-  tagline: "Ships code. Sweats pixels.",
+  eyebrow: "Hello world, my name is",
+  name: ["Nathan", "Keith Poernama"],
+  // tagline: "Ships code. Sweats pixels.",
   bio: [
-    { text: "Four internships deep, a competitive-programming habit, and a soft spot for " },
-    { text: "computer graphics", hi: true },
-    { text: ", sneakers, and the occasional " },
-    { text: "Gunpla build", hi: true },
-    { text: "." },
+    { text: "I'm a final-year Computer Science student at SUTD in Singapore, graduating May 2027. I've spent " },
+    { text: "three internships", hi: true, href: "#exp" },
+    { text: " building full-stack products at an AI startup and two major consulting firms. I've been doing " },
+    { text: "competitive programming in C++", hi: true, href: "#comp" },
+    { text: " since high school, and my focus is " },
+    { text: "low-level work", hi: true, href: "#work" },
+    { text: ": anything involving optimization and algorithms!" },
   ],
   cta: {
-    primary: { label: "View work", href: "#work" },
+    primary: { label: "View resume", href: "/resume" },
     ghost: { label: "LinkedIn →", href: "https://www.linkedin.com/in/kith14" },
   },
   /**

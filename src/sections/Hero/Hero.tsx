@@ -81,10 +81,14 @@ export default function Hero() {
             </span>
           ))}
         </h1>
-        <div className={styles.tagline}>{hero.tagline}</div>
+        {hero.tagline && <div className={styles.tagline}>{hero.tagline}</div>}
         <p className={styles.bio}>
           {hero.bio.map((seg, i) =>
-            seg.hi ? (
+            seg.href ? (
+              <a key={i} href={seg.href} className={styles.link}>
+                {seg.text}
+              </a>
+            ) : seg.hi ? (
               <span key={i} className={styles.hi}>
                 {seg.text}
               </span>
