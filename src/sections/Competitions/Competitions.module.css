@@ -159,7 +159,7 @@
 .polaroid {
   width: 164px;
   height: 210px;
-  cursor: pointer;
+  cursor: var(--cursor-link);
   transform: rotate(var(--tilt, 0deg));
 }
 
@@ -387,7 +387,7 @@
 .stackCard {
   position: absolute;
   inset: 0;
-  cursor: pointer;
+  cursor: var(--cursor-link);
   transition: transform 0.36s var(--ease-spring), opacity 0.36s ease;
   will-change: transform, opacity;
 }
@@ -535,6 +535,13 @@
   }
   .corkZone {
     padding: 34px 16px 0;
+  }
+  /* The tag is too long for one line on a phone, so let the strip wrap. */
+  .seamTape {
+    left: 8px;
+    max-width: min(100% - 16px, 30ch + 30px);
+    white-space: normal;
+    line-height: 1.5;
   }
   .boardInner {
     height: auto;

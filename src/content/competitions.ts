@@ -2,7 +2,7 @@ import { Competition } from "./types";
 
 /** Section heading + mobile hint copy. */
 export const competitionsHeading = {
-  tape: "Competitions",
+  tape: "Competitive Programming Competitions",
   title: "Where I've placed.",
   desktopHint: "click a polaroid to flip it",
   hintFlip: "tap to flip",
