@@ -12,8 +12,8 @@ export const workHeading = {
 export const work: WorkProject[] = [
   {
     name: "Cut the Crap",
-    tag: "Rewrites the corporate bloat on any page, or piles more on",
-    tags: ["JavaScript", "Extension APIs", "LLM APIs"],
+    tag: "A browser extension that rewrites the corporate bloat on any page, or piles more on",
+    tags: ["JavaScript", "Manifest V3", "LLM APIs", "Vite"],
     status: "Shipped",
     year: "2026",
     desc: "A browser extension with one switch per site. Decrapify turns a 200-word LinkedIn humblebrag into \"I got a new job.\" Crapify does the reverse. We built it at the Dumb Duber Dumber Hackathon, placed 3rd, then shipped it to both browser stores.",
@@ -58,15 +58,15 @@ export const work: WorkProject[] = [
   },
   {
     name: "SMRT Digital Twin",
-    tag: "A live 3D train that points at the part that needs fixing",
-    tags: ["React", "Three.js", "FastAPI"],
+    tag: "A live 3D train that points at the part that needs fixing, and explains why",
+    tags: ["React", "Three.js", "FastAPI", "Cloud Run"],
     status: "Shipped",
     year: "2026",
     desc: "Built by a team of 4 at the LTA NebulaX Hackathon. Drop a maintenance file onto the train and the fault shows up as a bubble on the exact component, with a plain explanation of what the model found. I built the full-stack integration layer and the 3D twin itself.",
     hi: [
       "4 subsystem ML models surfaced on the train: physics-based, Rainflow fatigue, ensembles",
       "Upload a case file and the camera flies to the top-ranked car of an 8-car consist",
-      "Live on Firebase Hosting, with the backend on Cloud Run",
+      "Live on Firebase Hosting, with a REST API backend on Cloud Run",
     ],
     figures: [
       {
@@ -86,6 +86,10 @@ export const work: WorkProject[] = [
     links: [
       { label: "Live demo", href: "https://smrt-digital-twin-2026.web.app/" },
       {
+        label: "Demo video",
+        href: "https://www.youtube.com/watch?v=UMJg3YVWSgY",
+      },
+      {
         label: "GitHub",
         href: "https://github.com/KidSmithy/nebulax_p3",
         secondary: true,
@@ -94,15 +98,15 @@ export const work: WorkProject[] = [
   },
   {
     name: "RoomU",
-    tag: "Roommate-finding app for 40,000+ UC Davis students",
-    tags: ["React Native", "Hono", "Drizzle"],
+    tag: "Roommate-finding app for 40,000+ UC Davis students, built with AggieWorks",
+    tags: ["React Native", "iOS", "Docker", "Hono", "PostgreSQL"],
     status: "Shipped",
     year: "2026",
-    desc: "Built with AggieWorks, UC Davis's student-run product studio, during my exchange. I shipped UI features in React Native and built the app's versioning system end to end.",
+    desc: "Built with AggieWorks, UC Davis's student-run product club, during my spring exchange. My contributions:",
     hi: [
       "Reusable Applied Filters Bar and confirmation dialogs (NativeWind, Reanimated)",
-      "Full-stack semver versioning system on Hono and Drizzle",
-      "In the hands of 190+ students",
+      "Full-stack semver versioning system with a REST API on Hono and Drizzle",
+      "Extended the filter bar to the subleasing listings feed (in review)",
     ],
     figures: [
       {
@@ -128,8 +132,8 @@ export const work: WorkProject[] = [
   },
   {
     name: "Tappin' Queen",
-    tag: "A Simon-style memory game in pure digital logic",
-    tags: ["FPGA", "Lucid HDL", "Alchitry Au"],
+    tag: "A Simon-style memory game in pure digital logic, with no CPU on the board",
+    tags: ["FPGA", "Lucid HDL", "Alchitry Au", "Digital Logic"],
     status: "Shipped",
     year: "2025",
     desc: "A memory game on an Alchitry Au FPGA, with no microcontroller and no soft CPU. Everything from the adder up is hand-written in Lucid HDL. Built for SUTD's Computation Structures course.",
@@ -160,17 +164,33 @@ export const work: WorkProject[] = [
   },
   {
     name: "Ascenda Hotel Booking",
-    tag: "Hotel search, map, and checkout for a loyalty platform",
-    tags: ["React", "Node.js", "MySQL"],
+    tag: "Hotel search, map, and Stripe checkout for a travel loyalty platform",
+    tags: ["React", "Node.js", "MySQL", "Vitest"],
     status: "Shipped",
     year: "2025",
     desc: "A full-stack hotel booking system built on Ascenda's hotel data, with destination search, live pricing and Stripe checkout. My part was the interactive map and the account side of the backend.",
     hi: [
       "Map clustering that groups nearby hotels and splits apart as you zoom",
-      "Node.js/Express + MySQL backend with cascading deletes and role-based auth",
+      "Node.js/Express REST API on MySQL, with cascading deletes and role-based auth",
       "78% test coverage with Vitest and React Testing Library",
     ],
-    figures: [{ caption: "screenshot coming" }],
+    figures: [
+      {
+        caption: "hotel listings with the clustered map",
+        src: "/images/work/ascenda-listings.jpg",
+        position: "50% 0%",
+      },
+      {
+        caption: "destination search",
+        src: "/images/work/ascenda-search.jpg",
+        position: "50% 60%",
+      },
+      {
+        caption: "rooms and live prices",
+        src: "/images/work/ascenda-rooms.jpg",
+        position: "50% 0%",
+      },
+    ],
     links: [
       {
         label: "Frontend",
@@ -185,8 +205,8 @@ export const work: WorkProject[] = [
   },
   {
     name: "TROC #33",
-    tag: "Problems, tests, and editorials for an open programming contest",
-    tags: ["C++", "TCFrame", "Problemsetting"],
+    tag: "Problems, tests, and editorials for an open programming contest with 300+ entrants",
+    tags: ["C++", "TCFrame", "Algorithms", "Problemsetting"],
     status: "Held",
     year: "2023",
     desc: "I was lead author of TOKI Regular Open Contest #33. I wrote the problems, their solutions and test suites, and the editorials people read after the contest ended.",
@@ -195,7 +215,23 @@ export const work: WorkProject[] = [
       "Test data generated and checked with TCFrame",
       "Editorials written alongside the problems",
     ],
-    figures: [{ caption: "screenshot coming" }],
+    figures: [
+      {
+        caption: "the contest page on TLX",
+        src: "/images/work/troc-33-overview.jpg",
+        position: "50% 0%",
+      },
+      {
+        caption: "the final scoreboard",
+        src: "/images/work/troc-33-scoreboard.jpg",
+        position: "50% 0%",
+      },
+      {
+        caption: "editorials, published after the contest",
+        src: "/images/work/troc-33-editorial.jpg",
+        position: "50% 0%",
+      },
+    ],
     links: [
       { label: "Contest page", href: "https://tlx.toki.id/contests/troc-33" },
     ],

@@ -1,6 +1,34 @@
 "use client";
 
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import type { IconType } from "react-icons";
+import {
+  FiArrowUpRight,
+  FiChevronLeft,
+  FiChevronRight,
+  FiX,
+} from "react-icons/fi";
+import {
+  SiApple,
+  SiChromewebstore,
+  SiCplusplus,
+  SiDocker,
+  SiFastapi,
+  SiFirefoxbrowser,
+  SiGithub,
+  SiGooglecloud,
+  SiHono,
+  SiJavascript,
+  SiMysql,
+  SiNodedotjs,
+  SiPostgresql,
+  SiReact,
+  SiThreedotjs,
+  SiVite,
+  SiVitest,
+  SiYoutube,
+} from "react-icons/si";
 import SectionHeading from "@/components/SectionHeading";
 import { work, workHeading } from "@/content/work";
 import { WorkFigure, WorkProject } from "@/content/types";
@@ -31,6 +59,51 @@ function Figure({ figure }: { figure?: WorkFigure }) {
       )}
     </div>
   );
+}
+
+/** Tag label -> logo. Tags without a recognisable logo stay text-only. */
+const TAG_ICONS: Record<string, IconType> = {
+  JavaScript: SiJavascript,
+  React: SiReact,
+  "React Native": SiReact,
+  "Three.js": SiThreedotjs,
+  FastAPI: SiFastapi,
+  "Cloud Run": SiGooglecloud,
+  Vite: SiVite,
+  Vitest: SiVitest,
+  iOS: SiApple,
+  Docker: SiDocker,
+  Hono: SiHono,
+  "Node.js": SiNodedotjs,
+  MySQL: SiMysql,
+  PostgreSQL: SiPostgresql,
+  "C++": SiCplusplus,
+};
+
+function TagLabel({ tag }: { tag: string }) {
+  const Icon = TAG_ICONS[tag];
+  return (
+    <>
+      {Icon && <Icon className={styles.chipIcon} aria-hidden />}
+      {tag}
+    </>
+  );
+}
+
+/** Link host -> logo. Anything else gets the generic "opens elsewhere" arrow. */
+const LINK_ICONS: Record<string, IconType> = {
+  "github.com": SiGithub,
+  "chromewebstore.google.com": SiChromewebstore,
+  "addons.mozilla.org": SiFirefoxbrowser,
+  "www.youtube.com": SiYoutube,
+};
+
+function linkIcon(href: string): IconType {
+  try {
+    return LINK_ICONS[new URL(href).hostname] ?? FiArrowUpRight;
+  } catch {
+    return FiArrowUpRight;
+  }
 }
 
 function Stamp({ status, year }: { status: string; year: string }) {
@@ -86,11 +159,110 @@ function WorkCard({ project, index, active, onToggle, registerRef }: CardProps) 
         <div className={styles.ptag}>{project.tag}</div>
         <div className={styles.pchips}>
           {project.tags.map((t) => (
-            <span key={t}>{t}</span>
+            <span key={t}>
+              <TagLabel tag={t} />
+            </span>
           ))}
         </div>
       </div>
     </div>
+  );
+}
+
+/* ------------------------------ Lightbox ------------------------------- */
+
+interface LightboxProps {
+  figure: WorkFigure;
+  /** Position among the project's figures, for the "2 / 3" counter. */
+  index: number;
+  count: number;
+  onClose: () => void;
+  /** Step to the previous (-1) or next (1) figure. */
+  onStep: (dir: number) => void;
+}
+
+/* Full-screen view of a figure. Portalled to <body>: the panel's reveal
+   transforms would otherwise trap a fixed-position child. */
+function Lightbox({ figure, index, count, onClose, onStep }: LightboxProps) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      else if (e.key === "ArrowLeft") onStep(-1);
+      else if (e.key === "ArrowRight") onStep(1);
+    };
+    window.addEventListener("keydown", onKey);
+    const root = document.documentElement;
+    const prev = root.style.overflow;
+    root.style.overflow = "hidden";
+    closeRef.current?.focus();
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      root.style.overflow = prev;
+    };
+  }, [onClose, onStep]);
+
+  return createPortal(
+    <div
+      className={styles.lightbox}
+      role="dialog"
+      aria-modal="true"
+      aria-label={figure.caption}
+      onClick={onClose}
+    >
+      <button
+        ref={closeRef}
+        type="button"
+        className={styles.lbClose}
+        aria-label="Close image"
+        onClick={onClose}
+      >
+        <FiX aria-hidden />
+      </button>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        className={styles.lbImg}
+        src={figure.src}
+        alt={figure.caption}
+        onClick={(e) => e.stopPropagation()}
+      />
+      <div className={styles.lbCaption}>
+        {figure.caption}
+        {count > 1 && (
+          <span className={styles.lbCount}>
+            {index + 1} / {count}
+          </span>
+        )}
+      </div>
+      {count > 1 && (
+        <>
+          <button
+            type="button"
+            className={`${styles.lbNav} ${styles.lbPrev}`}
+            aria-label="Previous image"
+            onClick={(e) => {
+              e.stopPropagation();
+              onStep(-1);
+            }}
+          >
+            <FiChevronLeft aria-hidden />
+          </button>
+          <button
+            type="button"
+            className={`${styles.lbNav} ${styles.lbNext}`}
+            aria-label="Next image"
+            onClick={(e) => {
+              e.stopPropagation();
+              onStep(1);
+            }}
+          >
+            <FiChevronRight aria-hidden />
+          </button>
+        </>
+      )}
+    </div>,
+    document.body,
   );
 }
 
@@ -106,7 +278,6 @@ interface PanelProps {
 const STAGGER: Array<[string, number]> = [
   ["expImg", 50],
   ["expName", 165],
-  ["expTag", 205],
   ["div", 235],
   ["expDesc", 275],
   ["highlights", 340],
@@ -118,6 +289,13 @@ function ExpansionPanel({ project, closing, onClosed }: PanelProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
   const [figIdx, setFigIdx] = useState(0);
+  const [zoomed, setZoomed] = useState(false);
+  const figCount = project.figures.length;
+  const closeZoom = useCallback(() => setZoomed(false), []);
+  const stepFig = useCallback(
+    (dir: number) => setFigIdx((i) => (i + dir + figCount) % figCount),
+    [figCount],
+  );
   const timers = useRef<number[]>([]);
 
   // Open: grid-rows 0fr → 1fr, then fire the staggered content reveal.
@@ -215,33 +393,54 @@ function ExpansionPanel({ project, closing, onClosed }: PanelProps) {
       <div ref={wrapRef} className={styles.expWrap}>
         <div ref={innerRef} className={styles.expInner}>
           <div className={styles.expPanel}>
-            <div className={styles.expImg} data-anim="expImg">
-              <Figure figure={project.figures[figIdx]} />
-              <Stamp status={project.status} year={project.year} />
+            <div className={styles.expMedia} data-anim="expImg">
+              <div className={styles.expImg}>
+                {project.figures[figIdx].src ? (
+                  <button
+                    type="button"
+                    className={styles.zoomBtn}
+                    onClick={() => setZoomed(true)}
+                    aria-label={`Enlarge ${project.figures[figIdx].caption}`}
+                  >
+                    <Figure figure={project.figures[figIdx]} />
+                  </button>
+                ) : (
+                  <Figure figure={project.figures[figIdx]} />
+                )}
+                <Stamp status={project.status} year={project.year} />
+              </div>
+              {project.figures.length > 1 && (
+                <div className={styles.expThumbs}>
+                  {project.figures.map((fig, fi) => (
+                    <button
+                      key={fig.caption}
+                      type="button"
+                      className={`${styles.thumb} ${fi === figIdx ? styles.thumbActive : ""}`}
+                      onClick={() => setFigIdx(fi)}
+                      aria-label={`View ${fig.caption}`}
+                      aria-pressed={fi === figIdx}
+                    >
+                      <Figure figure={fig} />
+                    </button>
+                  ))}
+                </div>
+              )}
               <div className={styles.efig}>
                 {project.figures[figIdx].caption}
               </div>
-              <div className={styles.expThumbs}>
-                {project.figures.length > 1 &&
-                  project.figures.map((fig, fi) => (
-                  <button
-                    key={fig.caption}
-                    type="button"
-                    className={`${styles.thumb} ${fi === figIdx ? styles.thumbActive : ""}`}
-                    onClick={() => setFigIdx(fi)}
-                    aria-label={`View ${fig.caption}`}
-                  >
-                    <span>0{fi + 1}</span>
-                  </button>
-                ))}
-              </div>
+              {zoomed && (
+                <Lightbox
+                  figure={project.figures[figIdx]}
+                  index={figIdx}
+                  count={figCount}
+                  onClose={closeZoom}
+                  onStep={stepFig}
+                />
+              )}
             </div>
             <div className={styles.expBody}>
               <div className={styles.expName} data-anim="expName">
                 {project.name}
-              </div>
-              <div className={styles.expTag} data-anim="expTag">
-                {project.tag}
               </div>
               <hr className={styles.div} data-anim="div" />
               <p className={styles.expDesc} data-anim="expDesc">
@@ -257,22 +456,26 @@ function ExpansionPanel({ project, closing, onClosed }: PanelProps) {
               <div className={styles.expChips}>
                 {project.tags.map((t) => (
                   <span key={t} data-chip className={styles.expChip}>
-                    {t}
+                    <TagLabel tag={t} />
                   </span>
                 ))}
               </div>
               <div className={styles.expLinks} data-anim="expLinks">
-                {(project.links ?? []).filter((l) => l.href && l.href !== "#").map((l) => (
-                  <a
-                    key={l.label}
-                    href={l.href}
-                    className={`${styles.elink} ${l.secondary ? styles.sec : ""}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {l.label}
-                  </a>
-                ))}
+                {(project.links ?? []).filter((l) => l.href && l.href !== "#").map((l) => {
+                  const Icon = linkIcon(l.href);
+                  return (
+                    <a
+                      key={l.label}
+                      href={l.href}
+                      className={`${styles.elink} ${l.secondary ? styles.sec : ""}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Icon className={styles.elinkIcon} aria-hidden />
+                      {l.label}
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -338,6 +541,25 @@ export default function Work() {
     return () => window.clearTimeout(t);
   }, [releasing]);
 
+  // Every card takes the tallest card's height, across rows too. Chips wrap
+  // differently per width, so this is measured rather than fixed in CSS.
+  const gridRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const measure = () => {
+      grid.style.removeProperty("--card-h");
+      const tallest = Math.max(
+        ...cardEls.current.map((c) => c?.offsetHeight ?? 0),
+      );
+      grid.style.setProperty("--card-h", `${tallest}px`);
+    };
+    const ro = new ResizeObserver(measure);
+    ro.observe(grid);
+    measure();
+    return () => ro.disconnect();
+  }, []);
+
   // Column count changes with viewport — close the panel on resize (spec §9).
   useEffect(() => {
     if (active === null) return;
@@ -357,6 +579,7 @@ export default function Work() {
         </SectionHeading>
 
         <div
+          ref={gridRef}
           className={`${styles.grid} ${active !== null ? styles.settled : ""} ${
             releasing ? styles.releasing : ""
           }`}
