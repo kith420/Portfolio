@@ -5,7 +5,7 @@
  */
 
 /** A run of prose with optional highlighted (accent-coloured) spans. */
-/** Inline text runs; `hi` emphasises a run, `href` makes it an external link. */
+/** Inline text runs; `hi` emphasises a run, `href` makes it a link. */
 export type RichText = Array<{ text: string; hi?: boolean; href?: string }>;
 
 export interface Link {
@@ -30,8 +30,8 @@ export interface HeroContent {
   eyebrow: string;
   /** Headline lines, e.g. ["Nathan", "Poernama."]. */
   name: string[];
-  /** Tagline under the name (flagged placeholder). */
-  tagline: string;
+  /** Optional tagline under the name. */
+  tagline?: string;
   bio: RichText;
   cta: { primary: Link; ghost: Link };
   /** Background filmstrip. Empty = fall back to procedural gradient tiles. */
@@ -41,6 +41,13 @@ export interface HeroContent {
 /* ---------------------------- Experience ------------------------------- */
 
 export type LogoVariant = "simular" | "aggie" | "tcs" | "ntt" | "koko";
+
+/** A figure in the details dialog; shown full width at its natural ratio. */
+export interface ModalImage {
+  src: string;
+  alt: string;
+  caption?: string;
+}
 
 export interface ExperienceRole {
   num: string;
@@ -57,6 +64,8 @@ export interface ExperienceRole {
   logoSrc?: string;
   location: string;
   role: string;
+  /** Optional headline number under the role, e.g. { value: "45×", label: "…" }. */
+  stat?: { value: string; label: string };
   /** One-line summary shown when the card is open. */
   desc: RichText;
   /**
@@ -68,11 +77,21 @@ export interface ExperienceRole {
   photo?: { src: string; alt: string; position?: string };
   tech: string[];
   year: string;
-  /** Modal detail content. */
+  /** Details dialog content (opened from the card's Details button). */
   modal: {
     meta: string;
     overview: RichText;
-    built: RichText;
+    /** "What I built" as one paragraph. */
+    built?: RichText;
+    /** "What I built" as bullets, e.g. one per project; replaces `built`. */
+    points?: RichText[];
+    /**
+     * Long-form write-up: titled sections of paragraphs. When set, it replaces
+     * the "What I built" block entirely.
+     */
+    sections?: { title: string; body: RichText[]; image?: ModalImage }[];
+    /** Closing figure under everything else, e.g. a team photo. */
+    image?: ModalImage;
   };
 }
 

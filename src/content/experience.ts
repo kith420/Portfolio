@@ -16,12 +16,12 @@ export const experienceHeading = {
 export const experience: ExperienceRole[] = [
   {
     num: "01",
-    company: "SIMULAR AI",
+    company: "SIMULAR AI (NVIDIA & FELICIS Backed)",
     logo: "SI",
     logoVariant: "simular",
     logoSrc: "/images/experience/simular.svg",
     location: "Singapore",
-    role: "SWE Intern",
+    role: "Software Engineer Intern",
     desc: [
       { text: "Building agent infra, search, and knowledge systems for " },
       { text: "Sai", href: "https://sai.work/" },
@@ -34,15 +34,37 @@ export const experience: ExperienceRole[] = [
     modal: {
       meta: "AI Agents · 2026 · Singapore",
       overview: [
-        { text: "Built a company-wide " },
-        { text: "knowledge layer", hi: true },
-        { text: " on top of Simular's Sai agent platform — a FastAPI service and a three-skill suite ingesting structured activity across Slack, Gmail, Calendar, Drive, and GitHub so 38 employees can query the whole org in natural language." },
+        { text: "Sai is Simular's computer-use agent. I spent the summer building " },
+        { text: "its hands and senses", hi: true },
+        { text: ": how it searches the web, reads a page, finds things in its own workspace, and asks before it guesses. Most of it shipped." },
       ],
-      built: [
-        { text: "The knowledge layer end to end — a Python/FastAPI service on Cloud Run (Firestore, GCS, dual-token auth) — plus a Cmd+K cross-workspace search palette and a long-context LLM chat prototype where " },
-        { text: "prompt caching cut input tokens ~60%", hi: true },
-        { text: "." },
+      points: [
+        [
+          { text: "Page context", hi: true },
+          { text: " — swapped raw page text for a lazy page object the agent can outline, grep, read, or ask. Wikipedia's Apollo 11 article went from 100,175 characters to 2,217." },
+        ],
+        [
+          { text: "Web search", hi: true },
+          { text: " — built a search primitive on Exa's neural index so the agent skips the browser. 1.7× faster (16s vs 27.9s) with 36% fewer input tokens, across 21 queries and 3 graded runs." },
+        ],
+        [
+          { text: "⌘K search", hi: true },
+          { text: " — one search across messages, workflows, drafts, and files. ~70K records indexed in a week on Meilisearch, with four ranked sources merged by reciprocal rank fusion." },
+        ],
+        [
+          { text: "Choice cards", hi: true },
+          { text: " — a task can pause, ask the user, and resume, on desktop, iMessage/SMS, and Telegram. A lock stops two sessions answering the same prompt." },
+        ],
+        [
+          { text: "Knowledge service", hi: true },
+          { text: " — wrote the founding tech design, then built idempotent ingestion across Slack, Gmail, Calendar, Drive, and GitHub and a semantic search REST API (BGE-M3) on FastAPI, Cloud Run, and Firestore." },
+        ],
       ],
+      image: {
+        src: "/images/experience/simular/team-collage.jpg",
+        alt: "Collage of photos with the Simular team: dinners, a conference booth, a team outing, a Simular cake, and desk shots",
+        caption: "The Simular team.",
+      },
     },
   },
   {
@@ -58,7 +80,7 @@ export const experience: ExperienceRole[] = [
       { text: "RoomU", href: "https://roomu.aggieworks.org/" },
       { text: ", a roommate-finding app for 40,000+ UC Davis students." },
     ],
-    tech: ["React Native", "Hono", "Drizzle"],
+    tech: ["React Native", "Ios", "Hono", "Drizzle"],
     year: "Jan 2026 – Mar 2026",
     photo: {
       src: "/images/experience/aggieworks-team.jpg",
@@ -75,7 +97,7 @@ export const experience: ExperienceRole[] = [
       built: [
         { text: "An applied-filters bar and confirmation dialog in React Native (NativeWind + Reanimated), plus RoomU's " },
         { text: "app-versioning system end to end", hi: true },
-        { text: " — a Hono/Drizzle backend, a TanStack Query hook, and an animated update modal to keep every client on the same version." },
+        { text: " — a REST API on Hono/Drizzle, a TanStack Query hook, and an animated update modal to keep every client on the same version." },
       ],
     },
   },
@@ -86,8 +108,8 @@ export const experience: ExperienceRole[] = [
     logoVariant: "tcs",
     logoSrc: "/images/experience/tcs.svg",
     location: "Singapore",
-    role: "SWE Intern",
-    desc: [{ text: "Cut a Misty II robot's response time from 7s to 3s and built a booking system for 50+ staff." }],
+    role: "AI Research & Innovation Intern",
+    desc: [{ text: "Tackled 3 projects across robotics, full-stack, and applied AI: a Misty II robot, a booking system, and a RAG chatbot." }],
     tech: ["PyTorch", "React", "LangChain"],
     year: "Sep 2025 – Dec 2025",
     photo: {
@@ -98,14 +120,23 @@ export const experience: ExperienceRole[] = [
     modal: {
       meta: "Innovation Lab · 2025 · Singapore",
       overview: [
-        { text: "Prototyped inside TCS's Pace Port innovation lab — most memorably a " },
-        { text: "Misty II robot", hi: true },
-        { text: " whose response time I cut from 7s to 3s, with a custom AI personality framework (face tracking, idle behaviors) demoed to Toyota and UBS." },
+        { text: "Worked across " },
+        { text: "three projects", hi: true },
+        { text: " at TCS's Pace Port innovation lab, spanning robotics, full-stack, and applied AI: a personality framework for a Misty II robot, a meeting room booking system, and a RAG chatbot." },
       ],
-      built: [
-        { text: "A Misty II personality framework in " },
-        { text: "PyTorch / OpenCV / YOLO", hi: true },
-        { text: ", plus a full-stack booking system for 50+ staff in six weeks (React/Node/Postgres, 30+ endpoints, double-booking prevention) and a LangChain RAG chatbot grounded in internal docs." },
+      points: [
+        [
+          { text: "Misty II robot", hi: true },
+          { text: " — a custom personality framework in PyTorch, OpenCV, and YOLO. Cut response time from 7s to 3s by optimizing frame processing, and built face tracking plus idle behaviors (wave greetings, backtracking search, jokes, sleeping, grumbling) so the robot stays present between interactions. Demoed to Toyota and UBS." },
+        ],
+        [
+          { text: "Booking system", hi: true },
+          { text: " — led a full-stack meeting room booking app for 50+ staff (React, Node.js, PostgreSQL on GCP). 30+ REST API endpoints covering auth, bookings, admin approvals, and email notifications, with transactional constraints so concurrent requests can't claim the same slot. Guided 3 teammates through weekly code reviews." },
+        ],
+        [
+          { text: "RAG chatbot", hi: true },
+          { text: " — built with LangChain, grounding LLM responses in indexed internal docs and real-time database checks." },
+        ],
       ],
     },
   },
@@ -117,8 +148,8 @@ export const experience: ExperienceRole[] = [
     logoSrc: "/images/experience/ntt.svg",
     location: "Jakarta, Indonesia",
     role: "Frontend Engineer Intern",
-    desc: [{ text: "Shipped React/Next.js UI for REGLA, NTT's IFRS compliance platform for banks like MUFG." }],
-    tech: ["React", "Next.js", "TypeScript"],
+    desc: [{ text: "Learned React from scratch, then fixed shared UI in REGLA IFRS 9, NTT's compliance platform for banks." }],
+    tech: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
     year: "Jun 2024 – Aug 2024",
     photo: {
       src: "/images/experience/ntt-team.jpg",
@@ -128,15 +159,29 @@ export const experience: ExperienceRole[] = [
     modal: {
       meta: "Frontend · 2024 · Jakarta, Indonesia",
       overview: [
-        { text: "Shipped production " },
-        { text: "React / Next.js UI", hi: true },
-        { text: " for REGLA, NTT's flagship IFRS 7/9/15/16 compliance platform — the regulatory-reporting software that banks like MUFG, JTrust, and Bank Mandiri file against." },
+        { text: "My first engineering internship. Learned " },
+        { text: "JavaScript, React, and Next.js from scratch", hi: true },
+        { text: ", then contributed UI fixes to REGLA IFRS 9, NTT's compliance platform for banks." },
       ],
-      built: [
-        { text: "Front-end work on REGLA's " },
-        { text: "regulatory-reporting flows", hi: true },
-        { text: " — the React/Next.js compliance screens behind IFRS 7/9/15/16 filings for enterprise banking clients." },
+      points: [
+        [
+          { text: "Shared layout fixes", hi: true },
+          { text: " — fixed sidebar menus that opened behind page content, and reworked the dashboard grid and cards for tablet and desktop widths." },
+        ],
+        [
+          { text: "Responsive toolbar", hi: true },
+          { text: " — table actions now collapse to icon-only buttons on smaller screens." },
+        ],
+        [
+          { text: "Team workflow", hi: true },
+          { text: " — worked in agile sprints with about ten developers, merging through GitLab with enforced lint and commit checks." },
+        ],
       ],
+      image: {
+        src: "/images/experience/ntt/regla-login.jpg",
+        alt: "REGLA's sign-in screen: a username field beside an isometric illustration of people working around servers and a chip",
+        caption: "REGLA's sign-in screen.",
+      },
     },
   },
   {
@@ -145,7 +190,7 @@ export const experience: ExperienceRole[] = [
     logo: "KC",
     logoVariant: "koko",
     logoSrc: "/images/experience/kokocoder.svg",
-    location: "Jakarta, Indonesia · Remote",
+    location: "Jakarta, Indonesia",
     role: "Competitive Programming Coach (C++ & Python)",
     desc: [{ text: "Spent 300+ hours coaching high-schoolers for Indonesia's National Olympiad in Informatics." }],
     tech: ["C++", "Python", "Algorithms"],

@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import SectionHeading from "@/components/SectionHeading";
 import { experience, experienceHeading } from "@/content/experience";
 import { ExperienceRole, LogoVariant, RichText } from "@/content/types";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import { useScramble } from "@/hooks/useScramble";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import ExperienceModal from "./ExperienceModal";
 import styles from "./Experience.module.css";
 
 const LOGO_CLASS: Record<LogoVariant, string> = {
@@ -54,9 +55,10 @@ interface TreeRowProps {
   open: boolean;
   /** Scroll-driven: true once enough of the photo's height fits on screen. */
   photoOpen: boolean;
+  onDetails: (role: ExperienceRole) => void;
 }
 
-function TreeRow({ role, side, index, open, photoOpen }: TreeRowProps) {
+function TreeRow({ role, side, index, open, photoOpen, onDetails }: TreeRowProps) {
   const reduced = useReducedMotion();
   const scramble = useScramble(reduced);
   const coRef = useRef<HTMLSpanElement>(null);
@@ -119,6 +121,12 @@ function TreeRow({ role, side, index, open, photoOpen }: TreeRowProps) {
                 <div className={styles.cardYear}>{role.year}</div>
               </div>
               <div className={styles.cardRole}>{role.role}</div>
+              {role.stat && (
+                <div className={styles.cardStat}>
+                  <span className={styles.cardStatValue}>{role.stat.value}</span>
+                  <span className={styles.cardStatLabel}>{role.stat.label}</span>
+                </div>
+              )}
               <p className={styles.cardDesc}>
                 <Rich text={role.desc} />
               </p>
@@ -154,6 +162,21 @@ function TreeRow({ role, side, index, open, photoOpen }: TreeRowProps) {
               <span key={t}>{t}</span>
             ))}
           </div>
+          {/* The one real control on the card. Its ::after stretches over the
+              whole card, so clicking anywhere opens the details while inline
+              links (lifted above it) keep working. */}
+          <button
+            type="button"
+            className={styles.detailsBtn}
+            aria-haspopup="dialog"
+            aria-label={`Details: ${role.company}`}
+            onClick={() => onDetails(role)}
+          >
+            Details
+            <span className={styles.detailsArrow} aria-hidden>
+              →
+            </span>
+          </button>
         </div>
       </article>
       <div className={styles.node} />
@@ -171,6 +194,9 @@ export default function Experience() {
   const [openThrough, setOpenThrough] = useState(-1);
   // Same idea for the photos, which open on a later trigger than the card.
   const [photoThrough, setPhotoThrough] = useState(-1);
+  // Role shown in the details dialog (null = closed).
+  const [detail, setDetail] = useState<ExperienceRole | null>(null);
+  const closeDetail = useCallback(() => setDetail(null), []);
 
   // A single rAF-throttled scroll handler finds the last card whose centre has
   // risen past the viewport centre line. State only changes when that index
@@ -257,10 +283,12 @@ export default function Experience() {
               index={i}
               open={reduced || i <= openThrough}
               photoOpen={reduced || i <= photoThrough}
+              onDetails={setDetail}
             />
           ))}
         </div>
       </div>
+      <ExperienceModal role={detail} onClose={closeDetail} />
     </section>
   );
 }
