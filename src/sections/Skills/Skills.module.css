@@ -49,7 +49,6 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  border-bottom: 0.5px solid var(--border-sub);
   padding-bottom: 20px;
   margin-bottom: 58px;
 }
@@ -140,7 +139,7 @@
   background: var(--surface);
   color: var(--accent);
   text-decoration: none;
-  cursor: pointer;
+  cursor: var(--cursor-link);
   transition: transform 0.22s var(--ease), border-color 0.22s var(--ease),
     box-shadow 0.22s var(--ease), color 0.22s var(--ease);
 }
