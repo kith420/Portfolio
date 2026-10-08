@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "resume:encrypt": "node --env-file=.env.local scripts/encrypt-resume.mjs"
   },
   "dependencies": {
     "next": "^16.2.10",

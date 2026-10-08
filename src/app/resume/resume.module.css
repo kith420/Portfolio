@@ -1,0 +1,262 @@
+/* ---------- Password gate ----------------------------------------------- */
+.gate {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 32px 28px;
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: 6px;
+}
+
+/* Accent corner brackets, as on the hero portrait. */
+.card::before,
+.card::after {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.card::before {
+  top: 0;
+  left: 0;
+  border-top: 1.5px solid var(--accent);
+  border-left: 1.5px solid var(--accent);
+}
+
+.card::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 1.5px solid var(--accent);
+  border-right: 1.5px solid var(--accent);
+}
+
+.badge {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 20px;
+  color: var(--accent);
+  background: var(--dark);
+  border: 1px solid var(--border);
+}
+
+.title {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(22px, 6.6vw, 30px);
+  line-height: 1;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-top: 20px;
+}
+
+.lead {
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  color: var(--muted);
+  margin-top: 12px;
+}
+
+.field {
+  position: relative;
+  width: 100%;
+  margin-top: 28px;
+}
+
+.fieldIcon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  translate: 0 -50%;
+  font-size: 16px;
+  color: var(--faint);
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  padding: 13px 44px;
+  font-family: var(--mono);
+  font-size: var(--fs-md);
+  color: var(--ink);
+  background: var(--dark);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  transition: border-color 0.2s;
+}
+
+.input::placeholder {
+  color: var(--faint);
+  opacity: 0.7;
+}
+
+.input:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.input[aria-invalid="true"] {
+  border-color: #d67b6b;
+}
+
+.toggle {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  translate: 0 -50%;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  color: var(--faint);
+  background: none;
+  border: 0;
+  border-radius: 3px;
+  cursor: var(--cursor-link);
+  transition: color 0.2s;
+}
+
+.toggle:hover {
+  color: var(--ink);
+}
+
+.error {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: #e39a8c;
+  margin-top: 10px;
+}
+
+.submit {
+  width: 100%;
+  margin-top: 16px;
+  padding: 13px 22px;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #0f1014;
+  background: var(--accent);
+  border: 0;
+  border-radius: 3px;
+  cursor: var(--cursor-link);
+  transition: opacity 0.2s;
+}
+
+.submit:hover {
+  opacity: 0.85;
+}
+
+.help {
+  width: 100%;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+
+.help a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: var(--fs-sm);
+  color: var(--ink);
+  overflow-wrap: anywhere;
+  transition: color 0.2s;
+}
+
+.help a:hover {
+  color: var(--accent);
+}
+
+.home {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  margin-top: 20px;
+  transition: color 0.2s;
+}
+
+.home:hover {
+  color: var(--ink);
+}
+
+/* ---------- Unlocked viewer --------------------------------------------- */
+.viewer {
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.bar a {
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.bar a:hover {
+  color: var(--ink);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.bar a.download {
+  color: #0f1014;
+  background: var(--accent);
+  padding: 7px 14px;
+  border-radius: 3px;
+}
+
+.bar a.download:hover {
+  color: #0f1014;
+  opacity: 0.85;
+}
+
+.frame {
+  flex: 1;
+  width: 100%;
+  border: 0;
+  background: var(--surface);
+}

@@ -144,3 +144,6 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Unencrypted resume copies never belong in the repo (see scripts/encrypt-resume.mjs)
+private/*.pdf
