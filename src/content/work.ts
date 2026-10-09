@@ -122,8 +122,8 @@ export const work: WorkProject[] = [
         bg: "#eceaf7",
       },
       {
-        caption: "a roommate profile",
-        src: "/images/work/roomu-profile.jpg",
+        caption: "a sublease listing, your profile and onboarding",
+        src: "/images/work/roomu-onboarding.jpg",
         fit: "contain",
         bg: "#eceaf7",
       },
@@ -209,11 +209,11 @@ export const work: WorkProject[] = [
     tags: ["C++", "TCFrame", "Algorithms", "Problemsetting"],
     status: "Held",
     year: "2023",
-    desc: "I was lead author of TOKI Regular Open Contest #33. I wrote the problems, their solutions and test suites, and the editorials people read after the contest ended.",
+    desc: "I was one of the lead authors of TOKI Regular Open Contest #33, a recurring online competitive programming contest from the NOI/IOI Indonesian Alumni (TOKI)",
     hi: [
+      "Wrote the problems, their solutions and test suites, and the editorials",
       "300+ participants from around the world",
       "Test data generated and checked with TCFrame",
-      "Editorials written alongside the problems",
     ],
     figures: [
       {

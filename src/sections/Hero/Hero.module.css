@@ -38,20 +38,40 @@
   will-change: transform;
 }
 
-.tile {
-  position: relative;
+/* Each column stacks two tiles. The split alternates column to column so the
+   seams don't line up into one horizontal rule across the strip. */
+.column {
   width: 320px;
   height: 100vh;
   flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tile {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 0;
   overflow: hidden;
   background: #0d0f14;
 }
 
+.column:nth-child(odd) .tile:first-child:not(:only-child),
+.column:nth-child(even) .tile:last-child:not(:only-child) {
+  flex-grow: 1.3;
+}
+
+/* Soft and mostly desaturated, so the photos read as one backdrop and the
+   accent stays the only strong colour. Scaled up to hide the blur's faded
+   edges inside the tile. */
 .media {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  filter: blur(3px) saturate(0.35);
+  scale: 1.06;
 }
 
 @keyframes drift {
@@ -64,7 +84,15 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: rgba(10, 11, 16, 0.6);
+  /* Heavier behind the text column so the small bio copy clears 4.5:1 even
+     over the brightest photo, easing off to the right where only the portrait
+     sits and the photos can show. */
+  background: linear-gradient(
+    90deg,
+    rgba(10, 11, 16, 0.84) 0%,
+    rgba(10, 11, 16, 0.84) 52%,
+    rgba(10, 11, 16, 0.55) 85%
+  );
 }
 
 .grain {
@@ -296,7 +324,7 @@
     width: 112px;
     margin-bottom: 28px;
   }
-  .tile {
+  .column {
     width: 160px;
   }
   .track {
@@ -306,8 +334,9 @@
     font-size: 88px;
     line-height: 0.88;
   }
+  /* Text spans the full width here, so the scrim does too. */
   .overlay {
-    background: rgba(10, 11, 16, 0.68);
+    background: rgba(10, 11, 16, 0.84);
   }
   .grain {
     opacity: 0.03;

@@ -172,7 +172,7 @@ function TreeRow({ role, side, index, open, photoOpen, onDetails }: TreeRowProps
             aria-label={`Details: ${role.company}`}
             onClick={() => onDetails(role)}
           >
-            Details
+            View details
             <span className={styles.detailsArrow} aria-hidden>
               →
             </span>

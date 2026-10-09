@@ -50,21 +50,35 @@ function MediaTile({ item }: { item: HeroMedia }) {
 
 export default function Hero() {
   const { carousel } = hero;
-  // Duplicate the list so the -50% drift loops seamlessly (see .module.css).
-  const media = carousel.length ? [...carousel, ...carousel] : null;
+  // Two tiles to a column. Pad a short list to at least 8 columns so one lap
+  // outspans a wide monitor, then duplicate it so the -50% drift loops
+  // seamlessly (see .module.css).
+  const columns: HeroMedia[][] = [];
+  for (let i = 0; i < carousel.length; i += 2) columns.push(carousel.slice(i, i + 2));
+  const lap = columns.length
+    ? Array.from({ length: Math.ceil(8 / columns.length) }, () => columns).flat()
+    : [];
+  const media = lap.length ? [...lap, ...lap] : null;
 
   return (
     <section id="hero" className={styles.hero}>
       <div className={styles.carousel} aria-hidden>
         <div className={styles.track}>
           {media
-            ? media.map((item, i) => <MediaTile key={i} item={item} />)
+            ? media.map((column, i) => (
+                <div key={i} className={styles.column}>
+                  {column.map((item, j) => (
+                    <MediaTile key={j} item={item} />
+                  ))}
+                </div>
+              ))
             : [...SHADES, ...SHADES].map((shade, i) => (
-                <div
-                  key={i}
-                  className={styles.tile}
-                  style={{ background: `linear-gradient(160deg, ${shade}, #0d0f14)` }}
-                />
+                <div key={i} className={styles.column}>
+                  <div
+                    className={styles.tile}
+                    style={{ background: `linear-gradient(160deg, ${shade}, #0d0f14)` }}
+                  />
+                </div>
               ))}
         </div>
       </div>

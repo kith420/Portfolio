@@ -40,12 +40,20 @@ export const experience: ExperienceRole[] = [
       ],
       points: [
         [
-          { text: "Page context", hi: true },
-          { text: " — swapped raw page text for a lazy page object the agent can outline, grep, read, or ask. Wikipedia's Apollo 11 article went from 100,175 characters to 2,217." },
+          { text: "Web fetch", hi: true },
+          { text: " — cut the page context the agent reads by 45× on Wikipedia's Apollo 11 article, from 100,175 characters to 2,217. A fetch now returns a lazy page object instead of raw text: it opens on an outline capped at 4,000 characters, then the agent greps, reads, or asks the page a question, so context cost stopped scaling with page size." },
         ],
         [
           { text: "Web search", hi: true },
-          { text: " — built a search primitive on Exa's neural index so the agent skips the browser. 1.7× faster (16s vs 27.9s) with 36% fewer input tokens, across 21 queries and 3 graded runs." },
+          { text: " — built a search primitive on Exa's neural index so the agent skips the browser. 1.7× faster (16s vs 27.9s) with 36% fewer input tokens, across 21 queries and 3 graded runs. The index lags the live web, so recency queries fall back to the browser." },
+        ],
+        [
+          { text: "Link walking", hi: true },
+          { text: " — for pages the search index never saw, the agent live-crawls a URL it constructs, hops through real resolved links, or crawls a page's neighbourhood in one call. Capped at 20 pages or 60 seconds, same-origin by default." },
+        ],
+        [
+          { text: "Knowledge service", hi: true },
+          { text: " — wrote the founding tech design, then built idempotent ingestion across Slack, Gmail, Calendar, Drive, and GitHub and a semantic search REST API (BGE-M3) on FastAPI, Cloud Run, and Firestore." },
         ],
         [
           { text: "⌘K search", hi: true },
@@ -56,8 +64,8 @@ export const experience: ExperienceRole[] = [
           { text: " — a task can pause, ask the user, and resume, on desktop, iMessage/SMS, and Telegram. A lock stops two sessions answering the same prompt." },
         ],
         [
-          { text: "Knowledge service", hi: true },
-          { text: " — wrote the founding tech design, then built idempotent ingestion across Slack, Gmail, Calendar, Drive, and GitHub and a semantic search REST API (BGE-M3) on FastAPI, Cloud Run, and Firestore." },
+          { text: "And the rest", hi: true },
+          { text: " — 30 merged PRs over the summer. Beyond the features above: shareable session links, composer drafts that survive a reload or restart, and 11 smaller fixes, from a modal that silently no-opped in production builds to a CI runner pinned after a toolchain update broke untouched builds." },
         ],
       ],
       image: {

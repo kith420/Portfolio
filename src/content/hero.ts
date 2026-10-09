@@ -19,11 +19,37 @@ export const hero: HeroContent = {
   },
   /**
    * Background filmstrip. Drop files in `public/images/hero/` and list them
-   * here — they auto-duplicate for the seamless loop, so order = drift order.
-   * Leave empty to keep the procedural dark-gradient fallback.
+   * here. Tiles stack two to a column, so each consecutive pair below is one
+   * column (top, then bottom) and the pairs drift past in order. Roughly 3:4
+   * portrait crops suit the tiles best. Leave empty to keep the procedural
+   * dark-gradient fallback.
    *
    *   { type: "image", src: "/images/hero/atc.jpg", alt: "" },
    *   { type: "video", src: "/images/hero/reel.mp4", poster: "/images/hero/reel.jpg" },
    */
-  carousel: [],
+  carousel: [
+    { type: "image", src: "/images/hero/vegas-night.jpg", alt: "" },
+    { type: "image", src: "/images/hero/coast-path.jpg", alt: "" },
+
+    { type: "image", src: "/images/hero/tahoe.jpg", alt: "" },
+    { type: "image", src: "/images/hero/fushimi.jpg", alt: "" },
+
+    { type: "image", src: "/images/hero/barrage-kites.jpg", alt: "" },
+    { type: "image", src: "/images/hero/ski-run.jpg", alt: "" },
+
+    { type: "image", src: "/images/hero/yosemite.jpg", alt: "" },
+    { type: "image", src: "/images/hero/artscience.jpg", alt: "" },
+
+    { type: "image", src: "/images/hero/morro-bay.jpg", alt: "" },
+    { type: "image", src: "/images/hero/griffith.jpg", alt: "" },
+
+    { type: "image", src: "/images/hero/ski-peaks.jpg", alt: "" },
+    { type: "image", src: "/images/hero/marina-bay-sands.jpg", alt: "" },
+
+    { type: "image", src: "/images/hero/marina-bay.jpg", alt: "" },
+    { type: "image", src: "/images/hero/clouds.jpg", alt: "" },
+
+    { type: "image", src: "/images/hero/grand-canyon.jpg", alt: "" },
+    { type: "image", src: "/images/hero/beach-dusk.jpg", alt: "" },
+  ],
 };

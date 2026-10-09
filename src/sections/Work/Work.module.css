@@ -140,8 +140,9 @@
 
 .sy {
   font-family: var(--label);
-  font-weight: 300;
-  font-size: 9px;
+  font-weight: 500;
+  font-size: 11.5px;
+  line-height: 1.2;
   color: var(--accent-ink);
 }
 
@@ -364,6 +365,28 @@
   border: 1px solid var(--work-border);
   padding: 2px 6px;
   background: var(--work-bg);
+}
+
+.expChipLink {
+  cursor: var(--cursor-link);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.expChipLink:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.hlLink {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+
+.hlLink:hover {
+  color: var(--accent);
 }
 
 .expLinks {

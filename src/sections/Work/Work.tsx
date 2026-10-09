@@ -90,6 +90,37 @@ function TagLabel({ tag }: { tag: string }) {
   );
 }
 
+/** Tag label -> docs. Linked in the expanded card's chips and highlights. */
+const TAG_LINKS: Record<string, string> = {
+  TCFrame: "https://tcframe.toki.id/",
+};
+
+/** A highlight with any linked tag name turned into its docs link. */
+function Highlight({ text }: { text: string }) {
+  const names = Object.keys(TAG_LINKS).filter((n) => text.includes(n));
+  if (names.length === 0) return <>{text}</>;
+  const parts = text.split(new RegExp(`(${names.join("|")})`));
+  return (
+    <span>
+      {parts.map((part, i) =>
+        TAG_LINKS[part] ? (
+          <a
+            key={i}
+            href={TAG_LINKS[part]}
+            className={styles.hlLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {part}
+          </a>
+        ) : (
+          part
+        ),
+      )}
+    </span>
+  );
+}
+
 /** Link host -> logo. Anything else gets the generic "opens elsewhere" arrow. */
 const LINK_ICONS: Record<string, IconType> = {
   "github.com": SiGithub,
@@ -449,16 +480,30 @@ function ExpansionPanel({ project, closing, onClosed }: PanelProps) {
               <div className={styles.highlights} data-anim="highlights">
                 {project.hi.map((h) => (
                   <div key={h} className={styles.hl}>
-                    {h}
+                    <Highlight text={h} />
                   </div>
                 ))}
               </div>
               <div className={styles.expChips}>
-                {project.tags.map((t) => (
-                  <span key={t} data-chip className={styles.expChip}>
-                    <TagLabel tag={t} />
-                  </span>
-                ))}
+                {project.tags.map((t) =>
+                  TAG_LINKS[t] ? (
+                    <a
+                      key={t}
+                      data-chip
+                      href={TAG_LINKS[t]}
+                      className={`${styles.expChip} ${styles.expChipLink}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <TagLabel tag={t} />
+                      <FiArrowUpRight className={styles.chipIcon} aria-hidden />
+                    </a>
+                  ) : (
+                    <span key={t} data-chip className={styles.expChip}>
+                      <TagLabel tag={t} />
+                    </span>
+                  ),
+                )}
               </div>
               <div className={styles.expLinks} data-anim="expLinks">
                 {(project.links ?? []).filter((l) => l.href && l.href !== "#").map((l) => {
