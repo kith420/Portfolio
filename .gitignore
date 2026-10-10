@@ -147,3 +147,6 @@ vite.config.ts.timestamp-*
 
 # Unencrypted resume copies never belong in the repo (see scripts/encrypt-resume.mjs)
 private/*.pdf
+
+# Scratch renders and comparison sheets
+drafts/
