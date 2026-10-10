@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import { hero } from "@/content/hero";
 import type { HeroMedia } from "@/content/types";
 import styles from "./Hero.module.css";
@@ -18,6 +19,17 @@ const SHADES = [
   "#13161f",
 ];
 
+/** Per-tile crop override; 1.06 is the base overscan from .media. */
+function crop(item: HeroMedia): CSSProperties | undefined {
+  if (!item.position && !item.zoom) return undefined;
+  const [x, y] = item.position ?? [50, 50];
+  return {
+    objectPosition: `${x}% ${y}%`,
+    transformOrigin: `${x}% ${y}%`,
+    scale: 1.06 * (item.zoom ?? 1),
+  };
+}
+
 function MediaTile({ item }: { item: HeroMedia }) {
   if (item.type === "video") {
     return (
@@ -26,6 +38,7 @@ function MediaTile({ item }: { item: HeroMedia }) {
           className={styles.media}
           src={item.src}
           poster={item.poster}
+          style={crop(item)}
           autoPlay
           muted
           loop
@@ -41,6 +54,7 @@ function MediaTile({ item }: { item: HeroMedia }) {
         className={styles.media}
         src={item.src}
         alt={item.alt ?? ""}
+        style={crop(item)}
         fill
         sizes="320px"
       />
@@ -96,21 +110,25 @@ export default function Hero() {
           ))}
         </h1>
         {hero.tagline && <div className={styles.tagline}>{hero.tagline}</div>}
-        <p className={styles.bio}>
-          {hero.bio.map((seg, i) =>
-            seg.href ? (
-              <a key={i} href={seg.href} className={styles.link}>
-                {seg.text}
-              </a>
-            ) : seg.hi ? (
-              <span key={i} className={styles.hi}>
-                {seg.text}
-              </span>
-            ) : (
-              <span key={i}>{seg.text}</span>
-            ),
-          )}
-        </p>
+        <div className={styles.bio}>
+          {hero.bio.map((para, pi) => (
+            <p key={pi}>
+              {para.map((seg, i) =>
+                seg.href ? (
+                  <a key={i} href={seg.href} className={styles.link}>
+                    {seg.text}
+                  </a>
+                ) : seg.hi ? (
+                  <span key={i} className={styles.hi}>
+                    {seg.text}
+                  </span>
+                ) : (
+                  <span key={i}>{seg.text}</span>
+                ),
+              )}
+            </p>
+          ))}
+        </div>
         <div className={styles.cta}>
           <a href={hero.cta.primary.href} className={styles.btnPrimary}>
             {hero.cta.primary.label}

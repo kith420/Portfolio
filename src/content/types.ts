@@ -21,10 +21,15 @@ export interface Link {
  * One tile in the drifting background carousel. `src` is a path under
  * `public/` (e.g. "/hero/1.jpg"). Videos autoplay muted+looping; give them a
  * `poster` so there's something to show before the file loads.
+ *
+ * Tiles are cover-cropped. `position` picks which part of the picture shows
+ * (x%, y% — default centre) and `zoom` enlarges it past the cover fit
+ * (default 1). Set both visually at /hero-canvas in dev.
  */
-export type HeroMedia =
+export type HeroMedia = (
   | { type: "image"; src: string; alt?: string }
-  | { type: "video"; src: string; poster?: string };
+  | { type: "video"; src: string; poster?: string }
+) & { position?: [number, number]; zoom?: number };
 
 export interface HeroContent {
   eyebrow: string;
@@ -32,7 +37,8 @@ export interface HeroContent {
   name: string[];
   /** Optional tagline under the name. */
   tagline?: string;
-  bio: RichText;
+  /** One entry per paragraph. */
+  bio: RichText[];
   cta: { primary: Link; ghost: Link };
   /** Background filmstrip. Empty = fall back to procedural gradient tiles. */
   carousel: HeroMedia[];

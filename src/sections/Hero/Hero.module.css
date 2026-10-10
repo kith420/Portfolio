@@ -33,7 +33,7 @@
 
 .track {
   display: flex;
-  gap: 12px;
+  gap: 4px;
   animation: drift 32s linear infinite;
   will-change: transform;
 }
@@ -46,7 +46,7 @@
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 4px;
 }
 
 .tile {
@@ -164,15 +164,20 @@
 }
 
 .bio {
-  font-family: var(--mono);
-  font-size: var(--fs-sm);
+  font-family: var(--display);
+  font-size: 16px;
   font-weight: 400;
-  line-height: 1.85;
+  line-height: 1.65;
   color: var(--muted);
   max-width: 440px;
   margin-top: 30px;
   opacity: 0;
   animation: fadeUp 0.6s ease 0.5s forwards;
+}
+
+/* Half a line between paragraphs: still one bio, not two blocks. */
+.bio p + p {
+  margin-top: 0.8em;
 }
 
 .hi {
@@ -313,16 +318,44 @@
   .hero {
     padding: 120px 24px 100px;
   }
+  /* One size drives both the name and the portrait beside it. The name scales
+     with the screen so its longest line ("Poernama") always fits the column:
+     full size from ~530px up, shrinking in step below that. */
   .inner {
-    grid-template-columns: 1fr;
+    --name-size: clamp(44px, 16.5vw, 88px);
+    grid-template-columns: minmax(0, 1fr) auto;
     max-width: 520px;
   }
-  /* Small portrait above the name instead of hiding it. */
+  /* The text blocks become rows of the same grid as the portrait, so it can
+     share the name's row. */
+  .content {
+    display: contents;
+  }
+  .content > * {
+    position: relative;
+    z-index: 3;
+    grid-column: 1 / -1;
+  }
+  .eyebrow {
+    grid-row: 1;
+  }
+  .name {
+    grid-row: 2;
+  }
+  /* Small portrait in the gap to the right of the two short name lines
+     ("Nathan", "Keith"), spanning exactly their height. */
   .photo {
-    order: -1;
-    justify-self: start;
-    width: 112px;
-    margin-bottom: 28px;
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+    width: calc(var(--name-size) * 1.35);
+    margin-top: calc(var(--name-size) * 0.06);
+    border-radius: 4px;
+  }
+  .photo::before,
+  .photo::after {
+    width: 22px;
+    height: 22px;
   }
   .column {
     width: 160px;
@@ -331,7 +364,7 @@
     animation-duration: 28s;
   }
   .name {
-    font-size: 88px;
+    font-size: var(--name-size);
     line-height: 0.88;
   }
   /* Text spans the full width here, so the scrim does too. */

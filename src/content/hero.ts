@@ -5,13 +5,18 @@ export const hero: HeroContent = {
   name: ["Nathan", "Keith Poernama"],
   // tagline: "Ships code. Sweats pixels.",
   bio: [
-    { text: "I'm a final-year Computer Science student at SUTD in Singapore, graduating May 2027. I've spent " },
-    { text: "three internships", hi: true, href: "#exp" },
-    { text: " building full-stack products at an AI startup and two major consulting firms. I've been doing " },
-    { text: "competitive programming in C++", hi: true, href: "#comp" },
-    { text: " since high school, and my focus is " },
-    { text: "low-level work", hi: true, href: "#work" },
-    { text: ": anything involving optimization and algorithms!" },
+    [
+      { text: "I'm a final-year Computer Science student at SUTD in Singapore, graduating May 2027. I've spent " },
+      { text: "three internships", hi: true, href: "#exp" },
+      { text: " building full-stack products at a computer-use AI startup and two major consulting firms." },
+    ],
+    [
+      { text: "I've been doing " },
+      { text: "competitive programming in C++", hi: true, href: "#comp" },
+      { text: " since high school, and my focus is " },
+      { text: "low-level work", hi: true, href: "#work" },
+      { text: ": anything involving optimization and algorithms!" },
+    ],
   ],
   cta: {
     primary: { label: "View resume", href: "/resume" },
