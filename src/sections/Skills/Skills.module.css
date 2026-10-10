@@ -100,12 +100,13 @@
   color: var(--ink2);
 }
 
-/* Tiles centre in the space beside the rail and wrap instead of overflowing. */
+/* The tile block centres in the space beside the rail; a wrapped last row
+   starts at the left edge of the block rather than centring on its own. */
 .tiles {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 88px);
   justify-content: center;
-  align-items: flex-start;
+  align-items: start;
   gap: 22px 8px;
 }
 
