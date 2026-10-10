@@ -135,10 +135,12 @@ export interface Competition {
 /* ------------------------------- Work ---------------------------------- */
 
 export interface WorkFigure {
-  /** Caption under the image in the opened panel, e.g. "interface, dark mode". */
-  caption: string;
+  /** What the image shows, for screen readers. Not displayed. */
+  alt: string;
   /** Image path under public/. Omit to show the tinted placeholder. */
   src?: string;
+  /** Muted clip path under public/. Plays over `src`, which is its poster. */
+  video?: string;
   /** "cover" (default) crops to fill; "contain" shows the whole image. */
   fit?: "cover" | "contain";
   /** Background behind a "contain" image, to match its edges. */
@@ -153,9 +155,12 @@ export interface WorkProject {
   tags: string[];
   status: string;
   year: string;
+  /** A result worth a medal on the stamp; `status` then names it. "plain"
+   *  is for results off the podium, in the stamp's usual colour. */
+  medal?: "gold" | "silver" | "bronze" | "plain";
   desc: string;
-  /** Exactly three metric-driven highlights. */
-  hi: [string, string, string];
+  /** Two or three metric-driven highlights. */
+  hi: [string, string] | [string, string, string];
   /** First figure is the card image; thumbnails appear when there are several. */
   figures: WorkFigure[];
   links?: Link[];

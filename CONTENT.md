@@ -151,14 +151,15 @@ How to edit:
 
 - One-liner: A browser extension that rewrites the corporate bloat on any page, or piles more on
 - Tags: JavaScript, Manifest V3, LLM APIs, Vite
-- Status: Shipped
+- Status: 3rd Place (bronze medal)
 - Year: 2026
 - Description: A browser extension with one switch per site. Decrapify turns a 200-word LinkedIn humblebrag into "I got a new job." Crapify does the reverse. We built it at the Dumb Duber Dumber Hackathon, placed 3rd, then shipped it to both browser stores.
 - Highlights:
   - 3rd place at the Dumb Duber Dumber Hackathon
   - Content-hashed cache, so repeated text never reaches the paid model twice
   - Viewport-first queue: blocks you scroll to jump ahead of off-screen ones
-- Image captions:
+- Image descriptions (alt text for screen readers, not shown):
+  - the extension cutting a Reddit post down, then piling it back on (video: cut-the-crap-demo.mp4)
   - a Reddit post, before and after
   - the per-site mode switch and lifetime stats
   - promo banner
@@ -171,17 +172,15 @@ How to edit:
 
 - One-liner: A live 3D train that points at the part that needs fixing, and explains why
 - Tags: React, Three.js, FastAPI, Cloud Run
-- Status: Shipped
+- Status: Semifinalist
 - Year: 2026
 - Description: Built by a team of 4 at the LTA NebulaX Hackathon. Drop a maintenance file onto the train and the fault shows up as a bubble on the exact component, with a plain explanation of what the model found. I built the full-stack integration layer and the 3D twin itself.
 - Highlights:
   - 4 subsystem ML models surfaced on the train: physics-based, Rainflow fatigue, ensembles
   - Upload a case file and the camera flies to the top-ranked car of an 8-car consist
   - Live on Firebase Hosting, with a REST API backend on Cloud Run
-- Image captions:
-  - findings pinned to car 4
-  - close-up of a flagged part
-  - asking the Conductor
+- Image descriptions (alt text for screen readers, not shown):
+  - a case file, from upload to diagnosis (video: smrt-twin-demo.mp4)
 - Links:
   - [Live demo](https://smrt-digital-twin-2026.web.app/)
   - [GitHub](https://github.com/KidSmithy/nebulax_p3)
@@ -197,7 +196,7 @@ How to edit:
   - Reusable Applied Filters Bar and confirmation dialogs (NativeWind, Reanimated)
   - Full-stack semver versioning system with a REST API on Hono and Drizzle
   - In the hands of 190+ students
-- Image captions:
+- Image descriptions (alt text for screen readers, not shown):
   - profile, matches and chat
   - the lifestyle quiz
   - a sublease listing, your profile and onboarding
@@ -215,10 +214,10 @@ How to edit:
   - 32-bit ALU from logic gates: adder, multiplier, shifter, comparator
   - 41-state control unit driving the datapath and register files
   - One 16-bit random draw per round, sliced into an 8-color sequence
-- Image captions:
-  - the arcade cabinet, CAD render
+- Image descriptions (alt text for screen readers, not shown):
+  - how a round works: one random number, sliced into moves, then played (video: tappin-queen-explainer.mp4)
   - the built prototype
-  - 41-state control unit
+  - the control unit's state machine
 - Links:
   - [GitHub](https://github.com/kith420/50.002-1D)
 
@@ -235,7 +234,7 @@ How to edit:
   - Map clustering that groups nearby hotels and splits apart as you zoom
   - Node.js/Express REST API on MySQL, with cascading deletes and role-based auth
   - 78% test coverage with Vitest and React Testing Library
-- Image captions:
+- Image descriptions (alt text for screen readers, not shown):
   - screenshot coming
 - Links:
   - [Frontend](https://github.com/how2fps/esc-booking-frontend)
@@ -254,7 +253,7 @@ How to edit:
   - 300+ participants from around the world
   - Test data generated and checked with TCFrame
   - Editorials written alongside the problems
-- Image captions:
+- Image descriptions (alt text for screen readers, not shown):
   - screenshot coming
 - Links:
   - [Contest page](https://tlx.toki.id/contests/troc-33)

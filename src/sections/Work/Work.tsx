@@ -1,12 +1,13 @@
 "use client";
 
-import { Fragment, useCallback, useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { IconType } from "react-icons";
+import { FaMedal } from "react-icons/fa6";
 import {
   FiArrowUpRight,
   FiChevronLeft,
   FiChevronRight,
+  FiImage,
   FiX,
 } from "react-icons/fi";
 import {
@@ -35,8 +36,84 @@ import { WorkFigure, WorkProject } from "@/content/types";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import styles from "./Work.module.css";
 
-/* A project image, or the duotone placeholder when a figure has no src yet. */
-function Figure({ figure }: { figure?: WorkFigure }) {
+/* Where each clip last was, keyed by its src. The card, the dialog and the
+   lightbox each mount their own <video> for the same clip, so each one picks
+   up where the previous left off instead of starting over. */
+const clipClock = new Map<
+  string,
+  { time: number; at: number; playing: boolean }
+>();
+
+interface ClipProps {
+  src: string;
+  poster?: string;
+  label: string;
+  className: string;
+  style?: React.CSSProperties;
+  autoPlay?: boolean;
+  controls?: boolean;
+  onClick?: React.MouseEventHandler<HTMLVideoElement>;
+}
+
+/* A muted, looping clip that resumes from the shared clock. */
+function Clip({
+  src,
+  poster,
+  label,
+  className,
+  style,
+  autoPlay = true,
+  controls = false,
+  onClick,
+}: ClipProps) {
+  const note = (v: HTMLVideoElement) =>
+    clipClock.set(src, {
+      time: v.currentTime,
+      at: performance.now(),
+      playing: !v.paused,
+    });
+
+  return (
+    <video
+      className={className}
+      src={src}
+      poster={poster}
+      aria-label={label}
+      style={style}
+      autoPlay={autoPlay}
+      controls={controls}
+      muted
+      loop
+      playsInline
+      onClick={onClick}
+      onLoadedMetadata={(e) => {
+        const v = e.currentTarget;
+        const last = clipClock.get(src);
+        if (!last || !v.duration) return;
+        // Count the time since the last copy went away, so the hand-over
+        // between copies doesn't read as a jump back.
+        const gap = last.playing ? (performance.now() - last.at) / 1000 : 0;
+        v.currentTime = (last.time + gap) % v.duration;
+      }}
+      onTimeUpdate={(e) => note(e.currentTarget)}
+      onPause={(e) => note(e.currentTarget)}
+    />
+  );
+}
+
+/* A project image, or the duotone placeholder when a figure has no src yet.
+   While `playing`, a figure with a clip plays it over the image. */
+function Figure({
+  figure,
+  playing = false,
+}: {
+  figure?: WorkFigure;
+  playing?: boolean;
+}) {
+  const media = {
+    objectFit: figure?.fit ?? "cover",
+    objectPosition: figure?.position,
+  };
   return (
     <div
       className={styles.imgInner}
@@ -47,15 +124,21 @@ function Figure({ figure }: { figure?: WorkFigure }) {
         <img
           className={styles.figImg}
           src={figure.src}
-          alt={figure.caption}
+          alt={figure.alt}
           loading="lazy"
-          style={{
-            objectFit: figure.fit ?? "cover",
-            objectPosition: figure.position,
-          }}
+          style={media}
         />
       ) : (
         <div className={styles.tint} />
+      )}
+      {playing && figure?.video && (
+        <Clip
+          className={styles.figVideo}
+          src={figure.video}
+          poster={figure.src}
+          label={figure.alt}
+          style={media}
+        />
       )}
     </div>
   );
@@ -90,7 +173,7 @@ function TagLabel({ tag }: { tag: string }) {
   );
 }
 
-/** Tag label -> docs. Linked in the expanded card's chips and highlights. */
+/** Tag label -> docs. Linked in the details dialog's chips and highlights. */
 const TAG_LINKS: Record<string, string> = {
   TCFrame: "https://tcframe.toki.id/",
 };
@@ -137,10 +220,21 @@ function linkIcon(href: string): IconType {
   }
 }
 
-function Stamp({ status, year }: { status: string; year: string }) {
+/* The card's stamp. A project with a placing gets a medal in that metal. */
+function Stamp({ project }: { project: WorkProject }) {
+  const { status, year, medal } = project;
   return (
-    <div className={styles.cstamp} aria-hidden>
-      <span className={styles.st}>{status}</span>
+    <div
+      className={`${styles.cstamp} ${medal ? styles[medal] : ""}`}
+      aria-hidden
+    >
+      {medal && <FaMedal className={styles.medal} />}
+      {/* Longer results ("Semifinalist") are set smaller to stay in the ring. */}
+      <span
+        className={`${styles.st} ${status.length > 9 ? styles.stLong : ""}`}
+      >
+        {status}
+      </span>
       <span className={styles.sy}>{year}</span>
     </div>
   );
@@ -152,15 +246,35 @@ interface CardProps {
   project: WorkProject;
   index: number;
   active: boolean;
-  onToggle: (index: number, el: HTMLElement) => void;
+  onOpen: (index: number) => void;
   registerRef: (index: number, el: HTMLDivElement | null) => void;
 }
 
-function WorkCard({ project, index, active, onToggle, registerRef }: CardProps) {
+function WorkCard({ project, index, active, onOpen, registerRef }: CardProps) {
+  const reduced = useReducedMotion();
+  const cardRef = useRef<HTMLDivElement | null>(null);
   const setRef = useCallback(
-    (el: HTMLDivElement | null) => registerRef(index, el),
+    (el: HTMLDivElement | null) => {
+      cardRef.current = el;
+      registerRef(index, el);
+    },
     [registerRef, index],
   );
+
+  // A card's clip plays only while the card is on screen, so it isn't
+  // fetched or decoded before the visitor scrolls down to it.
+  const hasVideo = Boolean(project.figures[0]?.video);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el || !hasVideo) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.25 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [hasVideo]);
 
   return (
     <div
@@ -171,20 +285,24 @@ function WorkCard({ project, index, active, onToggle, registerRef }: CardProps) 
       className={`${styles.pcard} ${active ? styles.active : ""}`}
       role="button"
       tabIndex={0}
-      aria-expanded={active}
+      aria-haspopup="dialog"
       aria-label={`${project.name} — ${project.tag}`}
-      onClick={(e) => onToggle(index, e.currentTarget)}
+      onClick={() => onOpen(index)}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          onToggle(index, e.currentTarget);
+          onOpen(index);
         }
       }}
     >
       <div className={styles.pcardImg}>
-        <Figure figure={project.figures[0]} />
-        <Stamp status={project.status} year={project.year} />
+        <Figure
+          figure={project.figures[0]}
+          playing={inView && !active && !reduced}
+        />
       </div>
+      {/* Outside the image box, so it can overhang the card's corner. */}
+      <Stamp project={project} />
       <div className={styles.pcardBody}>
         <div className={styles.pname}>{project.name}</div>
         <div className={styles.ptag}>{project.tag}</div>
@@ -212,60 +330,61 @@ interface LightboxProps {
   onStep: (dir: number) => void;
 }
 
-/* Full-screen view of a figure. Portalled to <body>: the panel's reveal
-   transforms would otherwise trap a fixed-position child. */
+/* Full-screen view of a figure. Its own modal <dialog>, so it stacks above
+   the project dialog in the top layer and Escape closes only this. */
 function Lightbox({ figure, index, count, onClose, onStep }: LightboxProps) {
-  const closeRef = useRef<HTMLButtonElement>(null);
+  const reduced = useReducedMotion();
+  const ref = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      else if (e.key === "ArrowLeft") onStep(-1);
-      else if (e.key === "ArrowRight") onStep(1);
-    };
-    window.addEventListener("keydown", onKey);
-    const root = document.documentElement;
-    const prev = root.style.overflow;
-    root.style.overflow = "hidden";
-    closeRef.current?.focus();
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      root.style.overflow = prev;
-    };
-  }, [onClose, onStep]);
+    const dialog = ref.current;
+    if (dialog && !dialog.open) dialog.showModal();
+  }, []);
 
-  return createPortal(
-    <div
+  return (
+    <dialog
+      ref={ref}
       className={styles.lightbox}
-      role="dialog"
-      aria-modal="true"
-      aria-label={figure.caption}
-      onClick={onClose}
+      aria-label={figure.alt}
+      onClose={onClose}
+      onClick={() => ref.current?.close()}
+      onKeyDown={(e) => {
+        if (e.key === "ArrowLeft") onStep(-1);
+        else if (e.key === "ArrowRight") onStep(1);
+      }}
     >
       <button
-        ref={closeRef}
         type="button"
         className={styles.lbClose}
         aria-label="Close image"
-        onClick={onClose}
+        // The dialog's own click handler closes it.
       >
         <FiX aria-hidden />
       </button>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        className={styles.lbImg}
-        src={figure.src}
-        alt={figure.caption}
-        onClick={(e) => e.stopPropagation()}
-      />
-      <div className={styles.lbCaption}>
-        {figure.caption}
-        {count > 1 && (
-          <span className={styles.lbCount}>
-            {index + 1} / {count}
-          </span>
-        )}
-      </div>
+      {figure.video ? (
+        <Clip
+          className={styles.lbImg}
+          src={figure.video}
+          poster={figure.src}
+          label={figure.alt}
+          onClick={(e) => e.stopPropagation()}
+          autoPlay={!reduced}
+          controls
+        />
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          className={styles.lbImg}
+          src={figure.src}
+          alt={figure.alt}
+          onClick={(e) => e.stopPropagation()}
+        />
+      )}
+      {count > 1 && (
+        <div className={styles.lbCount}>
+          {index + 1} / {count}
+        </div>
+      )}
       {count > 1 && (
         <>
           <button
@@ -292,33 +411,15 @@ function Lightbox({ figure, index, count, onClose, onStep }: LightboxProps) {
           </button>
         </>
       )}
-    </div>,
-    document.body,
+    </dialog>
   );
 }
 
-/* --------------------------- Expansion panel --------------------------- */
+/* --------------------------- Project dialog ---------------------------- */
 
-interface PanelProps {
-  project: WorkProject;
-  closing: boolean;
-  onClosed: () => void;
-}
-
-// Anim 6 — body content stagger (ms delays from panel open, spec §10).
-const STAGGER: Array<[string, number]> = [
-  ["expImg", 50],
-  ["expName", 165],
-  ["div", 235],
-  ["expDesc", 275],
-  ["highlights", 340],
-  ["expLinks", 480],
-];
-
-function ExpansionPanel({ project, closing, onClosed }: PanelProps) {
+/* The dialog's contents. Keyed by project, so the figure picker resets. */
+function ProjectDetail({ project }: { project: WorkProject }) {
   const reduced = useReducedMotion();
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const innerRef = useRef<HTMLDivElement>(null);
   const [figIdx, setFigIdx] = useState(0);
   const [zoomed, setZoomed] = useState(false);
   const figCount = project.figures.length;
@@ -327,202 +428,179 @@ function ExpansionPanel({ project, closing, onClosed }: PanelProps) {
     (dir: number) => setFigIdx((i) => (i + dir + figCount) % figCount),
     [figCount],
   );
-  const timers = useRef<number[]>([]);
+  const figure = project.figures[figIdx];
 
-  // Open: grid-rows 0fr → 1fr, then fire the staggered content reveal.
+  // On touch screens the picker can't hide-until-hover. Over a clip it shows
+  // for a few seconds, then fades so it doesn't sit on the clip's captions;
+  // tapping its corner shows it again. "Faded" is remembered per showing
+  // (figure + reveal count), so changing figure or tapping resets it.
+  const [reveals, setReveals] = useState(0);
+  const [fadedKey, setFadedKey] = useState("");
+  const showing = `${figIdx}:${reveals}`;
+  const pickerFaded = fadedKey === showing;
+  const isClip = Boolean(figure.video);
   useEffect(() => {
-    const wrap = wrapRef.current;
-    const inner = innerRef.current;
-    if (!wrap || !inner) return;
+    if (!isClip || !window.matchMedia("(hover: none)").matches) return;
+    const timer = window.setTimeout(() => setFadedKey(showing), 3000);
+    return () => window.clearTimeout(timer);
+  }, [isClip, showing]);
 
-    const els = STAGGER.map(([cls]) =>
-      inner.querySelector<HTMLElement>(`[data-anim="${cls}"]`),
-    );
+  // A sideways swipe on the stage steps through the figures too. The tap that
+  // ends a swipe must not also open the lightbox, hence `swiped`.
+  const touch = useRef<{ x: number; y: number } | null>(null);
+  const swiped = useRef(false);
+  const onTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    touch.current = { x: t.clientX, y: t.clientY };
+    swiped.current = false;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const from = touch.current;
+    touch.current = null;
+    if (!from || figCount < 2) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - from.x;
+    const dy = t.clientY - from.y;
+    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    swiped.current = true;
+    stepFig(dx < 0 ? 1 : -1);
+  };
 
-    if (reduced) {
-      wrap.classList.add(styles.open);
-      els.forEach((el) => el?.classList.add(styles.xs, styles.in));
-      inner
-        .querySelectorAll<HTMLElement>(`.${styles.xc}`)
-        .forEach((c) => c.classList.add(styles.in));
-      return;
-    }
-
-    els.forEach((el) => el?.classList.add(styles.xs));
-    inner
-      .querySelectorAll<HTMLElement>("[data-chip]")
-      .forEach((c) => c.classList.add(styles.xc));
-
-    const raf1 = requestAnimationFrame(() =>
-      requestAnimationFrame(() => {
-        wrap.classList.add(styles.open);
-        STAGGER.forEach(([cls, delay], i) => {
-          timers.current.push(
-            window.setTimeout(() => els[i]?.classList.add(styles.in), delay),
-          );
-        });
-        // Anim 7 — chip stagger, the final beat.
-        inner
-          .querySelectorAll<HTMLElement>("[data-chip]")
-          .forEach((chip, ci) => {
-            timers.current.push(
-              window.setTimeout(
-                () => chip.classList.add(styles.in),
-                400 + ci * 50,
-              ),
-            );
-          });
-      }),
-    );
-
-    const local = timers.current;
-    return () => {
-      cancelAnimationFrame(raf1);
-      local.forEach((t) => window.clearTimeout(t));
-      local.length = 0;
-    };
-    // Mount-only: this panel remounts (new key) on every open/switch.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // Close: remove .open, wait for the grid-rows transition, then unmount.
+  // Left / right arrows step through the figures while the dialog is open.
+  // The lightbox handles its own arrows, so this stands down while it's up.
   useEffect(() => {
-    if (!closing) return;
-    const wrap = wrapRef.current;
-    if (!wrap) {
-      onClosed();
-      return;
-    }
-    timers.current.forEach((t) => window.clearTimeout(t));
-    timers.current.length = 0;
-
-    if (reduced) {
-      onClosed();
-      return;
-    }
-
-    let done = false;
-    const finish = () => {
-      if (done) return;
-      done = true;
-      onClosed();
+    if (figCount < 2 || zoomed) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      if (e.key === "ArrowLeft") stepFig(-1);
+      else if (e.key === "ArrowRight") stepFig(1);
+      else return;
+      e.preventDefault();
     };
-    const onEnd = (e: TransitionEvent) => {
-      if (e.propertyName === "grid-template-rows") finish();
-    };
-    wrap.addEventListener("transitionend", onEnd);
-    wrap.classList.remove(styles.open);
-    const fallback = window.setTimeout(finish, 520);
-    return () => {
-      wrap.removeEventListener("transitionend", onEnd);
-      window.clearTimeout(fallback);
-    };
-  }, [closing, reduced, onClosed]);
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [figCount, zoomed, stepFig]);
 
   return (
-    <div className={styles.expansion}>
-      <div ref={wrapRef} className={styles.expWrap}>
-        <div ref={innerRef} className={styles.expInner}>
-          <div className={styles.expPanel}>
-            <div className={styles.expMedia} data-anim="expImg">
-              <div className={styles.expImg}>
-                {project.figures[figIdx].src ? (
-                  <button
-                    type="button"
-                    className={styles.zoomBtn}
-                    onClick={() => setZoomed(true)}
-                    aria-label={`Enlarge ${project.figures[figIdx].caption}`}
+    <div className={styles.expPanel}>
+      <div className={styles.expMedia}>
+        <div
+          className={styles.expImg}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+        >
+          {figure.src ? (
+            <button
+              type="button"
+              className={styles.zoomBtn}
+              onClick={() => {
+                if (swiped.current) swiped.current = false;
+                else setZoomed(true);
+              }}
+              aria-label={`Enlarge ${figure.alt}`}
+            >
+              {/* Paused while the lightbox plays the same clip. */}
+              <Figure figure={figure} playing={!reduced && !zoomed} />
+            </button>
+          ) : (
+            <Figure figure={figure} />
+          )}
+          {/* A clip fills the stage; the stamp would sit on top of its UI. */}
+          {!figure.video && <Stamp project={project} />}
+        </div>
+        {/* Figure picker, laid over the stage's bottom-right corner. */}
+        {figCount > 1 && (
+          <div
+            className={`${styles.expThumbs} ${pickerFaded ? styles.expThumbsFaded : ""}`}
+          >
+            {project.figures.map((fig, fi) => (
+              <button
+                key={fig.alt}
+                type="button"
+                className={`${styles.thumb} ${fi === figIdx ? styles.thumbActive : ""}`}
+                onClick={() => setFigIdx(fi)}
+                aria-label={`View ${fig.alt}`}
+                aria-pressed={fi === figIdx}
+              >
+                <Figure figure={fig} />
+                {fig.video && <span className={styles.thumbPlay} aria-hidden />}
+              </button>
+            ))}
+          </div>
+        )}
+        {/* While the picker is faded, a counter holds its corner so it is
+            still obvious there is more to see; tapping it brings the picker back. */}
+        {figCount > 1 && pickerFaded && (
+          <button
+            type="button"
+            className={styles.figCount}
+            onClick={() => setReveals((n) => n + 1)}
+            aria-label={`Item ${figIdx + 1} of ${figCount}. Show all`}
+          >
+            <FiImage aria-hidden />
+            {figIdx + 1} / {figCount}
+          </button>
+        )}
+        {zoomed && (
+          <Lightbox
+            figure={figure}
+            index={figIdx}
+            count={figCount}
+            onClose={closeZoom}
+            onStep={stepFig}
+          />
+        )}
+      </div>
+      <div className={styles.expBody}>
+        <div>
+          <p className={styles.expDesc}>{project.desc}</p>
+          <div className={styles.highlights}>
+            {project.hi.map((h) => (
+              <div key={h} className={styles.hl}>
+                <Highlight text={h} />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className={styles.expMeta}>
+          <div className={styles.expChips}>
+            {project.tags.map((t) =>
+              TAG_LINKS[t] ? (
+                <a
+                  key={t}
+                  href={TAG_LINKS[t]}
+                  className={`${styles.expChip} ${styles.expChipLink}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <TagLabel tag={t} />
+                  <FiArrowUpRight className={styles.chipIcon} aria-hidden />
+                </a>
+              ) : (
+                <span key={t} className={styles.expChip}>
+                  <TagLabel tag={t} />
+                </span>
+              ),
+            )}
+          </div>
+          <div className={styles.expLinks}>
+            {(project.links ?? [])
+              .filter((l) => l.href && l.href !== "#")
+              .map((l) => {
+                const Icon = linkIcon(l.href);
+                return (
+                  <a
+                    key={l.label}
+                    href={l.href}
+                    className={`${styles.elink} ${l.secondary ? styles.sec : ""}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    <Figure figure={project.figures[figIdx]} />
-                  </button>
-                ) : (
-                  <Figure figure={project.figures[figIdx]} />
-                )}
-                <Stamp status={project.status} year={project.year} />
-              </div>
-              {project.figures.length > 1 && (
-                <div className={styles.expThumbs}>
-                  {project.figures.map((fig, fi) => (
-                    <button
-                      key={fig.caption}
-                      type="button"
-                      className={`${styles.thumb} ${fi === figIdx ? styles.thumbActive : ""}`}
-                      onClick={() => setFigIdx(fi)}
-                      aria-label={`View ${fig.caption}`}
-                      aria-pressed={fi === figIdx}
-                    >
-                      <Figure figure={fig} />
-                    </button>
-                  ))}
-                </div>
-              )}
-              <div className={styles.efig}>
-                {project.figures[figIdx].caption}
-              </div>
-              {zoomed && (
-                <Lightbox
-                  figure={project.figures[figIdx]}
-                  index={figIdx}
-                  count={figCount}
-                  onClose={closeZoom}
-                  onStep={stepFig}
-                />
-              )}
-            </div>
-            <div className={styles.expBody}>
-              <div className={styles.expName} data-anim="expName">
-                {project.name}
-              </div>
-              <hr className={styles.div} data-anim="div" />
-              <p className={styles.expDesc} data-anim="expDesc">
-                {project.desc}
-              </p>
-              <div className={styles.highlights} data-anim="highlights">
-                {project.hi.map((h) => (
-                  <div key={h} className={styles.hl}>
-                    <Highlight text={h} />
-                  </div>
-                ))}
-              </div>
-              <div className={styles.expChips}>
-                {project.tags.map((t) =>
-                  TAG_LINKS[t] ? (
-                    <a
-                      key={t}
-                      data-chip
-                      href={TAG_LINKS[t]}
-                      className={`${styles.expChip} ${styles.expChipLink}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <TagLabel tag={t} />
-                      <FiArrowUpRight className={styles.chipIcon} aria-hidden />
-                    </a>
-                  ) : (
-                    <span key={t} data-chip className={styles.expChip}>
-                      <TagLabel tag={t} />
-                    </span>
-                  ),
-                )}
-              </div>
-              <div className={styles.expLinks} data-anim="expLinks">
-                {(project.links ?? []).filter((l) => l.href && l.href !== "#").map((l) => {
-                  const Icon = linkIcon(l.href);
-                  return (
-                    <a
-                      key={l.label}
-                      href={l.href}
-                      className={`${styles.elink} ${l.secondary ? styles.sec : ""}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Icon className={styles.elinkIcon} aria-hidden />
-                      {l.label}
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
+                    <Icon className={styles.elinkIcon} aria-hidden />
+                    {l.label}
+                  </a>
+                );
+              })}
           </div>
         </div>
       </div>
@@ -530,61 +608,112 @@ function ExpansionPanel({ project, closing, onClosed }: PanelProps) {
   );
 }
 
+/** Matches the modalOut / sheetOut keyframe duration in the stylesheet. */
+const CLOSE_MS = 200;
+
+interface ModalProps {
+  /** Project to show; null = closed. Stays set until the close animation ends. */
+  project: WorkProject | null;
+  onClose: () => void;
+}
+
+/**
+ * Detail view for one project, the light-palette twin of the Experience
+ * dialog: a native <dialog> opened with showModal(), so the browser handles
+ * the focus trap, Escape, the backdrop, and handing focus back to the card.
+ * Centered panel on desktop, bottom sheet on mobile (CSS only).
+ */
+function ProjectModal({ project, onClose }: ModalProps) {
+  const reduced = useReducedMotion();
+  const ref = useRef<HTMLDialogElement>(null);
+  const [closing, setClosing] = useState(false);
+  const timer = useRef(0);
+
+  useEffect(() => {
+    const dialog = ref.current;
+    if (!dialog || !project) return;
+    if (!dialog.open) dialog.showModal();
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [project]);
+
+  useEffect(() => () => window.clearTimeout(timer.current), []);
+
+  // Play the exit animation, then close for real; the dialog's own `close`
+  // event (below) is what tells the parent.
+  const requestClose = useCallback(() => {
+    const dialog = ref.current;
+    if (!dialog?.open) return;
+    if (reduced) {
+      dialog.close();
+      return;
+    }
+    setClosing(true);
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => dialog.close(), CLOSE_MS);
+  }, [reduced]);
+
+  return (
+    <dialog
+      ref={ref}
+      className={`${styles.modal} ${closing ? styles.closing : ""}`}
+      aria-label={project ? `${project.name} — ${project.tag}` : undefined}
+      onCancel={(e) => {
+        // The lightbox's cancel bubbles up here; only handle our own.
+        if (e.target !== e.currentTarget) return;
+        e.preventDefault();
+        requestClose();
+      }}
+      onClose={(e) => {
+        if (e.target !== e.currentTarget) return;
+        window.clearTimeout(timer.current);
+        setClosing(false);
+        onClose();
+      }}
+      // The panel fills the dialog box, so a click that lands on the dialog
+      // element itself is a click on the backdrop.
+      onClick={(e) => {
+        if (e.target === e.currentTarget) requestClose();
+      }}
+    >
+      {project && (
+        <div className={styles.modalPanel}>
+          <div className={styles.modalHeader}>
+            <div className={styles.modalTitles}>
+              <h3 className={styles.modalName}>{project.name}</h3>
+              <div className={styles.modalMeta}>{project.tag}</div>
+            </div>
+            <button
+              type="button"
+              className={styles.closeBtn}
+              onClick={requestClose}
+              aria-label="Close"
+            >
+              <FiX aria-hidden />
+            </button>
+          </div>
+          <div className={styles.modalScroll}>
+            <ProjectDetail key={project.name} project={project} />
+          </div>
+        </div>
+      )}
+    </dialog>
+  );
+}
+
 /* ------------------------------ Section -------------------------------- */
 
 export default function Work() {
   const cardEls = useRef<(HTMLDivElement | null)[]>([]);
-
   const [active, setActive] = useState<number | null>(null);
-  const [insertAfter, setInsertAfter] = useState<number | null>(null);
-  const [closing, setClosing] = useState(false);
-  // Briefly true after a panel closes, so the columns ease back into their
-  // scroll stagger instead of snapping (see Work.module.css).
-  const [releasing, setReleasing] = useState(false);
 
   const registerRef = useCallback((i: number, el: HTMLDivElement | null) => {
     cardEls.current[i] = el;
   }, []);
 
-  // Row detection (spec §9) — insert the panel after the last card sharing the
-  // clicked card's row top. Measured live so it tracks the column count.
-  const lastInRow = useCallback((i: number) => {
-    const el = cardEls.current[i];
-    if (!el) return i;
-    const top = el.offsetTop;
-    let last = i;
-    cardEls.current.forEach((c, idx) => {
-      if (c && Math.abs(c.offsetTop - top) < 6) last = Math.max(last, idx);
-    });
-    return last;
-  }, []);
-
-  const toggle = useCallback(
-    (i: number) => {
-      if (active === i && !closing) {
-        setClosing(true);
-        return;
-      }
-      // Switching cards instant-removes the old panel (spec §15).
-      setClosing(false);
-      setActive(i);
-      setInsertAfter(lastInRow(i));
-    },
-    [active, closing, lastInRow],
-  );
-
-  const onClosed = useCallback(() => {
-    setActive(null);
-    setInsertAfter(null);
-    setClosing(false);
-    setReleasing(true);
-  }, []);
-
-  useEffect(() => {
-    if (!releasing) return;
-    const t = window.setTimeout(() => setReleasing(false), 500);
-    return () => window.clearTimeout(t);
-  }, [releasing]);
+  const closeModal = useCallback(() => setActive(null), []);
 
   // Every card takes the tallest card's height, across rows too. Chips wrap
   // differently per width, so this is measured rather than fixed in CSS.
@@ -605,14 +734,6 @@ export default function Work() {
     return () => ro.disconnect();
   }, []);
 
-  // Column count changes with viewport — close the panel on resize (spec §9).
-  useEffect(() => {
-    if (active === null) return;
-    const onResize = () => onClosed();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, [active, onClosed]);
-
   return (
     <section id="work" className={styles.work} data-nav-tint="light">
       <div className={styles.workWrap}>
@@ -623,33 +744,24 @@ export default function Work() {
           {workHeading.title}
         </SectionHeading>
 
-        <div
-          ref={gridRef}
-          className={`${styles.grid} ${active !== null ? styles.settled : ""} ${
-            releasing ? styles.releasing : ""
-          }`}
-        >
+        <div ref={gridRef} className={styles.grid}>
           {work.map((project, i) => (
-            <Fragment key={project.name}>
-              <WorkCard
-                project={project}
-                index={i}
-                active={active === i}
-                onToggle={toggle}
-                registerRef={registerRef}
-              />
-              {active !== null && insertAfter === i && (
-                <ExpansionPanel
-                  key={active}
-                  project={work[active]}
-                  closing={closing}
-                  onClosed={onClosed}
-                />
-              )}
-            </Fragment>
+            <WorkCard
+              key={project.name}
+              project={project}
+              index={i}
+              active={active === i}
+              onOpen={setActive}
+              registerRef={registerRef}
+            />
           ))}
         </div>
       </div>
+
+      <ProjectModal
+        project={active !== null ? work[active] : null}
+        onClose={closeModal}
+      />
     </section>
   );
 }

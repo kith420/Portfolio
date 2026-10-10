@@ -10,7 +10,7 @@
 }
 
 .workWrap {
-  max-width: 960px;
+  max-width: 1120px;
   margin: 0 auto;
   padding: 64px 32px 96px;
 }
@@ -24,7 +24,7 @@
 .workTitle {
   font-family: var(--display);
   font-weight: 800;
-  font-size: 46px;
+  font-size: 48px;
   line-height: 1;
   margin-top: 8px;
   color: var(--work-ink);
@@ -37,7 +37,7 @@
   view-timeline: --grid block;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 24px;
+  gap: 28px;
   /* Cards in a row share a height; chips sit on a common baseline. */
   align-items: stretch;
 }
@@ -45,31 +45,54 @@
 /* ---------------------------- Collapsed card --------------------------- */
 
 .pcard {
+  position: relative;
   display: flex;
   flex-direction: column;
   min-height: var(--card-h, auto);
   background: var(--work-card);
   border: 1px solid var(--work-border);
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(60, 48, 24, 0.06);
   cursor: var(--cursor-link);
   transition:
-    border-color 0.3s ease,
-    background-color 0.3s ease;
+    border-color 0.35s var(--ease),
+    box-shadow 0.35s var(--ease),
+    transform 0.35s var(--ease);
 }
 
 .pcard:hover {
   border-color: var(--work-border-hover);
-  background: #fafaf8;
+  box-shadow: 0 14px 32px rgba(60, 48, 24, 0.14);
+  transform: translateY(-3px);
 }
 
-.pcard.active {
+.pcard.active,
+.pcard.active:hover {
   border-color: var(--accent-ink);
-  background: #f5f3ef;
+  box-shadow: 0 1px 2px rgba(60, 48, 24, 0.06);
+  transform: none;
 }
 
+.pcard:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 3px;
+}
+
+/* Every screenshot sits on the same mat, so six unrelated images (dark UIs,
+   white pages, renders) read as one set. */
 .pcardImg {
   position: relative;
   aspect-ratio: 4 / 3;
   background: var(--work-surface);
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+}
+
+.pcardImg .imgInner {
+  inset: 12px 12px 0;
+  border: 1px solid rgba(40, 30, 10, 0.14);
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
   overflow: hidden;
 }
 
@@ -78,17 +101,26 @@
 .imgInner {
   position: absolute;
   inset: 0;
-  transition: transform 0.6s var(--ease);
 }
 
 .figImg {
   display: block;
   width: 100%;
   height: 100%;
+  transition: transform 0.6s var(--ease);
 }
 
-.pcard:hover .imgInner {
+.pcard:hover .figImg {
   transform: scale(1.04);
+}
+
+/* A figure's clip, laid over its image while it plays. */
+.figVideo {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .tint {
@@ -102,15 +134,18 @@
 
 /* ------------------------------- Stamp --------------------------------- */
 
+/* Overhangs the card's top-right corner like a sticker; inside the details
+   dialog (which clips) it sits within the image instead. */
 .cstamp {
   position: absolute;
-  top: -16px;
+  top: -14px;
   right: -14px;
   width: 76px;
   height: 76px;
   border: 1.5px dashed var(--accent-ink);
   border-radius: 50%;
   background: var(--work-bg);
+  box-shadow: 0 2px 6px rgba(60, 48, 24, 0.16);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -129,6 +164,11 @@
   transform: rotate(-9deg);
 }
 
+.expImg .cstamp {
+  top: 12px;
+  right: 12px;
+}
+
 .st {
   font-family: var(--display);
   font-weight: 800;
@@ -139,11 +179,57 @@
 }
 
 .sy {
-  font-family: var(--label);
+  font-family: var(--mono);
   font-weight: 500;
-  font-size: 11.5px;
+  font-size: 10.5px;
   line-height: 1.2;
   color: var(--accent-ink);
+}
+
+/* A result: the stamp takes the medal's metal, with the medal on top. */
+.gold {
+  --metal: #b8860b;
+}
+
+.silver {
+  --metal: #7d8590;
+}
+
+.bronze {
+  --metal: #a8622a;
+}
+
+.plain {
+  --metal: var(--accent-ink);
+}
+
+.gold,
+.silver,
+.bronze,
+.plain {
+  border-color: var(--metal);
+}
+
+.medal {
+  width: 15px;
+  height: 15px;
+  margin-bottom: 1px;
+  color: var(--metal);
+}
+
+/* Slightly smaller type makes room for the medal and for longer results. */
+:is(.gold, .silver, .bronze, .plain) :is(.st, .sy) {
+  font-size: 9.5px;
+  color: var(--metal);
+}
+
+:is(.gold, .silver, .bronze, .plain) .st {
+  line-height: 1.15;
+}
+
+.cstamp .stLong {
+  font-size: 8px;
+  letter-spacing: 0;
 }
 
 /* ----------------------------- Card body ------------------------------- */
@@ -153,92 +239,207 @@
   display: flex;
   flex-direction: column;
   padding: 18px 20px 22px;
+  border-top: 1px solid var(--work-border);
 }
 
 .pname {
   font-family: var(--display);
   font-weight: 800;
-  font-size: 20px;
+  font-size: 21px;
   color: var(--work-ink);
-  line-height: 1;
+  line-height: 1.1;
 }
 
 .ptag {
-  font-family: var(--prose);
-  font-weight: 300;
-  font-style: italic;
-  font-size: 10.5px;
-  line-height: 1.35;
+  font-family: var(--display);
+  font-size: 14.5px;
+  line-height: 1.4;
   /* Room for two lines, so every card's chips start at the same height. */
-  min-height: 2.7em;
-  color: #555;
-  margin-top: 5px;
+  min-height: 2.8em;
+  color: #4a4a4a;
+  margin-top: 6px;
 }
 
 .pchips {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  margin-top: 12px;
+  margin-top: 14px;
 }
 
-.pchips span {
+.pchips span,
+.expChip {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-family: var(--label);
-  font-size: 9px;
-  letter-spacing: 0.03em;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #555;
+  color: #4a4a4a;
   border: 1px solid var(--work-border);
+  border-radius: 3px;
   padding: 2px 6px;
   background: var(--work-bg);
 }
 
-.chipIcon {
-  flex: none;
-  width: 1.15em;
-  height: 1.15em;
-}
+/* --------------------------- Details dialog ---------------------------- */
+/* The light-palette twin of the Experience dialog: same size logic, motion
+   and close button, in this section's colours. */
 
-/* --------------------------- Expansion panel --------------------------- */
-
-.expansion {
-  grid-column: 1 / -1;
-}
-
-.expWrap {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.44s var(--ease);
-}
-
-.expWrap.open {
-  grid-template-rows: 1fr;
-}
-
-.expInner {
+.modal {
+  margin: auto;
+  /* Media-first: the panel is as wide as its 16:10 media can be while leaving
+     room for the text under it, so the media always runs edge to edge. */
+  width: min(1040px, calc(100vw - 48px), calc(58dvh * 1.6));
+  max-width: none;
+  max-height: min(960px, 92dvh);
+  border: 1px solid var(--work-border);
+  border-radius: 8px;
+  background: var(--work-card);
+  color: var(--work-ink);
+  font-family: var(--prose);
   overflow: hidden;
 }
 
-.expPanel {
-  display: grid;
-  grid-template-columns: 46% 54%;
-  background: var(--work-card);
-  border: 1px solid var(--work-border);
-  border-top: 2px solid var(--accent-ink);
-  margin-top: 6px;
+.modal[open] {
+  display: flex;
+  animation: modalIn 0.35s var(--ease);
 }
 
-/* Left column — image stage, then a strip of figure thumbnails */
+.modal::backdrop {
+  background: rgba(8, 10, 14, 0.82);
+  animation: backdropIn 0.3s ease;
+}
+
+.modal.closing {
+  animation: modalOut 0.2s ease forwards;
+}
+
+.modal.closing::backdrop {
+  animation: backdropOut 0.2s ease forwards;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+}
+
+@keyframes modalOut {
+  to {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+}
+
+@keyframes backdropIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes backdropOut {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes sheetIn {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes sheetOut {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+.modalPanel {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalHeader {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px 14px 24px;
+  background: var(--work-bg);
+  border-bottom: 1px solid var(--work-border);
+}
+
+.modalTitles {
+  flex: 1;
+  min-width: 0;
+}
+
+.modalName {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 1.1;
+  color: var(--work-ink);
+}
+
+.modalMeta {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: #6b6b6b;
+  margin-top: 4px;
+}
+
+.closeBtn {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--work-border-hover);
+  border-radius: 4px;
+  background: none;
+  font-size: 16px;
+  color: #4a4a4a;
+  cursor: var(--cursor-link);
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.closeBtn:hover,
+.closeBtn:focus-visible {
+  color: var(--accent-ink);
+  border-color: var(--accent-ink);
+  outline: none;
+}
+
+.modalScroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.expPanel {
+  display: block;
+}
+
+/* Image stage across the top, then a strip of figure thumbnails */
 .expMedia {
-  border-right: 1px solid var(--work-border);
+  position: relative;
+  border-bottom: 1px solid var(--work-border);
 }
 
 .expImg {
   position: relative;
-  aspect-ratio: 16 / 9;
+  /* The clips' shape, so they fit without cropping. */
+  aspect-ratio: 16 / 10;
   background: var(--work-surface);
   overflow: hidden;
 }
@@ -253,20 +454,80 @@
   cursor: zoom-in;
 }
 
+/* Figure picker: a small strip over the stage's bottom-right corner, so it
+   costs no height. One row, however many figures a project has. */
 .expThumbs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  padding: 10px 10px 0;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 2;
+  display: flex;
+  gap: 5px;
+  padding: 5px;
+  border-radius: 7px;
+  background: rgba(20, 16, 8, 0.62);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: opacity 0.25s ease;
+}
+
+/* Over a playing clip the picker steps aside so it never covers the clip's
+   own captions; it comes back on hover or keyboard focus. Touch screens have
+   no hover, so there it stays put. */
+@media (hover: hover) {
+  .expMedia:has(video) .expThumbs {
+    opacity: 0;
+  }
+  .expMedia:hover .expThumbs,
+  .expThumbs:focus-within {
+    opacity: 1;
+  }
+}
+
+/* Touch screens can't hover, so over a clip the picker shows for a moment and
+   then fades; a tap on its corner brings it back (see ProjectDetail). */
+.expThumbsFaded {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Stands in for the faded picker: "1 / 4" in the same corner. */
+.figCount {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(20, 16, 8, 0.62);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  animation: figCountIn 0.25s ease;
+}
+
+@keyframes figCountIn {
+  from {
+    opacity: 0;
+  }
 }
 
 .thumb {
   position: relative;
-  aspect-ratio: 16 / 9;
-  border: 1px solid var(--work-border);
+  width: 62px;
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 3px;
   background: var(--work-surface);
   overflow: hidden;
-  opacity: 0.55;
+  opacity: 0.6;
   cursor: var(--cursor-link);
   transition:
     opacity 0.25s ease,
@@ -274,50 +535,52 @@
 }
 
 .thumb:hover {
-  opacity: 0.85;
+  opacity: 0.9;
+}
+
+/* Marks the thumbnail that is a clip rather than a still. */
+.thumbPlay {
+  position: absolute;
+  left: 3px;
+  bottom: 3px;
+  width: 20px;
+  height: 20px;
+  scale: 0.75;
+  transform-origin: left bottom;
+  border-radius: 50%;
+  background: rgba(20, 16, 8, 0.72);
+}
+
+.thumbPlay::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  border-style: solid;
+  border-width: 4px 0 4px 6px;
+  border-color: transparent transparent transparent #fff;
 }
 
 .thumbActive,
 .thumbActive:hover {
   opacity: 1;
-  border-color: var(--accent-ink);
+  border-color: #fff;
 }
 
-.efig {
-  padding: 8px 10px 12px;
-  font-family: var(--label);
-  font-weight: 300;
-  font-size: 8px;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--work-mute);
-}
-
-/* Right column — content */
+/* Content: prose on the left, tags and links on the right */
 .expBody {
-  padding: 22px 24px 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  column-gap: 40px;
+  align-items: start;
+  padding: 22px 28px 26px;
 }
 
-.expName {
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: 28px;
-  line-height: 1;
-  color: var(--work-ink);
-  margin-top: 6px;
-}
-
-.div {
-  border: none;
-  border-top: 1px solid var(--work-surface);
-  margin: 16px 0;
-}
 
 .expDesc {
-  font-family: var(--prose);
-  font-weight: 300;
-  font-size: 11px;
-  line-height: 1.75;
+  font-family: var(--display);
+  font-size: 15px;
+  line-height: 1.65;
   color: #3a3a3a;
 }
 
@@ -327,22 +590,21 @@
 
 .hl {
   display: flex;
-  gap: 8px;
-  font-family: var(--prose);
-  font-weight: 400;
-  font-size: 10.5px;
-  line-height: 1.55;
+  gap: 10px;
+  font-family: var(--display);
+  font-size: 14.5px;
+  line-height: 1.5;
   color: #3a3a3a;
-  padding: 5px 0;
+  padding: 4px 0;
 }
 
 .hl::before {
   content: "";
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--accent);
-  margin-top: 5px;
+  margin-top: 8px;
   flex: 0 0 auto;
 }
 
@@ -350,21 +612,7 @@
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  margin-top: 16px;
-}
-
-.expChip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-family: var(--label);
-  font-size: 9px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: #555;
-  border: 1px solid var(--work-border);
-  padding: 2px 6px;
-  background: var(--work-bg);
+  margin-top: 4px;
 }
 
 .expChipLink {
@@ -373,8 +621,8 @@
 }
 
 .expChipLink:hover {
-  color: var(--accent);
-  border-color: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent-ink);
 }
 
 .hlLink {
@@ -386,27 +634,36 @@
 }
 
 .hlLink:hover {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .expLinks {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 16px;
-  margin-top: 20px;
+  gap: 10px 20px;
+  margin-top: 16px;
 }
 
 .elink {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  font-family: var(--label);
-  font-size: 11px;
-  letter-spacing: 0.05em;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--work-ink);
   border-bottom: 1px solid var(--work-ink);
-  padding-bottom: 1px;
+  padding-bottom: 2px;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.elink:hover,
+.elink.sec:hover {
+  color: var(--accent-ink);
+  border-color: var(--accent-ink);
 }
 
 .elinkIcon {
@@ -416,8 +673,8 @@
 }
 
 .elink.sec {
-  color: var(--work-mute);
-  border-color: #ccc;
+  color: #6b6b6b;
+  border-color: #bbb;
 }
 
 /* ------------------------------ Lightbox ------------------------------- */
@@ -425,16 +682,28 @@
 .lightbox {
   position: fixed;
   inset: 0;
-  z-index: 9999;
-  display: flex;
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 12px;
   padding: 56px 72px 24px;
-  background: rgba(12, 12, 14, 0.9);
+  background: rgba(12, 12, 14, 0.94);
   cursor: zoom-out;
+}
+
+.lightbox[open] {
+  display: flex;
   animation: lbIn 0.2s ease both;
+}
+
+.lightbox::backdrop {
+  background: none;
 }
 
 .lbImg {
@@ -445,19 +714,13 @@
   cursor: var(--cursor-arrow);
 }
 
-.lbCaption {
-  flex: none;
-  font-family: var(--label);
-  font-size: 15px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.85);
-}
-
 .lbCount {
-  margin-left: 14px;
-  color: rgba(255, 255, 255, 0.5);
+  flex: none;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .lbNav {
@@ -510,34 +773,6 @@
   }
 }
 
-/* --------------------------- Panel anim states ------------------------- */
-
-.xs {
-  opacity: 0;
-  transform: translateY(10px);
-  transition:
-    opacity 0.38s var(--ease),
-    transform 0.38s var(--ease);
-}
-
-.xs.in {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.xc {
-  opacity: 0;
-  transform: translateY(4px) scale(0.94);
-  transition:
-    opacity 0.22s ease,
-    transform 0.22s ease;
-}
-
-.xc.in {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
 /* ----------------------------- Responsive ------------------------------ */
 
 @media (max-width: 720px) {
@@ -550,44 +785,64 @@
   .grid {
     gap: 12px;
   }
-  /* Compact rows on phones: square thumbnail beside the text instead of a
-     full-width 4:3 image, so several projects fit on one screen. The status
-     stamp would cover most of a small thumbnail, so it only shows in the
-     opened panel here. */
+  /* Phones keep the normal card: media across the top, text under it. The
+     clips are too small to follow in a thumbnail-sized box. */
   .pcard {
-    display: grid;
-    grid-template-columns: 104px minmax(0, 1fr);
-  }
-  .pcardImg {
-    aspect-ratio: auto;
-    min-height: 104px;
-  }
-  .pcardImg .cstamp {
-    display: none;
-  }
-  .pcardBody {
-    padding: 12px 14px 14px;
+    min-height: 0;
   }
   .pname {
-    font-size: 17px;
+    font-size: 20px;
   }
-  .pchips {
-    margin-top: 8px;
+  .ptag {
+    min-height: 0;
   }
-  .expPanel {
-    grid-template-columns: 1fr;
+  /* Same corner as on desktop, just smaller so it covers less of the stage. */
+  .expThumbs {
+    right: 8px;
+    bottom: 8px;
+    gap: 4px;
+    padding: 4px;
   }
-  .expMedia {
-    border-right: none;
-    border-bottom: 1px solid var(--work-border);
+  .thumb {
+    width: 46px;
+  }
+  .thumbPlay {
+    scale: 0.6;
   }
   .expBody {
-    padding: 18px 18px 20px;
+    display: block;
+    padding: 20px 18px 24px;
+  }
+  .expMeta {
+    margin-top: 16px;
+  }
+  .expLinks {
+    margin-top: 22px;
+  }
+  /* Details dialog becomes a bottom sheet. */
+  .modal {
+    margin: auto 0 0;
+    width: 100%;
+    max-height: 88dvh;
+    border-width: 1px 0 0;
+    border-radius: 16px 16px 0 0;
+  }
+  .modal[open] {
+    animation-name: sheetIn;
+  }
+  .modal.closing {
+    animation-name: sheetOut;
+  }
+  .modalHeader {
+    padding: 12px 14px 12px 18px;
+  }
+  .modalName {
+    font-size: 21px;
   }
   .lightbox {
     padding: 56px 12px 20px;
   }
-  .lbCaption {
+  .lbCount {
     font-size: 12px;
   }
   .lbNav {
@@ -618,31 +873,32 @@
 
 /* No hover affordances on touch; scroll + panel staggers still run. */
 @media (hover: none) {
-  .pcard:hover .imgInner {
+  .pcard:hover .figImg {
     transform: none;
   }
   .pcard:hover .cstamp {
     transform: rotate(-9deg);
   }
   .pcard:hover {
-    background: var(--work-card);
     border-color: var(--work-border);
+    box-shadow: 0 1px 2px rgba(60, 48, 24, 0.06);
+    transform: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .imgInner,
+  .figImg,
   .cstamp {
     transition: none;
   }
-  .expWrap {
+  .pcard,
+  .pcard:hover {
     transition: none;
+    transform: none;
   }
-  .xs,
-  .xc {
-    transition: none;
-  }
-  .lightbox {
+  .modal[open],
+  .modal::backdrop,
+  .lightbox[open] {
     animation: none;
   }
 }
@@ -651,10 +907,7 @@
 /* With three columns, the middle and right columns start lower and scroll a
    little faster, landing level with the left column by the time the grid is
    mid-screen. The scroll drives one number on the grid (--stagger, 1 -> 0)
-   and each column multiplies its own lag by it. While a card is open the
-   grid is marked settled: --stagger drops to 0 and the columns ease level, so
-   the panel is never overlapped by a card that's still offset. After it
-   closes, .releasing briefly keeps the transition so they ease back. */
+   and each column multiplies its own lag by it. */
 @property --stagger {
   syntax: "<number>";
   inherits: true;
@@ -673,16 +926,6 @@
     }
     .pcard[data-col="2"] {
       translate: 0 calc(240px * var(--stagger));
-    }
-    .grid.settled {
-      animation: none;
-    }
-    .grid.settled .pcard,
-    .grid.releasing .pcard {
-      transition:
-        translate 0.5s var(--ease),
-        border-color 0.3s ease,
-        background-color 0.3s ease;
     }
   }
 }
