@@ -10,7 +10,6 @@
   --display: var(--font-display), system-ui, sans-serif;
   --mono: var(--font-mono), "Commit Mono", ui-monospace, Menlo, monospace;
   --sans: var(--font-display), system-ui, sans-serif;
-  --label: var(--font-label), "Arial Narrow", sans-serif;
   --prose: var(--font-display), system-ui, sans-serif;
   --hand: var(--font-hand), "Comic Sans MS", cursive;
 

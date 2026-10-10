@@ -16,7 +16,7 @@ export const experienceHeading = {
 export const experience: ExperienceRole[] = [
   {
     num: "01",
-    company: "SIMULAR AI (NVIDIA & FELICIS Backed)",
+    company: "SIMULAR (NVIDIA & FELICIS Backed)",
     logo: "SI",
     logoVariant: "simular",
     logoSrc: "/images/experience/simular.svg",
@@ -36,7 +36,7 @@ export const experience: ExperienceRole[] = [
       overview: [
         { text: "Sai is Simular's computer-use agent. I spent the summer building " },
         { text: "its hands and senses", hi: true },
-        { text: ": how it searches the web, reads a page, finds things in its own workspace, and asks before it guesses. Most of it shipped." },
+        { text: ": how it searches the web, reads a page, finds things in its own workspace, and asks before it guesses." },
       ],
       points: [
         [

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Archivo, Archivo_Narrow, Caveat } from "next/font/google";
+import { Archivo, Caveat } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -20,12 +20,6 @@ const mono = localFont({
     { path: "./fonts/commit-mono-500-italic.woff2", weight: "500", style: "italic" },
   ],
   variable: "--font-mono",
-  display: "swap",
-});
-
-const label = Archivo_Narrow({
-  subsets: ["latin"],
-  variable: "--font-label",
   display: "swap",
 });
 
@@ -50,7 +44,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${mono.variable} ${label.variable} ${caveat.variable}`}
+      className={`${display.variable} ${mono.variable} ${caveat.variable}`}
     >
       <body>{children}</body>
     </html>

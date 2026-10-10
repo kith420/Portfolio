@@ -314,8 +314,8 @@
 }
 
 .cardDesc {
-  font-family: var(--label);
-  font-size: 16px;
+  font-family: var(--display);
+  font-size: 15px;
   font-weight: 400;
   line-height: 1.5;
   color: var(--muted);
@@ -656,10 +656,10 @@
 }
 
 .modalPara {
-  font-family: var(--label);
-  font-size: 16px;
+  font-family: var(--display);
+  font-size: 15px;
   font-weight: 400;
-  line-height: 1.55;
+  line-height: 1.6;
   color: var(--muted);
 }
 
