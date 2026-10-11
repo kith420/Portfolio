@@ -18,7 +18,15 @@ export const work: WorkProject[] = [
   {
     name: "SMRT Digital Twin",
     tag: "A live 3D train that points at the part that needs fixing, and explains why",
-    tags: ["React", "Three.js", "FastAPI", "Cloud Run"],
+    tags: [
+      "Python",
+      "TypeScript",
+      "React",
+      "Three.js",
+      "FastAPI",
+      "Docker",
+      "GCP",
+    ],
     status: "Semifinalist",
     medal: "plain",
     year: "2026",
@@ -53,7 +61,7 @@ export const work: WorkProject[] = [
   {
     name: "Tappin' Queen",
     tag: "A memory game built from raw logic gates, with no processor on the board",
-    tags: ["FPGA", "Lucid HDL", "Alchitry Au", "Digital Logic"],
+    tags: ["FPGA", "Lucid HDL", "Digital Logic", "Computer Architecture"],
     status: "Shipped",
     year: "2025",
     desc: "Runs on an Alchitry Au FPGA. Everything from the adder up is hand-written in Lucid HDL. Built for SUTD's Computation Structures course.",
@@ -87,7 +95,7 @@ export const work: WorkProject[] = [
     name: "Cut the Crap",
     // Non-breaking spaces keep the punchline and its emoji on one line.
     tag: "A browser extension that rewrites the corporate bloat on any page, or piles\u00a0more\u00a0on\u00a0💩",
-    tags: ["JavaScript", "Manifest V3", "LLM APIs", "Vite"],
+    tags: ["JavaScript", "Chrome Extension", "Manifest V3", "LLM APIs"],
     status: "3rd Place",
     medal: "bronze",
     year: "2026",
@@ -141,14 +149,14 @@ export const work: WorkProject[] = [
   {
     name: "RoomU",
     tag: "Roommate-finding app for 40,000+ UC Davis students",
-    tags: ["React Native", "iOS", "Docker", "Hono", "PostgreSQL"],
+    tags: ["TypeScript", "React Native", "iOS", "PostgreSQL", "Docker", "Hono"],
     status: "Shipped",
     year: "2026",
-    desc: "Built with AggieWorks, UC Davis's student-run product club, during my spring exchange. My contributions:",
+    desc: "Take a lifestyle and personality quiz, then get matched with people you could actually live with and chat with them in the app! Subleases also get their own feed. I joined the 8-person team behind it at AggieWorks, the university's student-run product club: designers, engineers and marketers. What I added to an app that was already running:",
     hi: [
-      "Reusable Applied Filters Bar and confirmation dialogs (NativeWind, Reanimated)",
-      "Full-stack semver versioning system with a REST API on Hono and Drizzle",
-      "Extended the filter bar to the subleasing listings feed (in review)",
+      "Built the app's semver versioning system full-stack, with its own REST API (Drizzle)",
+      "Filter bar and confirmation dialogs, built as reusable components (NativeWind, Reanimated)",
+      "That filter bar again, extended to the sublease feed (in review)",
     ],
     figures: [
       {
@@ -175,7 +183,7 @@ export const work: WorkProject[] = [
   {
     name: "Ascenda Hotel Booking",
     tag: "Hotel search, map, and Stripe checkout for a travel loyalty platform, using Ascenda's API",
-    tags: ["React", "Node.js", "MySQL", "Vitest"],
+    tags: ["TypeScript", "React", "Node.js", "Express", "MySQL", "Vitest", "AWS"],
     status: "Shipped",
     year: "2025",
     desc: "A full-stack booking system built on Ascenda's hotel data. My part was the interactive map and the account side of the backend.",
@@ -215,14 +223,20 @@ export const work: WorkProject[] = [
   },
   {
     name: "TROC #33",
-    tag: "Problems, tests, and editorials for an open programming contest with 300+ entrants",
-    tags: ["C++", "TCFrame", "Algorithms", "Problemsetting"],
+    tag: "Problems, tests, and editorials for an open programming contest with 320 entrants",
+    tags: [
+      "C++",
+      "TCFrame",
+      "Data Structures & Algorithms",
+      "Competitive Programming",
+    ],
     status: "Held",
     year: "2023",
     desc: "I was one of the lead authors of TOKI Regular Open Contest #33, a recurring online competitive programming contest from the NOI/IOI Indonesian Alumni (TOKI).",
     hi: [
-      "Participants from around the world",
-      "Test data generated and checked with TCFrame",
+      "My problems ranged from DP to sweep line to centroid decomposition",
+      "Contestants from about 20 countries, including Japan, China, India and the US",
+      "Only 6 solved all eight problems, and all 6 were red-rated",
     ],
     figures: [
       {

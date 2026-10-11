@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { IconType } from "react-icons";
+import { FaAws } from "react-icons/fa";
 import { FaMedal } from "react-icons/fa6";
 import {
   FiArrowUpRight,
@@ -15,18 +16,21 @@ import {
   SiChromewebstore,
   SiCplusplus,
   SiDocker,
+  SiExpress,
   SiFastapi,
   SiFirefoxbrowser,
   SiGithub,
+  SiGooglechrome,
   SiGooglecloud,
   SiHono,
   SiJavascript,
   SiMysql,
   SiNodedotjs,
   SiPostgresql,
+  SiPython,
   SiReact,
   SiThreedotjs,
-  SiVite,
+  SiTypescript,
   SiVitest,
   SiYoutube,
 } from "react-icons/si";
@@ -147,12 +151,16 @@ function Figure({
 /** Tag label -> logo. Tags without a recognisable logo stay text-only. */
 const TAG_ICONS: Record<string, IconType> = {
   JavaScript: SiJavascript,
+  TypeScript: SiTypescript,
+  Python: SiPython,
   React: SiReact,
   "React Native": SiReact,
   "Three.js": SiThreedotjs,
   FastAPI: SiFastapi,
-  "Cloud Run": SiGooglecloud,
-  Vite: SiVite,
+  GCP: SiGooglecloud,
+  "Chrome Extension": SiGooglechrome,
+  Express: SiExpress,
+  AWS: FaAws,
   Vitest: SiVitest,
   iOS: SiApple,
   Docker: SiDocker,

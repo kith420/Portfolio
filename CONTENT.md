@@ -150,7 +150,7 @@ How to edit:
 ### Cut the Crap
 
 - One-liner: A browser extension that rewrites the corporate bloat on any page, or piles more on
-- Tags: JavaScript, Manifest V3, LLM APIs, Vite
+- Tags: JavaScript, Chrome Extension, Manifest V3, LLM APIs
 - Status: 3rd Place (bronze medal)
 - Year: 2026
 - Description: A browser extension with one switch per site. Decrapify turns a 200-word LinkedIn humblebrag into "I got a new job." Crapify does the reverse. We built it at the Dumb Duber Dumber Hackathon, placed 3rd, then shipped it to both browser stores.
@@ -171,7 +171,7 @@ How to edit:
 ### SMRT Digital Twin
 
 - One-liner: A live 3D train that points at the part that needs fixing, and explains why
-- Tags: React, Three.js, FastAPI, Cloud Run
+- Tags: Python, TypeScript, React, Three.js, FastAPI, Docker, GCP
 - Status: Semifinalist
 - Year: 2026
 - Description: Built by a team of 4 at the LTA NebulaX Hackathon. Drop a maintenance file onto the train and the fault shows up as a bubble on the exact component, with a plain explanation of what the model found. I built the full-stack integration layer and the 3D twin itself.
@@ -188,14 +188,14 @@ How to edit:
 ### RoomU
 
 - One-liner: Roommate-finding app for 40,000+ UC Davis students, built with AggieWorks
-- Tags: React Native, iOS, Docker, Hono, PostgreSQL
+- Tags: TypeScript, React Native, iOS, PostgreSQL, Docker, Hono
 - Status: Shipped
 - Year: 2026
-- Description: Built with AggieWorks, UC Davis's student-run product studio, during my exchange. I shipped UI features in React Native and built the app's versioning system end to end.
+- Description: You take a lifestyle quiz, get matched with people you could actually live with, and chat with them in the app. Subleases get their own feed. I joined the 8-person team behind it at AggieWorks, the university's student-run product club: designers, engineers and marketers. What I added to an app that was already running:
 - Highlights:
-  - Reusable Applied Filters Bar and confirmation dialogs (NativeWind, Reanimated)
-  - Full-stack semver versioning system with a REST API on Hono and Drizzle
-  - In the hands of 190+ students
+  - Built the app's semver versioning system full-stack, with its own REST API (Drizzle)
+  - Filter bar and confirmation dialogs, built as reusable components (NativeWind, Reanimated)
+  - That filter bar again, extended to the sublease feed (in review)
 - Image descriptions (alt text for screen readers, not shown):
   - profile, matches and chat
   - the lifestyle quiz
@@ -206,7 +206,7 @@ How to edit:
 ### Tappin' Queen
 
 - One-liner: A Simon-style memory game in pure digital logic, with no CPU on the board
-- Tags: FPGA, Lucid HDL, Alchitry Au, Digital Logic
+- Tags: FPGA, Lucid HDL, Digital Logic, Computer Architecture
 - Status: Shipped
 - Year: 2025
 - Description: A memory game on an Alchitry Au FPGA, with no microcontroller and no soft CPU. Everything from the adder up is hand-written in Lucid HDL. Built for SUTD's Computation Structures course.
@@ -226,7 +226,7 @@ How to edit:
 > GAP: no images. The site shows a "screenshot coming" placeholder. Send screenshots (or tell me where they are) and captions.
 
 - One-liner: Hotel search, map, and Stripe checkout for a travel loyalty platform
-- Tags: React, Node.js, MySQL, Vitest
+- Tags: TypeScript, React, Node.js, Express, MySQL, Vitest, AWS
 - Status: Shipped
 - Year: 2025
 - Description: A full-stack hotel booking system built on Ascenda's hotel data, with destination search, live pricing and Stripe checkout. My part was the interactive map and the account side of the backend.
@@ -244,15 +244,15 @@ How to edit:
 
 > GAP: no images. The site shows a "screenshot coming" placeholder. Send screenshots (or tell me where they are) and captions.
 
-- One-liner: Problems, tests, and editorials for an open programming contest with 300+ entrants
-- Tags: C++, TCFrame, Algorithms, Problemsetting
+- One-liner: Problems, tests, and editorials for an open programming contest with 320 entrants
+- Tags: C++, TCFrame, Data Structures & Algorithms, Competitive Programming
 - Status: Held
 - Year: 2023
 - Description: I was lead author of TOKI Regular Open Contest #33. I wrote the problems, their solutions and test suites, and the editorials people read after the contest ended.
 - Highlights:
-  - 300+ participants from around the world
-  - Test data generated and checked with TCFrame
-  - Editorials written alongside the problems
+  - My problems ranged from DP to sweep line to centroid decomposition
+  - Contestants from about 20 countries, including Japan, China, India and the US
+  - Only 6 solved all eight problems, and all 6 were red-rated
 - Image descriptions (alt text for screen readers, not shown):
   - screenshot coming
 - Links:
