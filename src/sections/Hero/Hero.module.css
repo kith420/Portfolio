@@ -271,6 +271,9 @@
 .photoImg {
   object-fit: cover;
   object-position: center top;
+  /* Zoom in on the face; the origin keeps the hair inside the frame. */
+  scale: 1.35;
+  transform-origin: 50% 40%;
   filter: grayscale(0.15) contrast(1.02);
 }
 
