@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { DURATION, SETTLE, scrollToSection } from "@/lib/scrollToSection";
 import Wordmark from "./Wordmark";
 import styles from "./Nav.module.css";
@@ -141,12 +141,12 @@ export default function Nav() {
     return () => document.removeEventListener("click", onClick);
   }, []);
 
-  const onNavClick = (id: string) => {
+  const onNavClick = useCallback((id: string) => {
     selectRef.current = id;
     lockRef.current = Date.now() + DURATION + SETTLE;
     setActive(id);
     setOpen(false);
-  };
+  }, []);
 
   const navClass = [
     styles.nav,
