@@ -46,10 +46,10 @@ How to edit:
 - Role: Software Engineer Intern
 - Dates: May 2026 – Present
 - Location: Singapore
-- Tech: Python, TypeScript, Meilisearch
+- Tech: Python, TypeScript, FastAPI, GCP, AI Agents
 - Card line: Building agent infra, search, and knowledge systems for [Sai](https://sai.work/), Simular's computer-use agent.
 - Modal meta: AI Agents · 2026 · Singapore
-- Overview: Sai is Simular's computer-use agent. I spent the summer building **its hands and senses**: how it searches the web, reads a page, finds things in its own workspace, and asks before it guesses. Most of it shipped.
+- Overview: Sai is Simular's computer-use agent. I've been building **its hands and senses**: how it searches the web, reads a page, finds things in its own workspace, and asks before it guesses. Most of it shipped.
 - Card stat: 45× — smaller page context for the agent
 - What I built (bullets):
   - **Web fetch** — cut the page context the agent reads by 45× on Wikipedia's Apollo 11 article, from 100,175 characters to 2,217. A fetch now returns a lazy page object instead of raw text: it opens on an outline capped at 4,000 characters, then the agent greps, reads, or asks the page a question, so context cost stopped scaling with page size.
@@ -83,7 +83,7 @@ How to edit:
     - My intern project was to build the company a memory. I wrote the founding tech design, then the ingestion client and the search API on FastAPI, Cloud Run, and Firestore. It ingests **Slack, Gmail, Calendar, Drive, and GitHub**. Reads go two ways: exact filters by owner, tag, and time range, or natural language over self-hosted BGE-M3 embeddings.
     - Running it twice must change nothing. Pipelines get re-run, by retries, by backfills, by people. So each record is keyed by its own stable ID: run it a hundred times and there is still one Tuesday standup.
     - The service was the easy part. Slack user IDs are per-workspace, so a wrong guess tags a colleague's DMs as your own. Now it skips the workspace when it can't tell who you are. GitHub and Gmail filter by date, so a 24-hour window starting at 11:15 silently lost the morning. And channel search doesn't return thread replies, so a reply I wrote with no @mention just vanished.
-- Detail image: simular/team-collage.jpg (closing figure, caption: The Simular team.)
+- Detail image: simular/team-collage.jpg (shown under the overview, above the bullets; caption: The Simular team.)
 - Photo: simular-team.jpg (alt: The Simular team)
 
 ### 02 · AggieWorks
@@ -91,27 +91,30 @@ How to edit:
 - Role: Software Engineer
 - Dates: Jan 2026 – Mar 2026
 - Location: UC Davis, California
-- Tech: React Native, Hono, Drizzle
-- Card line: Shipped UI features for [RoomU](https://roomu.aggieworks.org/), a roommate-finding app for 40,000+ UC Davis students.
+- Tech: React Native, TypeScript, Hono, Drizzle
+- Card line: Joined the 8-person team behind [RoomU](https://roomu.aggieworks.org/), a roommate-finding app for 40,000+ UC Davis students, and merged my first PR in week one.
 - Modal meta: Campus App · 2026 · UC Davis, California
-- Overview: Shipped features on **RoomU**, a housing and roommate-discovery app used by 190+ students day to day, where the person filing the bug report was often three rows behind me in lecture.
-- What I built: An applied-filters bar and confirmation dialog in React Native (NativeWind + Reanimated), plus RoomU's **app-versioning system end to end** — a REST API on Hono/Drizzle, a TanStack Query hook, and an animated update modal to keep every client on the same version.
+- Overview: AggieWorks is UC Davis's student-run product club. I joined for one quarter while on exchange, on the 8-person team behind **RoomU**, a roommate-finding app for the university's 40,000+ students.
+- Section "My quarter there" (replaces the "What I built" heading): Merged my first PR in week one, then built the app's versioning system and a reusable filter bar. [See the RoomU project](#project-roomu) for the details. (The link opens the RoomU project card.) The rest were experiences with the team: a 2 night retreat at Lake Tahoe, a bunch of socials, and a team photoshoot. Definitely a memorable way to spend my time during exchange!
 - Photo: aggieworks-team.jpg (alt: The AggieWorks team in front of a snowy cabin)
+- Modal image: aggieworks/photoshoot.jpg (shown under the overview; caption: The AggieWorks photoshoot.)
 
 ### 03 · TCS Pace Port
 
 - Role: AI Research & Innovation Intern
 - Dates: Sep 2025 – Dec 2025
 - Location: Singapore
-- Tech: PyTorch, React, LangChain
-- Card line: Tackled 3 projects across robotics, full-stack, and applied AI: a Misty II robot, a booking system, and a RAG chatbot.
+- Tech: PyTorch, LangChain, React, Node.js, PostgreSQL
+- Card line: Tackled 4 projects across robotics, full-stack, and applied AI: a Misty II robot, a booking system, an AI video avatar, and a RAG chatbot.
 - Modal meta: Innovation Lab · 2025 · Singapore
-- Overview: Worked across **three projects** at TCS's Pace Port innovation lab, spanning robotics, full-stack, and applied AI: a personality framework for a Misty II robot, a meeting room booking system, and a RAG chatbot.
-- What I built (bullets):
-  - **Misty II robot** — a custom personality framework in PyTorch, OpenCV, and YOLO. Cut response time from 7s to 3s by optimizing frame processing, and built face tracking plus idle behaviors (wave greetings, backtracking search, jokes, sleeping, grumbling) so the robot stays present between interactions. Demoed to Toyota and UBS.
-  - **Booking system** — led a full-stack meeting room booking app for 50+ staff (React, Node.js, PostgreSQL on GCP). 30+ REST API endpoints covering auth, bookings, admin approvals, and email notifications, with transactional constraints so concurrent requests can't claim the same slot. Guided 3 teammates through weekly code reviews.
-  - **RAG chatbot** — built with LangChain, grounding LLM responses in indexed internal docs and real-time database checks.
+- Overview: Worked across **four projects** at TCS's Pace Port innovation lab, spanning robotics, full-stack, and applied AI: a personality framework for a Misty II robot, a booking system for customer visits, a real-time AI video avatar, and a RAG chatbot.
+- Sections (each a titled paragraph in the dialog, replacing the "What I built" list):
+  - **Misty II robot** — A custom personality framework in PyTorch, OpenCV, and YOLO. Cut response time from 7s to 3s by optimizing frame processing, and built face tracking plus idle behaviors (wave greetings, backtracking search, jokes, sleeping, grumbling) so the robot stays present between interactions. Demoed to Toyota and UBS.
+  - **Booking system** (two paragraphs) — **Led 4 teammates** building a full-stack app for booking customer visits to the Pace Port, used by 50+ staff. I designed the API, the database schema, the frontend, and the Docker setup, then ran weekly code reviews. / Staff request a slot, admins approve or block out dates, and the lab's chatbot checks availability through the same API. **30+ REST endpoints** on React, Node.js, and PostgreSQL on GCP. Transactional constraints stop two requests claiming the same slot.
+  - **AI video avatar** — Tested five real-time avatar platforms for the Pace Port website's chatbot in a React and Node.js test app, and picked Tavus for the lowest latency. Built an OpenAI-to-Gemini format converter so it could run on Gemini. Demoed it to the head of Pace Port in week three, who approved it for future projects.
+  - **RAG chatbot** — Built with LangChain, grounding LLM responses in indexed internal docs and real-time database checks.
 - Photo: tcs-team.jpg (alt: The TCS Pace Port team)
+- Gallery (one picture at a time under the overview, with a thumbnail picker): tcs/misty-face-tracking.jpg (caption: Working on optimizing the Misty II's face tracking feature.), tcs/booking-admin.jpg (caption: The booking app's admin dashboard, with made-up customers.), tcs/booking-request.jpg (caption: The form staff fill in to request a visit.), tcs/tavus-demo.jpg (caption: The Tavus avatar in my test app.), tcs/team-seniors.jpg (caption: Last day of my 4 month internship.)
 
 ### 04 · NTT Data Inc
 
@@ -133,12 +136,15 @@ How to edit:
 
 - Role: Competitive Programming Coach (C++ & Python)
 - Dates: Jun 2023 – Feb 2025
-- Location: Jakarta, Indonesia · Remote
-- Tech: C++, Python, Algorithms
-- Card line: Spent 300+ hours coaching high-schoolers for Indonesia's National Olympiad in Informatics.
-- Modal meta: CP Coach · 2023–2025 · Remote
-- Overview: Coached high-school students preparing for Indonesia's **National Olympiad in Informatics** (NOI) — a national contest with ~20,000 participants a year.
-- What I built: 300+ hours of lectures and problem-solving sessions, plus custom problem sets and mock contests — the org's students collectively took **19 of 30 medals at NOI 2023**.
+- Location: Jakarta, Indonesia
+- Tech: C++, Python, Data Structures & Algorithms
+- Card line: Spent 300+ hours at [Kokocoder](https://kokocoder.com/) coaching high-schoolers for Indonesia's National Olympiad in Informatics.
+- Modal meta: CP Coach · 2023–2025 · Jakarta, Indonesia
+- Overview: Coached high-school students for Indonesia's **National Olympiad in Informatics** (NOI), a national contest with ~20,000 participants a year. The org's students took **19 of 30 medals at NOI 2023**.
+- What I built (bullets):
+  - **Daily virtual contests** — started a daily virtual contest for students heading into the NOI national round, and about 50 took part. I compiled 20 five-hour, NOI-style contests from oj.uz, TLX, Codeforces, and CodeChef. Then I led a team of 3 to rewrite the statements and editorials in English with new character names and wording, so nobody could paste a sentence into a search engine and find the original. Each night we went through the problems on Zoom.
+  - **Knight Camp 3.0** — Kokocoder's 2023 camp, a week in Lembang where students trained from morning to night. I was a supporting coach for the red class: the 12 strongest of our students competing in the NOI finals.
+  - **Teaching** — 300+ hours of lectures and problem-solving sessions in C++ and Python.
 - Photo: kokocoder-team.jpg (alt: The KokoCoder team)
 
 ---

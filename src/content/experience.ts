@@ -28,15 +28,22 @@ export const experience: ExperienceRole[] = [
       // U+2011 non-breaking hyphen keeps "computer-use" on one line.
       { text: ", Simular's computer\u2011use agent." },
     ],
-    tech: ["Python", "TypeScript", "Meilisearch"],
+    tech: ["Python", "TypeScript", "FastAPI", "GCP", "AI Agents"],
     year: "May 2026 – Present",
     photo: { src: "/images/experience/simular-team.jpg", alt: "The Simular team" },
     modal: {
       meta: "AI Agents · 2026 · Singapore",
       overview: [
-        { text: "Sai is Simular's computer-use agent. I spent the summer building " },
+        { text: "Sai is Simular's computer-use agent. I've been building " },
         { text: "its hands and senses", hi: true },
         { text: ": how it searches the web, reads a page, finds things in its own workspace, and asks before it guesses." },
+      ],
+      gallery: [
+        {
+          src: "/images/experience/simular/team-collage.jpg",
+          alt: "Collage of photos with the Simular team: dinners, a conference booth, a team outing, a Simular cake, and desk shots",
+          caption: "A small collage I built documenting key moments for my end-of-summer presentation.",
+        },
       ],
       points: [
         [
@@ -68,11 +75,6 @@ export const experience: ExperienceRole[] = [
           { text: " — 30 merged PRs over the summer. Beyond the features above: shareable session links, composer drafts that survive a reload or restart, and 11 smaller fixes, from a modal that silently no-opped in production builds to a CI runner pinned after a toolchain update broke untouched builds." },
         ],
       ],
-      image: {
-        src: "/images/experience/simular/team-collage.jpg",
-        alt: "Collage of photos with the Simular team: dinners, a conference booth, a team outing, a Simular cake, and desk shots",
-        caption: "The Simular team.",
-      },
     },
   },
   {
@@ -84,11 +86,11 @@ export const experience: ExperienceRole[] = [
     location: "UC Davis, California",
     role: "Software Engineer",
     desc: [
-      { text: "Shipped UI features for " },
+      { text: "Joined the 8-person team behind " },
       { text: "RoomU", href: "https://roomu.aggieworks.org/" },
-      { text: ", a roommate-finding app for 40,000+ UC Davis students." },
+      { text: ", a roommate-finding app for 40,000+ UC Davis students, and merged my first PR in week one." },
     ],
-    tech: ["React Native", "Ios", "Hono", "Drizzle"],
+    tech: ["React Native", "TypeScript", "Hono", "Drizzle"],
     year: "Jan 2026 – Mar 2026",
     photo: {
       src: "/images/experience/aggieworks-team.jpg",
@@ -98,14 +100,28 @@ export const experience: ExperienceRole[] = [
     modal: {
       meta: "Campus App · 2026 · UC Davis, California",
       overview: [
-        { text: "Shipped features on " },
+        { text: "AggieWorks is UC Davis's student-run product club. I joined for one quarter while on exchange, on the 8-person team behind " },
         { text: "RoomU", hi: true },
-        { text: ", a housing and roommate-discovery app used by 190+ students day to day, where the person filing the bug report was often three rows behind me in lecture." },
+        { text: ", a roommate-finding app for the university's 40,000+ students." },
       ],
-      built: [
-        { text: "An applied-filters bar and confirmation dialog in React Native (NativeWind + Reanimated), plus RoomU's " },
-        { text: "app-versioning system end to end", hi: true },
-        { text: " — a REST API on Hono/Drizzle, a TanStack Query hook, and an animated update modal to keep every client on the same version." },
+      gallery: [
+        {
+          src: "/images/experience/aggieworks/photoshoot.jpg",
+          alt: "The AggieWorks club in a group photo under a row of trees on campus, standing and sitting cross-legged on the road, most of them laughing at each other",
+          caption: "Winter 2026",
+        },
+      ],
+      sections: [
+        {
+          title: "My quarter there",
+          body: [
+            [
+              { text: "Merged my first PR in week one, then built the app's versioning system and a reusable filter bar. " },
+              { text: "See the RoomU project", href: "#project-roomu" },
+              { text: " for the details. The rest were experiences with the team: a 2 night retreat at Lake Tahoe, a bunch of socials, and a team photoshoot. Definitely a memorable way to spend my time during exchange!" },
+            ],
+          ],
+        },
       ],
     },
   },
@@ -117,8 +133,8 @@ export const experience: ExperienceRole[] = [
     logoSrc: "/images/experience/tcs.svg",
     location: "Singapore",
     role: "AI Research & Innovation Intern",
-    desc: [{ text: "Tackled 3 projects across robotics, full-stack, and applied AI: a Misty II robot, a booking system, and a RAG chatbot." }],
-    tech: ["PyTorch", "React", "LangChain"],
+    desc: [{ text: "Tackled 4 projects across robotics, full-stack, and applied AI: a Misty II robot, a booking system, an AI video avatar, and a RAG chatbot." }],
+    tech: ["PyTorch", "LangChain", "React", "Node.js", "PostgreSQL"],
     year: "Sep 2025 – Dec 2025",
     photo: {
       src: "/images/experience/tcs-team.jpg",
@@ -129,22 +145,67 @@ export const experience: ExperienceRole[] = [
       meta: "Innovation Lab · 2025 · Singapore",
       overview: [
         { text: "Worked across " },
-        { text: "three projects", hi: true },
-        { text: " at TCS's Pace Port innovation lab, spanning robotics, full-stack, and applied AI: a personality framework for a Misty II robot, a meeting room booking system, and a RAG chatbot." },
+        { text: "four projects", hi: true },
+        { text: " at TCS's Pace Port innovation lab, spanning robotics, full-stack, and applied AI: a personality framework for a Misty II robot, a booking system for customer visits, a real-time AI video avatar, and a RAG chatbot." },
       ],
-      points: [
-        [
-          { text: "Misty II robot", hi: true },
-          { text: " — a custom personality framework in PyTorch, OpenCV, and YOLO. Cut response time from 7s to 3s by optimizing frame processing, and built face tracking plus idle behaviors (wave greetings, backtracking search, jokes, sleeping, grumbling) so the robot stays present between interactions. Demoed to Toyota and UBS." },
-        ],
-        [
-          { text: "Booking system", hi: true },
-          { text: " — led a full-stack meeting room booking app for 50+ staff (React, Node.js, PostgreSQL on GCP). 30+ REST API endpoints covering auth, bookings, admin approvals, and email notifications, with transactional constraints so concurrent requests can't claim the same slot. Guided 3 teammates through weekly code reviews." },
-        ],
-        [
-          { text: "RAG chatbot", hi: true },
-          { text: " — built with LangChain, grounding LLM responses in indexed internal docs and real-time database checks." },
-        ],
+      gallery: [
+        {
+          src: "/images/experience/tcs/misty-face-tracking.jpg",
+          alt: "A white Misty II robot on a meeting-room table, turned to face a seated colleague, while a laptop beside it shows the robot's camera feed of him",
+          caption: "Working on optimizing the Misty II's face tracking feature.",
+        },
+        {
+          src: "/images/experience/tcs/booking-admin.jpg",
+          alt: "The booking app's admin dashboard: a VIP customers strip, a week calendar with approved, pending and blocked visits in green, yellow and brown, and a list of visits waiting for approval with Approve and Reject buttons",
+          caption: "The booking app's admin dashboard mocked with made-up customers.",
+        },
+        {
+          src: "/images/experience/tcs/booking-request.jpg",
+          alt: "The booking app's request form, titled Pace Port Registration Form, with fields for the customer, industry and visit details",
+          caption: "The booking form staff fill in.",
+          position: "50% 0%",
+        },
+        {
+          src: "/images/experience/tcs/tavus-demo.jpg",
+          alt: "A photo of a screen showing the test app, titled Tavus AI Conversation: a video call with a lifelike AI avatar of a man in a zip-up jumper, and my own camera in the corner",
+          caption: "The Tavus avatar in my test app.",
+        },
+        {
+          src: "/images/experience/tcs/team-seniors.jpg",
+          alt: "Six of us standing in a row in front of the plant wall at the TCS Pace Port office",
+          caption: "Last day of my 4 month internship.",
+          // The group stands left of centre, under a lot of ceiling.
+          position: "0% 100%",
+          zoom: 1.11,
+        },
+      ],
+      sections: [
+        {
+          title: "Misty II robot",
+          body: [[{ text: "A custom personality framework in PyTorch, OpenCV, and YOLO. Cut response time from 7s to 3s by optimizing frame processing, and built face tracking plus idle behaviors (wave greetings, backtracking search, jokes, sleeping, grumbling) so the robot stays present between interactions. Demoed to Toyota and UBS." }]],
+        },
+        {
+          title: "Booking system",
+          body: [
+            [
+              { text: "Led 4 teammates", hi: true },
+              { text: " building a full-stack app for booking customer visits to the Pace Port, used by 50+ staff. I designed the API, the database schema, the frontend, and the Docker setup, then ran weekly code reviews." },
+            ],
+            [
+              { text: "Staff request a slot, admins approve or block out dates, and the lab's chatbot checks availability through the same API. " },
+              { text: "30+ REST endpoints", hi: true },
+              { text: " on React, Node.js, and PostgreSQL on GCP. Transactional constraints stop two requests claiming the same slot." },
+            ],
+          ],
+        },
+        {
+          title: "AI video avatar",
+          body: [[{ text: "Tested five real-time avatar platforms for the Pace Port website's chatbot in a React and Node.js test app, and picked Tavus for the lowest latency. Built an OpenAI-to-Gemini format converter so it could run on Gemini. Demoed it to the head of Pace Port in week three, who approved it for future projects." }]],
+        },
+        {
+          title: "RAG chatbot",
+          body: [[{ text: "Built with LangChain, grounding LLM responses in indexed internal docs and real-time database checks." }]],
+        },
       ],
     },
   },
@@ -188,7 +249,6 @@ export const experience: ExperienceRole[] = [
       image: {
         src: "/images/experience/ntt/regla-login.jpg",
         alt: "REGLA's sign-in screen: a username field beside an isometric illustration of people working around servers and a chip",
-        caption: "REGLA's sign-in screen.",
       },
     },
   },
@@ -200,8 +260,12 @@ export const experience: ExperienceRole[] = [
     logoSrc: "/images/experience/kokocoder.svg",
     location: "Jakarta, Indonesia",
     role: "Competitive Programming Coach (C++ & Python)",
-    desc: [{ text: "Spent 300+ hours coaching high-schoolers for Indonesia's National Olympiad in Informatics." }],
-    tech: ["C++", "Python", "Algorithms"],
+    desc: [
+      { text: "Spent 300+ hours at " },
+      { text: "Kokocoder", href: "https://kokocoder.com/" },
+      { text: " coaching high-schoolers for Indonesia's National Olympiad in Informatics." },
+    ],
+    tech: ["C++", "Python", "Data Structures & Algorithms"],
     year: "Jun 2023 – Feb 2025",
     photo: {
       src: "/images/experience/kokocoder-team.jpg",
@@ -209,16 +273,27 @@ export const experience: ExperienceRole[] = [
       position: "50% 85%",
     },
     modal: {
-      meta: "CP Coach · 2023–2025 · Remote",
+      meta: "CP Coach · 2023–2025 · Jakarta, Indonesia",
       overview: [
-        { text: "Coached high-school students preparing for Indonesia's " },
+        { text: "Coached high-school students for Indonesia's " },
         { text: "National Olympiad in Informatics", hi: true },
-        { text: " (NOI) — a national contest with ~20,000 participants a year." },
-      ],
-      built: [
-        { text: "300+ hours of lectures and problem-solving sessions, plus custom problem sets and mock contests — the org's students collectively took " },
+        { text: " (NOI), a national contest with ~20,000 participants a year. The org's students took " },
         { text: "19 of 30 medals at NOI 2023", hi: true },
         { text: "." },
+      ],
+      points: [
+        [
+          { text: "Daily virtual contests", hi: true },
+          { text: " — started a daily virtual contest for students heading into the NOI national round, and about 50 took part. I compiled 20 five-hour, NOI-style contests from oj.uz, TLX, Codeforces, and CodeChef. Then I led a team of 3 to rewrite the statements and editorials in English with new character names and wording, so nobody could paste a sentence into a search engine and find the original. Each night we went through the problems on Zoom." },
+        ],
+        [
+          { text: "Knight Camp 3.0", hi: true },
+          { text: " — Kokocoder's 2023 camp, a week in Lembang where students trained from morning to night. I was a supporting coach for the red class: the 12 strongest of our students competing in the NOI finals." },
+        ],
+        [
+          { text: "Teaching", hi: true },
+          { text: " — 300+ hours of lectures and problem-solving sessions in C++ and Python." },
+        ],
       ],
     },
   },
