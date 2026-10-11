@@ -5,7 +5,10 @@
  */
 
 /** A run of prose with optional highlighted (accent-coloured) spans. */
-/** Inline text runs; `hi` emphasises a run, `href` makes it a link. */
+/**
+ * Inline text runs; `hi` emphasises a run, `href` makes it a link. An href of
+ * "#project-<name>" opens that project's card instead of leaving the page.
+ */
 export type RichText = Array<{ text: string; hi?: boolean; href?: string }>;
 
 export interface Link {
@@ -53,6 +56,10 @@ export interface ModalImage {
   src: string;
   alt: string;
   caption?: string;
+  /** CSS object-position, to steer the crop when shown in a `gallery`. */
+  position?: string;
+  /** Enlarges a `gallery` picture past the cover fit, anchored at `position`. */
+  zoom?: number;
 }
 
 export interface ExperienceRole {
@@ -96,8 +103,15 @@ export interface ExperienceRole {
      * the "What I built" block entirely.
      */
     sections?: { title: string; body: RichText[]; image?: ModalImage }[];
-    /** Closing figure under everything else, e.g. a team photo. */
-    image?: ModalImage;
+    /**
+     * Pictures shown one at a time under the overview, with a thumbnail
+     * picker in the corner (the project dialog's viewer). Use this instead of
+     * stacking several figures down the dialog. A single picture is shown
+     * whole, at its own ratio.
+     */
+    gallery?: ModalImage[];
+    /** Closing figure (or figures) under everything else, e.g. a team photo. */
+    image?: ModalImage | ModalImage[];
   };
 }
 

@@ -680,7 +680,18 @@
   margin-top: 28px;
 }
 
+/* A picture is a button: click to see it full screen. */
+.zoomBtn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: zoom-in;
+}
+
 .modalFigure img {
+  display: block;
   width: 100%;
   height: auto;
   border: 1px solid #2a3240;
@@ -688,6 +699,215 @@
 }
 
 .modalFigure figcaption {
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--faint);
+}
+
+/* Full-screen picture view, the dark twin of the project dialog's. */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 56px 72px 24px;
+  background: rgba(8, 10, 14, 0.95);
+  cursor: zoom-out;
+}
+
+.lightbox[open] {
+  display: flex;
+  animation: lbIn 0.2s ease both;
+}
+
+.lightbox::backdrop {
+  background: none;
+}
+
+.lbImg {
+  min-height: 0;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  cursor: var(--cursor-arrow);
+}
+
+.lbCount {
+  flex: none;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.lbNav {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  width: 44px;
+  height: 44px;
+  font-size: 24px;
+}
+
+.lbPrev {
+  left: 14px;
+}
+
+.lbNext {
+  right: 14px;
+}
+
+.lbClose {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+}
+
+.lbClose,
+.lbNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  background: none;
+  color: #fff;
+  cursor: var(--cursor-link);
+  transition: background-color 0.2s ease;
+}
+
+.lbClose:hover,
+.lbNav:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+@keyframes lbIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .lightbox {
+    padding: 56px 12px 20px;
+  }
+  .lbCount {
+    font-size: 12px;
+  }
+  .lbNav {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+    background: rgba(8, 10, 14, 0.6);
+  }
+  .lbPrev {
+    left: 6px;
+  }
+  .lbNext {
+    right: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox[open] {
+    animation: none;
+  }
+}
+
+/* Picture viewer: one stage, thumbnail picker in its corner. */
+.gallery {
+  margin-top: 20px;
+}
+
+.galleryStage {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border: 1px solid #2a3240;
+  border-radius: 4px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.galleryStage > .zoomBtn {
+  position: absolute;
+  inset: 0;
+}
+
+.galleryStage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.galleryThumbs {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  /* Thumbnails shrink before the strip can outgrow a narrow stage. */
+  width: max-content;
+  max-width: calc(100% - 20px);
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+  padding: 5px;
+  border-radius: 7px;
+  background: rgba(8, 12, 20, 0.62);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.galleryThumb {
+  position: relative;
+  flex: 0 1 auto;
+  width: 54px;
+  min-width: 0;
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 3px;
+  background: var(--surface);
+  overflow: hidden;
+  opacity: 0.6;
+  cursor: var(--cursor-link);
+  transition:
+    opacity 0.25s ease,
+    border-color 0.25s ease;
+}
+
+/* Out of flow, so a picture's real size can't stretch the strip (it did in
+   Safari and Firefox, which size the strip from its contents). */
+.galleryThumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.galleryThumb:hover {
+  opacity: 0.85;
+}
+
+.galleryThumbActive,
+.galleryThumbActive:hover {
+  opacity: 1;
+  border-color: #fff;
+}
+
+.gallery figcaption {
   margin-top: 8px;
   font-family: var(--mono);
   font-size: var(--fs-xs);

@@ -287,6 +287,8 @@ function WorkCard({ project, index, active, onOpen, registerRef }: CardProps) {
   return (
     <div
       ref={setRef}
+      // Anchor for in-page links, e.g. "#project-roomu".
+      id={`project-${project.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
       data-card="1"
       // Column in the three-up layout; the CSS staggers columns on scroll.
       data-col={index % 3}
