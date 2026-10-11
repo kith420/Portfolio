@@ -194,19 +194,23 @@ export default function Experience() {
   const [openThrough, setOpenThrough] = useState(-1);
   // Same idea for the photos, which open on a later trigger than the card.
   const [photoThrough, setPhotoThrough] = useState(-1);
-  // Role shown in the details dialog (null = closed).
-  const [detail, setDetail] = useState<ExperienceRole | null>(null);
-  const closeDetail = useCallback(() => setDetail(null), []);
+  // Role shown in the details dialog (null = closed). Held by `num` and looked
+  // up on each render, so an open dialog picks up content edits in dev.
+  const [detailNum, setDetailNum] = useState<string | null>(null);
+  const detail = experience.find((r) => r.num === detailNum) ?? null;
+  const openDetail = useCallback(
+    (role: ExperienceRole) => setDetailNum(role.num),
+    [],
+  );
+  const closeDetail = useCallback(() => setDetailNum(null), []);
 
   // A single rAF-throttled scroll handler finds the last card whose centre has
   // risen past the viewport centre line. State only changes when that index
   // changes (discrete, not per-frame), so React state is appropriate here.
   useEffect(() => {
-    if (reduced) {
-      setOpenThrough(-1);
-      setPhotoThrough(-1);
-      return;
-    }
+    // Reduced motion shows every card open (see `open` below), so the scroll
+    // tracking has nothing to do.
+    if (reduced) return;
     let raf = 0;
     let ticking = false;
 
@@ -283,7 +287,7 @@ export default function Experience() {
               index={i}
               open={reduced || i <= openThrough}
               photoOpen={reduced || i <= photoThrough}
-              onDetails={setDetail}
+              onDetails={openDetail}
             />
           ))}
         </div>
