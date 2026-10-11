@@ -32,7 +32,7 @@ export const competitions: Competition[] = [
     },
   },
   {
-    name: "NOI",
+    name: "NOI/OSN Informatics",
     fullName: "National Olympiad in Informatics (OSN/NOI)",
     label: "OSN / NOI",
     caption: "Oct 2022 · Indonesia",
