@@ -7,6 +7,10 @@
   background: var(--work-bg);
   color: var(--work-ink);
   font-family: var(--prose);
+  /* The award stamps hang off the cards' corners. On a phone the card sits
+     at the screen edge, so a stamp would widen the page and let it pan
+     sideways. Clip, not hidden: it must not become a scroll container. */
+  overflow-x: clip;
 }
 
 .workWrap {
