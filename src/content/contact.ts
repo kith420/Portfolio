@@ -46,6 +46,8 @@ export const contact: ContactContent = {
       },
   ],
   footer: "Nathan Keith Poernama",
+  colophon:
+    "Designed and built with Next.js and TypeScript, with Claude Code and Cursor as pair programmers.",
   srLine:
     "kith: a nickname, from the middle name Keith. Nathan Keith Poernama.",
 };

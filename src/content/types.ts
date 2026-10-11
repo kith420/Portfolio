@@ -202,5 +202,7 @@ export interface ContactContent {
   links: Array<{ label: string; href: string; ariaLabel: string; svgPath: string }>;
   /** Footer name; the "© <current year>" prefix is added at render. */
   footer: string;
+  /** Colophon under the footer name: what the site is built with. */
+  colophon: string;
   srLine: string;
 }

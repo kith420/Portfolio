@@ -188,6 +188,12 @@
   margin-top: 60px;
 }
 
+.colophon {
+  margin-top: 6px;
+  line-height: 1.6;
+  text-wrap: balance;
+}
+
 /* ------------------------------- Responsive ---------------------------- */
 
 @media (max-width: 520px) {

@@ -166,6 +166,7 @@ export default function Contact() {
       <div className={styles.foot}>
         © {year ? `${year} ` : ""}
         {contact.footer}
+        <p className={styles.colophon}>{contact.colophon}</p>
       </div>
     </section>
   );

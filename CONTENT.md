@@ -337,4 +337,5 @@ Top of the pyramid to bottom. Add, remove or reorder names.
   - GitHub: https://github.com/kith420
   - Codeforces: https://codeforces.com/profile/kith14
 - Footer name: Nathan Keith Poernama
+- Colophon: Designed and built with Next.js and TypeScript, with Claude Code and Cursor as pair programmers.
 - Screen-reader line: kith: a nickname, from the middle name Keith. Nathan Keith Poernama.
