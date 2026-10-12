@@ -110,11 +110,11 @@
   min-height: 0;
   overflow: hidden;
   background: #0d0f14;
-  cursor: grab;
+  cursor: var(--cursor-grab);
 }
 
 .tile:active {
-  cursor: grabbing;
+  cursor: var(--cursor-grabbing);
 }
 
 .tall {
@@ -168,7 +168,7 @@
 .selected {
   outline: 2px solid var(--ink);
   outline-offset: -2px;
-  cursor: move;
+  cursor: var(--cursor-move);
 }
 
 .label em {

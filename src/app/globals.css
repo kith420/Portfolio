@@ -53,6 +53,11 @@
   /* --- Custom cursor: accent arrow, filled blue over anything clickable --- */
   --cursor-arrow: url("/cursors/arrow.svg") 3 2, auto;
   --cursor-link: url("/cursors/arrow-link.svg") 3 2, pointer;
+  --cursor-zoom-in: zoom-in;
+  --cursor-zoom-out: zoom-out;
+  --cursor-grab: grab;
+  --cursor-grabbing: grabbing;
+  --cursor-move: move;
 
   /* --- Motion tokens --- */
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -73,6 +78,19 @@ html {
   /* Keep anchored section headings clear of the fixed nav. */
   scroll-padding-top: 80px;
   cursor: var(--cursor-arrow);
+}
+
+/* The Vidar head (components/VidarCursor) takes over as the cursor once it's on screen. */
+html[data-vidar] {
+  --cursor-arrow: none;
+  /* Invisible, but the keyword stays so the head knows when to flare its eyes or which
+     badge to show. */
+  --cursor-link: url("/cursors/blank.svg") 0 0, pointer;
+  --cursor-zoom-in: url("/cursors/blank.svg") 0 0, zoom-in;
+  --cursor-zoom-out: url("/cursors/blank.svg") 0 0, zoom-out;
+  --cursor-grab: url("/cursors/blank.svg") 0 0, grab;
+  --cursor-grabbing: url("/cursors/blank.svg") 0 0, grabbing;
+  --cursor-move: url("/cursors/blank.svg") 0 0, move;
 }
 
 body {

@@ -455,7 +455,7 @@
   padding: 0;
   border: none;
   background: none;
-  cursor: zoom-in;
+  cursor: var(--cursor-zoom-in);
 }
 
 /* Figure picker: a small strip over the stage's bottom-right corner, so it
@@ -698,7 +698,7 @@
   gap: 12px;
   padding: 56px 72px 24px;
   background: rgba(12, 12, 14, 0.94);
-  cursor: zoom-out;
+  cursor: var(--cursor-zoom-out);
 }
 
 .lightbox[open] {

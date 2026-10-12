@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Archivo, Caveat } from "next/font/google";
 import localFont from "next/font/local";
+import VidarCursor from "@/components/VidarCursor";
 import "./globals.css";
 
 const display = Archivo({
@@ -46,7 +47,10 @@ export default function RootLayout({
       lang="en"
       className={`${display.variable} ${mono.variable} ${caveat.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <VidarCursor />
+      </body>
     </html>
   );
 }
