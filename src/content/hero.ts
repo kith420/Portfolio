@@ -1,7 +1,7 @@
 import { HeroContent } from "./types";
 
 export const hero: HeroContent = {
-  eyebrow: "Hello world, my name is",
+  eyebrow: "Hello world 🌏, I'm",
   name: ["Nathan", "Keith Poernama"],
   // tagline: "Ships code. Sweats pixels.",
   bio: [

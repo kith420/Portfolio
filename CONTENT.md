@@ -24,7 +24,7 @@ How to edit:
 > GAP: tagline and bio were flagged as AI-sounding in design review. Rewrite in your own voice.
 > GAP: background filmstrip is empty (currently a dark gradient). List any photos/videos you want drifting behind the hero.
 
-- Eyebrow: Computer Science & Design — SUTD’27
+- Eyebrow: Hello world 🌏, I'm
 - Name: Nathan / Keith P.
 - Tagline: Ships code. Sweats pixels.
 - Bio: Four internships deep, a competitive-programming habit, and a soft spot for **computer graphics**, sneakers, and the occasional **Gunpla build**.
