@@ -303,8 +303,8 @@ How to edit:
 
 - Polaroid label: IOI Selection
 - Caption: June 2023 · Indonesia
-- Result: Final 14
-- Back note: Top 4 go on to be the national IOI team for Indonesia that year.
+- Result: National Team Candidate (Top 14)
+- Back note: The top 4 form Indonesia's national team for the IOI that year.
 
 ### TCS CodeVita
 
