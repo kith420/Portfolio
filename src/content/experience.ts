@@ -60,11 +60,11 @@ export const experience: ExperienceRole[] = [
         ],
         [
           { text: "Knowledge service", hi: true },
-          { text: " — wrote the founding tech design, then built idempotent ingestion across Slack, Gmail, Calendar, Drive, and GitHub and a semantic search REST API (BGE-M3) on FastAPI, Cloud Run, and Firestore." },
+          { text: " — wrote the founding tech design, then built idempotent ingestion across Slack, Gmail, Calendar, and GitHub, with Google Drive as a read-only source, and a semantic search REST API (BGE-M3) on FastAPI, Cloud Run, and Firestore." },
         ],
         [
           { text: "⌘K search", hi: true },
-          { text: " — one search across messages, workflows, drafts, and files. ~70K records indexed in a week on Meilisearch, with four ranked sources merged by reciprocal rank fusion." },
+          { text: " — one search across 5 entity types, including messages, workflows, drafts, and files. ~70K records indexed in a week on Meilisearch, blended into one ranked list with reciprocal rank fusion." },
         ],
         [
           { text: "Choice cards", hi: true },
@@ -72,7 +72,7 @@ export const experience: ExperienceRole[] = [
         ],
         [
           { text: "And the rest", hi: true },
-          { text: " — 30 merged PRs over the summer. Beyond the features above: shareable session links, composer drafts that survive a reload or restart, and 11 smaller fixes, from a modal that silently no-opped in production builds to a CI runner pinned after a toolchain update broke untouched builds." },
+          { text: " — 55 PRs across 5 repos as of 14 Oct 2026. Beyond the features above: shareable session links, composer drafts that survive a reload or restart, and 11 smaller fixes, from a modal that silently no-opped in production builds to a CI runner pinned after a toolchain update broke untouched builds." },
         ],
       ],
     },
@@ -146,7 +146,7 @@ export const experience: ExperienceRole[] = [
       overview: [
         { text: "Worked across " },
         { text: "four projects", hi: true },
-        { text: " at TCS's Pace Port innovation lab, spanning robotics, full-stack, and applied AI: a personality framework for a Misty II robot, a booking system for customer visits, a real-time AI video avatar, and a RAG chatbot." },
+        { text: " at TCS's Pace Port innovation lab, spanning robotics, full-stack, and applied AI: a personality framework for a Misty II robot, a booking system for the Pace Port's meeting room, a real-time AI video avatar, and a RAG chatbot." },
       ],
       gallery: [
         {
@@ -188,12 +188,12 @@ export const experience: ExperienceRole[] = [
           title: "Booking system",
           body: [
             [
-              { text: "Led 4 teammates", hi: true },
-              { text: " building a full-stack app for booking customer visits to the Pace Port, used by 50+ staff. I designed the API, the database schema, the frontend, and the Docker setup, then ran weekly code reviews." },
+              { text: "Led a 3-person team", hi: true },
+              { text: " building a full-stack app for booking the Pace Port's meeting room, a single room used for customer visits. Sangeetha built the frontend, and Anusree the AI chatbot and some of the backend. I designed the API, the database schema, the frontend design, and the Docker setup, then ran weekly code reviews. Deployed by December 2025, built for the Pace Port's 50+ employees." },
             ],
             [
               { text: "Staff request a slot, admins approve or block out dates, and the lab's chatbot checks availability through the same API. " },
-              { text: "30+ REST endpoints", hi: true },
+              { text: "32 REST endpoints", hi: true },
               { text: " on React, Node.js, and PostgreSQL on GCP. Transactional constraints stop two requests claiming the same slot." },
             ],
           ],
