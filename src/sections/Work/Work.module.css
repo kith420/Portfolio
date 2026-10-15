@@ -77,9 +77,36 @@
   transform: none;
 }
 
-.pcard:focus-visible {
+.pcard:has(.pmoreBtn:focus-visible) {
   outline: 2px solid var(--accent-ink);
   outline-offset: 3px;
+}
+
+/* The card's <details> (see WorkCard): an empty summary whose hit area
+   covers the card, and the write-up's text, which JavaScript never unfolds. */
+.pmoreBtn {
+  list-style: none;
+}
+
+.pmoreBtn::-webkit-details-marker {
+  display: none;
+}
+
+.pmoreBtn:focus-visible {
+  outline: none;
+}
+
+.pmoreBtn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+/* Above that hit area, so its links work. */
+.pmoreText {
+  position: relative;
+  z-index: 1;
+  font-size: var(--fs-sm);
 }
 
 /* Every screenshot sits on the same mat, so six unrelated images (dark UIs,

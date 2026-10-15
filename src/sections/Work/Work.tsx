@@ -293,17 +293,6 @@ function WorkCard({ project, index, active, onOpen, registerRef }: CardProps) {
       // Column in the three-up layout; the CSS staggers columns on scroll.
       data-col={index % 3}
       className={`${styles.pcard} ${active ? styles.active : ""}`}
-      role="button"
-      tabIndex={0}
-      aria-haspopup="dialog"
-      aria-label={`${project.name} — ${project.tag}`}
-      onClick={() => onOpen(index)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onOpen(index);
-        }
-      }}
     >
       <div className={styles.pcardImg}>
         <Figure
@@ -323,6 +312,40 @@ function WorkCard({ project, index, active, onOpen, registerRef }: CardProps) {
             </span>
           ))}
         </div>
+        {/* The card's one control: the summary's ::after stretches over the
+            whole card. A <details> rather than a bare button, so the write-up
+            is in the HTML for crawlers, link previews and AI tools. The click
+            opens the dialog instead; without JavaScript the text unfolds here. */}
+        <details className={styles.pmore}>
+          <summary
+            className={styles.pmoreBtn}
+            aria-haspopup="dialog"
+            aria-label={`${project.name} — ${project.tag}`}
+            onClick={(e) => {
+              e.preventDefault();
+              onOpen(index);
+            }}
+          />
+          <div className={styles.pmoreText}>
+            <p>{project.desc}</p>
+            <ul>
+              {project.hi.map((h) => (
+                <li key={h}>{h}</li>
+              ))}
+            </ul>
+            <ul>
+              {(project.links ?? [])
+                .filter((l) => l.href && l.href !== "#")
+                .map((l) => (
+                  <li key={l.label}>
+                    <a href={l.href} target="_blank" rel="noopener noreferrer">
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        </details>
       </div>
     </div>
   );
