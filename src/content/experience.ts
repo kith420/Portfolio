@@ -52,7 +52,7 @@ export const experience: ExperienceRole[] = [
         ],
         [
           { text: "Web search", hi: true },
-          { text: " — built a search primitive on Exa's neural index so the agent skips the browser. 1.7× faster (16s vs 27.9s) with 36% fewer input tokens, across 21 queries and 3 graded runs. The index lags the live web, so recency queries fall back to the browser." },
+          { text: " — built a search primitive on Exa's neural index so the agent skips the browser, then benchmarked it against browser-in-VM search on a 21-query golden set over 3 graded runs: 1.7× faster (16s vs 27.9s), 36% fewer tokens, and higher LLM-graded relevance (8.71 vs 8.14 overall, 8.83 vs 7.79 on find tasks). The results led leadership to serve Exa search to the free tier without VMs, and Web lookup is now on by default for all free Sai users. The index lags the live web, so I recommended a browser fallback for recency-worded queries." },
         ],
         [
           { text: "Link walking", hi: true },
@@ -63,12 +63,24 @@ export const experience: ExperienceRole[] = [
           { text: " — wrote the founding tech design, then built idempotent ingestion across Slack, Gmail, Calendar, and GitHub, with Google Drive as a read-only source, and a semantic search REST API (BGE-M3) on FastAPI, Cloud Run, and Firestore." },
         ],
         [
+          { text: "Decision-model research", hi: true },
+          { text: " — reproduced TypeSafe's game demos in Python test harnesses with a replay viewer, to learn how Jev, a fast decision model, actually behaves. Across 4 Snake experiments, hard constraints only held when they were enforced in code, not in the prompt, and a code fallback below 0.5 confidence raised wins from 3/5 to 5/5. Now working on Mario, which adds in-game physics." },
+        ],
+        [
           { text: "⌘K search", hi: true },
           { text: " — one search across 5 entity types, including messages, workflows, drafts, and files. ~70K records indexed in a week on Meilisearch, blended into one ranked list with reciprocal rank fusion." },
         ],
         [
           { text: "Choice cards", hi: true },
           { text: " — a task can pause, ask the user, and resume, on desktop, iMessage/SMS, and Telegram. A lock stops two sessions answering the same prompt." },
+        ],
+        [
+          { text: "Pixel-art characters", hi: true },
+          { text: " — designed a rules framework for AI-generated pixel-art characters: 9 art rules and pass/fail checks, such as every stage reading as a black silhouette, refined over 24 iterations by turning each failure into a new rule. 7 of my characters were adopted into Sai's Saibot family." },
+        ],
+        [
+          { text: "Integrations", hi: true },
+          { text: " — co-built a QuickBooks Online connector with Linlin, merged on 8 Oct, with read-only access enforced in code because Intuit's one accounting scope grants read and write together. Also shipped a Fireflies integration to staging." },
         ],
         [
           { text: "And the rest", hi: true },
