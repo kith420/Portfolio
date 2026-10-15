@@ -429,8 +429,32 @@
   color: var(--faint);
 }
 
+/* The <details> that holds the Details control and, closed, the write-up's
+   text (see Experience.tsx). JavaScript opens the dialog instead, so it only
+   unfolds in place with scripts off. */
+.details {
+  flex: none;
+}
+
+.cardFoot:has(.details[open]) {
+  flex-wrap: wrap;
+}
+
+.details[open] {
+  flex-basis: 100%;
+}
+
+/* Above the summary's card-wide hit area, so its links and text work. */
+.detailsText {
+  position: relative;
+  z-index: 1;
+  padding-top: 12px;
+}
+
 .detailsBtn {
   flex: none;
+  list-style: none;
+  cursor: inherit;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -466,6 +490,10 @@
 
 .detailsBtn:focus-visible {
   outline: none;
+}
+
+.detailsBtn::-webkit-details-marker {
+  display: none;
 }
 
 .detailsArrow {

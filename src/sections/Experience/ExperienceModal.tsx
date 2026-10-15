@@ -27,12 +27,13 @@ function Rich({
   onJump,
 }: {
   text: RichText;
-  onJump: (id: string) => void;
+  /** Without it, in-page links are plain anchors. */
+  onJump?: (id: string) => void;
 }) {
   return (
     <>
       {text.map((seg, i) =>
-        seg.href?.startsWith("#") ? (
+        seg.href?.startsWith("#") && onJump ? (
           // In-page link: the dialog closes first, then the target opens.
           <a
             key={i}
@@ -50,8 +51,9 @@ function Rich({
             key={i}
             className={styles.link}
             href={seg.href}
-            target="_blank"
-            rel="noopener noreferrer"
+            {...(seg.href.startsWith("#")
+              ? {}
+              : { target: "_blank", rel: "noopener noreferrer" })}
           >
             {seg.text}
           </a>
@@ -300,6 +302,66 @@ function Gallery({ images }: { images: ModalImage[] }) {
   );
 }
 
+/** A role's write-up below the overview: its sections, or its bullet list. */
+function DetailBody({
+  role,
+  onJump,
+}: {
+  role: ExperienceRole;
+  onJump?: (id: string) => void;
+}) {
+  if (role.modal.sections) {
+    return role.modal.sections.map((section) => (
+      <section key={section.title}>
+        <h4 className={styles.modalLabel}>{section.title}</h4>
+        {section.body.map((para, i) => (
+          <p key={i} className={styles.modalPara}>
+            <Rich text={para} onJump={onJump} />
+          </p>
+        ))}
+        {section.image && <Figure image={section.image} />}
+      </section>
+    ));
+  }
+  return (
+    <>
+      <h4 className={styles.modalLabel}>What I built</h4>
+      {role.modal.points ? (
+        <ul className={`${styles.modalPara} ${styles.modalPoints}`}>
+          {role.modal.points.map((point, i) => (
+            <li key={i}>
+              <Rich text={point} onJump={onJump} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        role.modal.built && (
+          <p className={styles.modalPara}>
+            <Rich text={role.modal.built} onJump={onJump} />
+          </p>
+        )
+      )}
+    </>
+  );
+}
+
+/**
+ * The details as plain server-rendered text, inside the card's closed
+ * <details>. The dialog is what visitors see; this is so the words are in the
+ * page's HTML for crawlers, link previews and AI tools, and still readable
+ * with JavaScript off.
+ */
+export function DetailText({ role }: { role: ExperienceRole }) {
+  return (
+    <>
+      <p className={styles.modalPara}>
+        <Rich text={role.modal.overview} />
+      </p>
+      <DetailBody role={role} />
+    </>
+  );
+}
+
 interface Props {
   /** Role to show; null = closed. Stays set until the close animation ends. */
   role: ExperienceRole | null;
@@ -374,9 +436,11 @@ export default function ExperienceModal({ role, onClose }: Props) {
         jumpTo.current = null;
         if (target) {
           target.scrollIntoView({ block: "center", behavior: "instant" });
-          // Focus first, so the target's own dialog hands focus back to it.
-          target.focus({ preventScroll: true });
-          target.click();
+          // A card opens from the <summary> inside it. Focus first, so the
+          // target's own dialog hands focus back to it.
+          const control = target.querySelector<HTMLElement>("summary") ?? target;
+          control.focus({ preventScroll: true });
+          control.click();
         }
       }}
       // The panel fills the dialog box, so a click that lands on the dialog
@@ -439,38 +503,7 @@ export default function ExperienceModal({ role, onClose }: Props) {
               )
             )}
 
-            {role.modal.sections ? (
-              role.modal.sections.map((section) => (
-                <section key={section.title}>
-                  <h4 className={styles.modalLabel}>{section.title}</h4>
-                  {section.body.map((para, i) => (
-                    <p key={i} className={styles.modalPara}>
-                      <Rich text={para} onJump={jump} />
-                    </p>
-                  ))}
-                  {section.image && <Figure image={section.image} />}
-                </section>
-              ))
-            ) : (
-              <>
-                <h4 className={styles.modalLabel}>What I built</h4>
-                {role.modal.points ? (
-                  <ul className={`${styles.modalPara} ${styles.modalPoints}`}>
-                    {role.modal.points.map((point, i) => (
-                      <li key={i}>
-                        <Rich text={point} onJump={jump} />
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  role.modal.built && (
-                    <p className={styles.modalPara}>
-                      <Rich text={role.modal.built} onJump={jump} />
-                    </p>
-                  )
-                )}
-              </>
-            )}
+            <DetailBody role={role} onJump={jump} />
 
             {[role.modal.image ?? []].flat().map((image) => (
               <Figure key={image.src} image={image} />

@@ -7,7 +7,7 @@ import { ExperienceRole, LogoVariant, RichText } from "@/content/types";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import { useScramble } from "@/hooks/useScramble";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import ExperienceModal from "./ExperienceModal";
+import ExperienceModal, { DetailText } from "./ExperienceModal";
 import styles from "./Experience.module.css";
 
 const LOGO_CLASS: Record<LogoVariant, string> = {
@@ -164,19 +164,28 @@ function TreeRow({ role, side, index, open, photoOpen, onDetails }: TreeRowProps
           </div>
           {/* The one real control on the card. Its ::after stretches over the
               whole card, so clicking anywhere opens the details while inline
-              links (lifted above it) keep working. */}
-          <button
-            type="button"
-            className={styles.detailsBtn}
-            aria-haspopup="dialog"
-            aria-label={`Details: ${role.company}`}
-            onClick={() => onDetails(role)}
-          >
-            Details
-            <span className={styles.detailsArrow} aria-hidden>
-              →
-            </span>
-          </button>
+              links (lifted above it) keep working. A <details> rather than a
+              bare button, so the write-up is in the HTML: the click opens the
+              dialog instead, and without JavaScript the text unfolds here. */}
+          <details className={styles.details}>
+            <summary
+              className={styles.detailsBtn}
+              aria-haspopup="dialog"
+              aria-label={`Details: ${role.company}`}
+              onClick={(e) => {
+                e.preventDefault();
+                onDetails(role);
+              }}
+            >
+              Details
+              <span className={styles.detailsArrow} aria-hidden>
+                →
+              </span>
+            </summary>
+            <div className={styles.detailsText}>
+              <DetailText role={role} />
+            </div>
+          </details>
         </div>
       </article>
       <div className={styles.node} />
