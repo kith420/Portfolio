@@ -172,7 +172,7 @@ How to edit:
 - Links:
   - [Chrome Web Store](https://chromewebstore.google.com/detail/cut-the-crap/hfaognddjjlmadcmnbdenkfpcgaifffl)
   - [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/cut-the-crap/)
-  - [GitHub](https://github.com/Sup3rFire/dum-duber-dumber-hackathon)
+  - [GitHub](https://github.com/Sup3rFire/cut-the-crap)
 
 ### SMRT Digital Twin
 

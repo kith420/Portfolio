@@ -141,7 +141,7 @@ export const work: WorkProject[] = [
       },
       {
         label: "GitHub",
-        href: "https://github.com/Sup3rFire/dum-duber-dumber-hackathon",
+        href: "https://github.com/Sup3rFire/cut-the-crap",
         secondary: true,
       },
     ],
