@@ -170,7 +170,7 @@ export interface WorkProject {
   status: string;
   year: string;
   /** A result worth a medal on the stamp; `status` then names it. "plain"
-   *  is for results off the podium, in the stamp's usual colour. */
+   *  is for results off the podium, in plum. */
   medal?: "gold" | "silver" | "bronze" | "plain";
   desc: string;
   /** Two or three metric-driven highlights. */

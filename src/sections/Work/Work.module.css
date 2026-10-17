@@ -230,8 +230,10 @@
   --metal: #a8622a;
 }
 
+/* Off the podium (finalist, honorable mention): plum, so a result never reads
+   as one of the blue "Shipped" / "Held" stamps. */
 .plain {
-  --metal: var(--accent-ink);
+  --metal: #6e3a8a;
 }
 
 .gold,
