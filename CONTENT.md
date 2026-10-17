@@ -158,8 +158,8 @@ How to edit:
 
 ### Cut the Crap
 
-- One-liner: A browser extension that rewrites the corporate bloat on any page, or piles more on
-- Tags: JavaScript, Chrome Extension, Manifest V3, LLM APIs
+- One-liner: Turns LinkedIn humblebrags into “I got a new job.” Or the reverse 💩
+- Tags: JavaScript, LLM APIs, Chrome Extension, Manifest V3
 - Status: 3rd Place (bronze medal)
 - Year: 2026
 - Description: A browser extension with one switch per site. Decrapify turns a 200-word LinkedIn humblebrag into "I got a new job." Crapify does the reverse. We built it at the Dumb Duber Dumber Hackathon, placed 3rd, then shipped it to both browser stores.
@@ -179,8 +179,8 @@ How to edit:
 
 ### SMRT Digital Twin
 
-- One-liner: A live 3D train that points at the part that needs fixing, and explains why
-- Tags: Python, TypeScript, React, Three.js, FastAPI, Docker, GCP
+- One-liner: AI that analyzes maintenance logs and flags faulty parts on a live 3D SMRT train
+- Tags: TypeScript, Three.js, Python, FastAPI, GCP, React, Docker
 - Status: Semifinalist
 - Year: 2026
 - Description: Built by a team of 4 at the LTA NebulaX Hackathon. Drop a maintenance file onto the train and the fault shows up as a bubble on the exact component, with a plain explanation of what the model found. I built the full-stack integration layer and the 3D twin itself.
@@ -196,8 +196,8 @@ How to edit:
 
 ### CareKaki
 
-- One-liner: An AI care navigator that turns Singapore's maze of eldercare services into one plan you can act on today
-- Tags: TypeScript, Next.js, React, Python, FastAPI, OpenAI API, Docker
+- One-liner: An AI care assistant that builds a parent's care plan, then acts on it
+- Tags: Next.js, FastAPI, OpenAI API, Docker, TypeScript, React, Python
 - Status: Top-5 Finalist
 - Year: 2026
 - Description: Built by a team of 4 for the Dell InnovateDash Hackathon, then reworked for the Codex for Healthcare Hackathon. Tell AiMao, a panda care companion, what's going on with a parent, and it builds a care plan from scattered community-care services. Approve it, and agents alert family on Telegram, find nursing and check medications. I built the design system and most of the screens, the Guardian safety layer, and the Docker setup.
@@ -216,8 +216,8 @@ How to edit:
 
 ### RoomU
 
-- One-liner: Roommate-finding app for 40,000+ UC Davis students, built with AggieWorks
-- Tags: TypeScript, React Native, iOS, PostgreSQL, Docker, Hono
+- One-liner: A roommate-matching app for 40,000+ UC Davis students
+- Tags: TypeScript, React Native, PostgreSQL, Hono, iOS, Docker
 - Status: Shipped
 - Year: 2026
 - Description: You take a lifestyle quiz, get matched with people you could actually live with, and chat with them in the app. Subleases get their own feed. I joined the 8-person team behind it at AggieWorks, the university's student-run product club: designers, engineers and marketers. What I added to an app that was already running:
@@ -234,8 +234,8 @@ How to edit:
 
 ### Tappin' Queen
 
-- One-liner: A Simon-style memory game in pure digital logic, with no CPU on the board
-- Tags: FPGA, Lucid HDL, Digital Logic, Computer Architecture
+- One-liner: Simon, the memory game, rebuilt on an FPGA from raw logic gates
+- Tags: FPGA, Lucid HDL, Computer Architecture, Digital Logic
 - Status: Shipped
 - Year: 2025
 - Description: A memory game on an Alchitry Au FPGA, with no microcontroller and no soft CPU. Everything from the adder up is hand-written in Lucid HDL. Built for SUTD's Computation Structures course.
@@ -254,8 +254,8 @@ How to edit:
 
 > GAP: no images. The site shows a "screenshot coming" placeholder. Send screenshots (or tell me where they are) and captions.
 
-- One-liner: Hotel search, map, and Stripe checkout for a travel loyalty platform
-- Tags: TypeScript, React, Node.js, Express, MySQL, Vitest, AWS
+- One-liner: A full-stack hotel booking site, from map search to Stripe checkout
+- Tags: TypeScript, React, Node.js, MySQL, Vitest, Docker, Express, AWS
 - Status: Shipped
 - Year: 2025
 - Description: A full-stack hotel booking system built on Ascenda's hotel data, with destination search, live pricing and Stripe checkout. My part was the interactive map and the account side of the backend.
@@ -271,8 +271,8 @@ How to edit:
 
 ### kNow
 
-- One-liner: See what's happening around you right now, pinned to the map, then walk there
-- Tags: Java, Android, Google Maps, Firebase, CameraX
+- One-liner: Social media on a map: see everything posted nearby in the last 24 hours
+- Tags: Java, Android, CameraX, Google Maps, Firebase
 - Status: Honorable Mention
 - Year: 2025
 - Description: Built by a team of 5 for SUTD's Information Systems & Programming course. Snap a photo or a short video, and it lands on a live map as a story others nearby can open, follow you from, and get walking directions to. I built the explore map and the Firebase backend.
@@ -293,8 +293,8 @@ How to edit:
 
 > GAP: no images. The site shows a "screenshot coming" placeholder. Send screenshots (or tell me where they are) and captions.
 
-- One-liner: Problems, tests, and editorials for an open programming contest with 320 entrants
-- Tags: C++, TCFrame, Data Structures & Algorithms, Competitive Programming
+- One-liner: Problems for an international coding contest: 320 entrants, only 6 solved all
+- Tags: Competitive Programming, C++, TCFrame, Data Structures & Algorithms
 - Status: Held
 - Year: 2023
 - Description: I was lead author of TOKI Regular Open Contest #33. I wrote the problems, their solutions and test suites, and the editorials people read after the contest ended.
