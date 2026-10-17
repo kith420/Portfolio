@@ -249,6 +249,26 @@ How to edit:
   - [Frontend](https://github.com/how2fps/esc-booking-frontend)
   - [Backend](https://github.com/how2fps/esc-booking-backend)
 
+### kNow
+
+- One-liner: See what's happening around you right now, pinned to the map, then walk there
+- Tags: Java, Android, Google Maps, Firebase, CameraX
+- Status: Honorable Mention
+- Year: 2025
+- Description: Built by a team of 5 for SUTD's Information Systems & Programming course. Snap a photo or a short video, and it lands on a live map as a story others nearby can open, follow you from, and get walking directions to. I built the explore map and the Firebase backend.
+- Highlights:
+  - 4th of 45 teams at the SUTD InfoSys–Singtel Awards
+  - Clustered story markers, kept live by Firestore listeners, with category, place and user search
+  - Walking routes drawn from your location to any story (Directions API)
+- Image descriptions (alt text for screen readers, not shown):
+  - snapping a photo, the city's stories on the map, and one opened
+  - captioning a post and picking its category
+  - the new post, pinned where it was taken
+  - only food stories, after the Food filter
+  - walking directions to a story
+- Links:
+  - [GitHub](https://github.com/ChimJohn/kNow)
+
 ### TROC #33
 
 > GAP: no images. The site shows a "screenshot coming" placeholder. Send screenshots (or tell me where they are) and captions.

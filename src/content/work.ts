@@ -222,6 +222,53 @@ export const work: WorkProject[] = [
     ],
   },
   {
+    name: "kNow",
+    tag: "See what's happening around you right now, pinned to the map, then walk there",
+    tags: ["Java", "Android", "Google Maps", "Firebase", "CameraX"],
+    status: "Honorable Mention",
+    medal: "plain",
+    year: "2025",
+    desc: "Built by a team of 5 for SUTD's Information Systems & Programming course. Snap a photo or a short video, and it lands on a live map as a story others nearby can open, follow you from, and get walking directions to. I built the explore map and the Firebase backend.",
+    hi: [
+      "4th of 45 teams at the SUTD InfoSys–Singtel Awards",
+      "Clustered story markers, kept live by Firestore listeners, with category, place and user search",
+      "Walking routes drawn from your location to any story (Directions API)",
+    ],
+    figures: [
+      {
+        alt: "snapping a photo, the city's stories on the map, and one opened",
+        src: "/images/work/know-screens.jpg",
+        fit: "contain",
+        bg: "#eceee9",
+      },
+      {
+        alt: "captioning a post and picking its category",
+        src: "/images/work/know-post.jpg",
+        fit: "contain",
+        bg: "#eceee9",
+      },
+      {
+        alt: "the new post, pinned where it was taken",
+        src: "/images/work/know-posted.jpg",
+        fit: "contain",
+        bg: "#eceee9",
+      },
+      {
+        alt: "only food stories, after the Food filter",
+        src: "/images/work/know-filter.jpg",
+        fit: "contain",
+        bg: "#eceee9",
+      },
+      {
+        alt: "walking directions to a story",
+        src: "/images/work/know-route.jpg",
+        fit: "contain",
+        bg: "#eceee9",
+      },
+    ],
+    links: [{ label: "GitHub", href: "https://github.com/ChimJohn/kNow" }],
+  },
+  {
     name: "TROC #33",
     tag: "Problems, tests, and editorials for an open programming contest with 320 entrants",
     tags: [
