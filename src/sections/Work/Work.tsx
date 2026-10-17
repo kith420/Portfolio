@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { IconType } from "react-icons";
-import { FaAws } from "react-icons/fa";
+import { FaAws, FaJava } from "react-icons/fa";
 import { FaMedal } from "react-icons/fa6";
 import {
   FiArrowUpRight,
@@ -11,20 +11,37 @@ import {
   FiImage,
   FiX,
 } from "react-icons/fi";
+import { RiOpenaiFill } from "react-icons/ri";
 import {
+  TbBinaryTree,
+  TbCamera,
+  TbCpu,
+  TbFileCode,
+  TbLogicAnd,
+  TbPuzzle,
+  TbSparkles,
+  TbStack2,
+  TbTestPipe,
+  TbTrophy,
+} from "react-icons/tb";
+import {
+  SiAndroid,
   SiApple,
   SiChromewebstore,
   SiCplusplus,
   SiDocker,
   SiExpress,
   SiFastapi,
+  SiFirebase,
   SiFirefoxbrowser,
   SiGithub,
   SiGooglechrome,
   SiGooglecloud,
+  SiGooglemaps,
   SiHono,
   SiJavascript,
   SiMysql,
+  SiNextdotjs,
   SiNodedotjs,
   SiPostgresql,
   SiPython,
@@ -148,7 +165,8 @@ function Figure({
   );
 }
 
-/** Tag label -> logo. Tags without a recognisable logo stay text-only. */
+/** Tag label -> logo. Tags without a brand logo (concepts, small tools) get a
+ *  plain Tabler icon for what they are, so every chip has one. */
 const TAG_ICONS: Record<string, IconType> = {
   JavaScript: SiJavascript,
   TypeScript: SiTypescript,
@@ -169,6 +187,23 @@ const TAG_ICONS: Record<string, IconType> = {
   MySQL: SiMysql,
   PostgreSQL: SiPostgresql,
   "C++": SiCplusplus,
+  "Next.js": SiNextdotjs,
+  "OpenAI API": RiOpenaiFill,
+  Java: FaJava,
+  Android: SiAndroid,
+  "Google Maps": SiGooglemaps,
+  Firebase: SiFirebase,
+  // No brand logo: a generic icon for what the tag is.
+  FPGA: TbCpu,
+  "Lucid HDL": TbFileCode,
+  "Digital Logic": TbLogicAnd,
+  "Computer Architecture": TbStack2,
+  "Manifest V3": TbPuzzle,
+  "LLM APIs": TbSparkles,
+  CameraX: TbCamera,
+  TCFrame: TbTestPipe,
+  "Data Structures & Algorithms": TbBinaryTree,
+  "Competitive Programming": TbTrophy,
 };
 
 function TagLabel({ tag }: { tag: string }) {
