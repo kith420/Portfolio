@@ -322,6 +322,13 @@ export const work: WorkProject[] = [
     ],
     figures: [
       {
+        alt: "posting a sunset at SUTD, finding food stories in the city, then walking to one",
+        src: "/images/work/know-demo.jpg",
+        video: "/images/work/know-demo.mp4",
+        fit: "contain",
+        bg: MAT,
+      },
+      {
         alt: "snapping a photo, the city's stories on the map, and one opened",
         src: "/images/work/know-screens.jpg",
         fit: "contain",

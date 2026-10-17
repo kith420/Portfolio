@@ -281,6 +281,7 @@ How to edit:
   - Clustered story markers, kept live by Firestore listeners, with category, place and user search
   - Walking routes drawn from your location to any story (Directions API)
 - Image descriptions (alt text for screen readers, not shown):
+  - posting a sunset at SUTD, finding food stories in the city, then walking to one (video: know-demo.mp4)
   - snapping a photo, the city's stories on the map, and one opened
   - captioning a post and picking its category
   - the new post, pinned where it was taken
