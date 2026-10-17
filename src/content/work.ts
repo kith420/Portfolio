@@ -59,6 +59,60 @@ export const work: WorkProject[] = [
     ],
   },
   {
+    name: "CareKaki",
+    tag: "An AI care navigator that turns Singapore's maze of eldercare services into one plan you can act on today",
+    tags: [
+      "TypeScript",
+      "Next.js",
+      "React",
+      "Python",
+      "FastAPI",
+      "OpenAI API",
+      "Docker",
+    ],
+    status: "Top-5 Finalist",
+    medal: "plain",
+    year: "2026",
+    desc: "Built by a team of 4 for the Dell InnovateDash Hackathon, then reworked for the Codex for Healthcare Hackathon. Tell AiMao, a panda care companion, what's going on with a parent, and it builds a care plan from scattered community-care services. Approve it, and agents alert family on Telegram, find nursing and check medications. I built the design system and most of the screens, the Guardian safety layer, and the Docker setup.",
+    hi: [
+      "Top 5 at Dell InnovateDash; semifinalist at Codex for Healthcare (OpenAI × A*STAR)",
+      "Guardian masks NRICs and phone numbers, flags medical advice, and holds risky actions for approval",
+      "Runs in English, 中文 and Bahasa Melayu, with a spoken guide (ElevenLabs)",
+    ],
+    figures: [
+      {
+        alt: "from AiMao's greeting, to a chat message that updates the care profile, through the care plan to the care brief",
+        src: "/images/work/carekaki-demo.jpg",
+        video: "/images/work/carekaki-demo.mp4",
+        fit: "contain",
+        bg: MAT,
+      },
+      {
+        alt: "the chat, with the care profile filling in alongside it",
+        src: "/images/work/carekaki-chat.jpg",
+        position: "50% 0%",
+      },
+      {
+        alt: "the care plan's week at a glance and progress charts",
+        src: "/images/work/carekaki-plan.jpg",
+        position: "50% 0%",
+      },
+      {
+        alt: "the care brief, handed over to a care coordinator",
+        src: "/images/work/carekaki-brief.jpg",
+        position: "50% 0%",
+      },
+    ],
+    links: [
+      { label: "Live demo", href: "https://aimao.vercel.app/" },
+      {
+        label: "GitHub",
+        href: "https://github.com/stormragemc/CareKaki-repo",
+        secondary: true,
+      },
+    ],
+  },
+  {
     name: "Tappin' Queen",
     tag: "A memory game built from raw logic gates, with no processor on the board",
     tags: ["FPGA", "Lucid HDL", "Digital Logic", "Computer Architecture"],

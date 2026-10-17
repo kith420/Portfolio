@@ -194,6 +194,26 @@ How to edit:
   - [Live demo](https://smrt-digital-twin-2026.web.app/)
   - [GitHub](https://github.com/KidSmithy/nebulax_p3)
 
+### CareKaki
+
+- One-liner: An AI care navigator that turns Singapore's maze of eldercare services into one plan you can act on today
+- Tags: TypeScript, Next.js, React, Python, FastAPI, OpenAI API, Docker
+- Status: Top-5 Finalist
+- Year: 2026
+- Description: Built by a team of 4 for the Dell InnovateDash Hackathon, then reworked for the Codex for Healthcare Hackathon. Tell AiMao, a panda care companion, what's going on with a parent, and it builds a care plan from scattered community-care services. Approve it, and agents alert family on Telegram, find nursing and check medications. I built the design system and most of the screens, the Guardian safety layer, and the Docker setup.
+- Highlights:
+  - Top 5 at Dell InnovateDash; semifinalist at Codex for Healthcare (OpenAI × A*STAR)
+  - Guardian masks NRICs and phone numbers, flags medical advice, and holds risky actions for approval
+  - Runs in English, 中文 and Bahasa Melayu, with a spoken guide (ElevenLabs)
+- Image descriptions (alt text for screen readers, not shown):
+  - from AiMao's greeting, to a chat message that updates the care profile, through the care plan to the care brief (video: carekaki-demo.mp4)
+  - the chat, with the care profile filling in alongside it
+  - the care plan's week at a glance and progress charts
+  - the care brief, handed over to a care coordinator
+- Links:
+  - [Live demo](https://aimao.vercel.app/)
+  - [GitHub](https://github.com/stormragemc/CareKaki-repo)
+
 ### RoomU
 
 - One-liner: Roommate-finding app for 40,000+ UC Davis students, built with AggieWorks
