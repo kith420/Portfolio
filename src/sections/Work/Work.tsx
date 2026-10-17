@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { IconType } from "react-icons";
 import { FaAws, FaJava } from "react-icons/fa";
 import { FaMedal } from "react-icons/fa6";
@@ -216,6 +216,70 @@ function TagLabel({ tag }: { tag: string }) {
   );
 }
 
+/** Rows of chips a card shows; the rest fold into a "+N" chip. */
+const CARD_CHIP_ROWS = 2;
+
+/**
+ * A card's tag chips, capped at two rows at whatever width the card has. The
+ * fit is measured on a hidden copy of the full row, so the visible chips only
+ * change once, and the details dialog still lists every tag.
+ */
+function CardChips({ tags }: { tags: string[] }) {
+  const [shown, setShown] = useState(tags.length);
+  const measureRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const box = measureRef.current;
+    if (!box) return;
+    const fit = () => {
+      const chips = Array.from(box.querySelectorAll<HTMLElement>("[data-chip]"));
+      const more = box.querySelector<HTMLElement>("[data-more]");
+      if (!more) return;
+      const rows = (els: HTMLElement[]) => new Set(els.map((el) => el.offsetTop)).size;
+      const show = (k: number) => {
+        chips.forEach((el, i) => (el.style.display = i < k ? "" : "none"));
+        more.style.display = k < chips.length ? "" : "none";
+        more.textContent = `+${chips.length - k}`;
+        return rows([...chips.slice(0, k), ...(k < chips.length ? [more] : [])]);
+      };
+      let k = chips.length;
+      while (k > 1 && show(k) > CARD_CHIP_ROWS) k--;
+      setShown(k);
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(box);
+    return () => ro.disconnect();
+  }, [tags]);
+
+  const hidden = tags.slice(shown);
+  return (
+    <div className={styles.pchipsWrap}>
+      <div className={styles.pchips}>
+        {tags.slice(0, shown).map((t) => (
+          <span key={t}>
+            <TagLabel tag={t} />
+          </span>
+        ))}
+        {hidden.length > 0 && (
+          <span className={styles.pchipMore} title={hidden.join(", ")} aria-label={`and ${hidden.length} more: ${hidden.join(", ")}`}>
+            +{hidden.length}
+          </span>
+        )}
+      </div>
+      {/* Measuring copy: same width, never seen or read. */}
+      <div ref={measureRef} className={`${styles.pchips} ${styles.pchipsMeasure}`} aria-hidden>
+        {tags.map((t) => (
+          <span key={t} data-chip>
+            <TagLabel tag={t} />
+          </span>
+        ))}
+        <span data-more className={styles.pchipMore} />
+      </div>
+    </div>
+  );
+}
+
 /** Tag label -> docs. Linked in the details dialog's chips and highlights. */
 const TAG_LINKS: Record<string, string> = {
   TCFrame: "https://tcframe.toki.id/",
@@ -340,13 +404,7 @@ function WorkCard({ project, index, active, onOpen, registerRef }: CardProps) {
       <div className={styles.pcardBody}>
         <div className={styles.pname}>{project.name}</div>
         <div className={styles.ptag}>{project.tag}</div>
-        <div className={styles.pchips}>
-          {project.tags.map((t) => (
-            <span key={t}>
-              <TagLabel tag={t} />
-            </span>
-          ))}
-        </div>
+        <CardChips tags={project.tags} />
         {/* The card's one control: the summary's ::after stretches over the
             whole card. A <details> rather than a bare button, so the write-up
             is in the HTML for crawlers, link previews and AI tools. The click
@@ -798,8 +856,20 @@ export default function Work() {
     };
     const ro = new ResizeObserver(measure);
     ro.observe(grid);
+    // Each card's chips re-fit to two rows after first paint (CardChips), so
+    // re-measure when they settle; the cards' own min-height hides that change.
+    cardEls.current.forEach((c) => {
+      const chips = c?.querySelector(`.${styles.pchipsWrap}`);
+      if (chips) ro.observe(chips);
+    });
     measure();
-    return () => ro.disconnect();
+    // Text wraps differently once the web fonts swap in.
+    let live = true;
+    document.fonts?.ready.then(() => live && measure());
+    return () => {
+      live = false;
+      ro.disconnect();
+    };
   }, []);
 
   return (

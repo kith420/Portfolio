@@ -287,17 +287,38 @@
   font-family: var(--display);
   font-size: 14.5px;
   line-height: 1.4;
-  /* Room for two lines, so every card's chips start at the same height. */
+  /* Exactly two lines, so every card's chips start at the same height. */
   min-height: 2.8em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
   color: #4a4a4a;
   margin-top: 6px;
+}
+
+.pchipsWrap {
+  position: relative;
+  margin-top: 14px;
 }
 
 .pchips {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  margin-top: 14px;
+}
+
+/* The hidden copy CardChips measures against. */
+.pchipsMeasure {
+  position: absolute;
+  inset: 0 0 auto;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.pchips .pchipMore {
+  border-style: dashed;
 }
 
 .pchips span,
